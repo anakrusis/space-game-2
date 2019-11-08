@@ -113,17 +113,21 @@ public class Main {
             // The rendering goes here lol
             Render.renderMain();
 
-            if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE){
-                camera.setY( camera.getY() + 0.1 );
-            }
-            if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE){
-                camera.setY( camera.getY() - 0.1 );
+            if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE){
+                double x = map.getPlayer().getX();
+                map.getPlayer().setX(x + 0.1);
             }
             if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE){
-                camera.setX( camera.getX() - 0.1 );
+                double x = map.getPlayer().getX();
+                map.getPlayer().setX(x - 0.1);
             }
-            if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE){
-                camera.setX( camera.getX() + 0.1 );
+            if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE){
+                double y = map.getPlayer().getY();
+                map.getPlayer().setY(y - 0.1);
+            }
+            if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE){
+                double y = map.getPlayer().getY();
+                map.getPlayer().setY(y + 0.1);
             }
 
             glfwSwapBuffers(window); // swap the color buffers
