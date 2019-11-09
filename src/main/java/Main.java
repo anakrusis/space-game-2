@@ -17,12 +17,12 @@ public class Main {
     private long window;
 
     // The global viewport to be used everywhere, I guess
-    public static Camera camera = new Camera(0,0,0);
+    public static Camera camera = new Camera(0,0,1);
 
     // The world map
     public static Map map = new Map(10,10);
 
-    public static final int CHUNK_SIZE = 32;
+    public static final int CHUNK_SIZE = 64;
 
     public void run() {
         //System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -133,6 +133,14 @@ public class Main {
 
                 map.getPlayer().setX( x + (0.1 * Math.cos(dir)) );
                 map.getPlayer().setY( y + (0.1 * Math.sin(dir)) );
+            }
+            if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE){
+                camera.setZoom( camera.getZoom() + 0.01);
+            }
+            if (glfwGetKey(window, GLFW_KEY_E) == GL_TRUE){
+                if (camera.getZoom() - 0.01 > 0){
+                    camera.setZoom( camera.getZoom() - 0.01);
+                }
             }
 
             for (Entity entity : map.getEntities()){

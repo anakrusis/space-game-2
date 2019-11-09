@@ -8,6 +8,7 @@ public class Render {
 
          double camX = camera.getX();
          double camY = camera.getY();
+         double camZoom = camera.getZoom();
 
          // chunk box size, entity box size
          int cbs = Main.CHUNK_SIZE;
@@ -20,10 +21,10 @@ public class Render {
 
                  glBegin(GL_LINE_LOOP);
 
-                 glVertex2d(cbs * (0d + chunk.getX()) - camX, cbs * (0d + chunk.getY()) - camY);
-                 glVertex2d(cbs * (0d + chunk.getX()) - camX, cbs * (1d + chunk.getY()) - camY);
-                 glVertex2d(cbs * (1d + chunk.getX()) - camX, cbs * (1d + chunk.getY()) - camY);
-                 glVertex2d(cbs * (1d + chunk.getX()) - camX, cbs * (0d + chunk.getY()) - camY);
+                 glVertex2d(camZoom * (cbs * (0d + chunk.getX()) - camX), camZoom * (cbs * (0d + chunk.getY()) - camY));
+                 glVertex2d(camZoom * (cbs * (0d + chunk.getX()) - camX), camZoom * (cbs * (1d + chunk.getY()) - camY));
+                 glVertex2d(camZoom * (cbs * (1d + chunk.getX()) - camX), camZoom * (cbs * (1d + chunk.getY()) - camY));
+                 glVertex2d(camZoom * (cbs * (1d + chunk.getX()) - camX), camZoom * (cbs * (0d + chunk.getY()) - camY));
                  glEnd();
 
                  for (Body body : chunk.getBodies()){

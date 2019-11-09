@@ -6,6 +6,7 @@ public class RenderPlayer {
         Camera camera = Main.camera;
         double camX = camera.getX();
         double camY = camera.getY();
+        double camZoom = camera.getZoom();
 
         double entx = entity.getX();
         double enty = entity.getY();
@@ -22,9 +23,9 @@ public class RenderPlayer {
         double point3x = camera.rotX(entdir,-0.5d,-0.4d) + entx;
         double point3y = camera.rotY(entdir,-0.5d,-0.4d) + enty;
 
-        glVertex2d(point1x - camX, point1y - camY);
-        glVertex2d(point2x - camX, point2y - camY);
-        glVertex2d(point3x - camX, point3y - camY);
+        glVertex2d( camZoom * (point1x - camX), camZoom * (point1y - camY));
+        glVertex2d( camZoom * (point2x - camX), camZoom * (point2y - camY));
+        glVertex2d( camZoom * (point3x - camX), camZoom * (point3y - camY));
 
         glEnd();
     }
