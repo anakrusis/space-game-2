@@ -11,7 +11,7 @@ public class Map {
         // For non-body entities like spaceships and animals and people...
         entities = new ArrayList<Entity>();
 
-        entities.add(new EntityPlayer(0,0,0));
+        entities.add(new EntityPlayer(64,64,0));
 
         for (int x = 0; x < xSize; x++){
             for (int y = 0; y < ySize; y++){

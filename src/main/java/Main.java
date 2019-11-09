@@ -22,6 +22,8 @@ public class Main {
     // The world map
     public static Map map = new Map(10,10);
 
+    public static final int CHUNK_SIZE = 64;
+
     public void run() {
         //System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
@@ -113,21 +115,24 @@ public class Main {
             // The rendering goes here lol
             Render.renderMain();
 
+            double x = map.getPlayer().getX();
+            double y = map.getPlayer().getY();
+            float dir = map.getPlayer().getDir();
             if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE){
-                double x = map.getPlayer().getX();
-                map.getPlayer().setX(x + 0.1);
+                map.getPlayer().setDir(dir - 0.1f);
             }
             if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE){
-                double x = map.getPlayer().getX();
-                map.getPlayer().setX(x - 0.1);
+                map.getPlayer().setDir(dir + 0.1f);
             }
             if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE){
-                double y = map.getPlayer().getY();
-                map.getPlayer().setY(y - 0.1);
+
+                map.getPlayer().setX( x - (0.1 * Math.cos(dir)) );
+                map.getPlayer().setY( y - (0.1 * Math.sin(dir)) );
             }
             if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE){
-                double y = map.getPlayer().getY();
-                map.getPlayer().setY(y + 0.1);
+
+                map.getPlayer().setX( x + (0.1 * Math.cos(dir)) );
+                map.getPlayer().setY( y + (0.1 * Math.sin(dir)) );
             }
 
             glfwSwapBuffers(window); // swap the color buffers

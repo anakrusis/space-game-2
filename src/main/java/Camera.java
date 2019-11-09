@@ -32,4 +32,12 @@ public class Camera {
     public void setZoom(double zoom) {
         this.zoom = zoom;
     }
+
+    public double rotX(float angle, double x, double y){
+        return (x * Math.cos(angle)) - (y * Math.sin(angle));
+    }
+
+    public double rotY(float angle, double x, double y){
+        return (x * Math.sin(angle)) + (y * Math.cos(angle));
+    }
 }
