@@ -22,7 +22,7 @@ public class Main {
     // The world map
     public static Map map = new Map(10,10);
 
-    public static final int CHUNK_SIZE = 64;
+    public static final int CHUNK_SIZE = 16;
 
     public void run() {
         //System.out.println("Hello LWJGL " + Version.getVersion() + "!");
