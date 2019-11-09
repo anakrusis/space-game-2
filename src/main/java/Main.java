@@ -22,7 +22,7 @@ public class Main {
     // The world map
     public static Map map = new Map(10,10);
 
-    public static final int CHUNK_SIZE = 64;
+    public static final int CHUNK_SIZE = 128;
 
     public void run() {
         //System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -115,25 +115,22 @@ public class Main {
             // The rendering goes here lol
             Render.renderMain();
 
-            double x = map.getPlayer().getX();
-            double y = map.getPlayer().getY();
+            double vel = map.getPlayer().getVelocity();
             float dir = map.getPlayer().getDir();
+
             if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE){
                 map.getPlayer().setDir(dir - 0.1f);
             }
             if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE){
                 map.getPlayer().setDir(dir + 0.1f);
             }
-            if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE){
 
-                map.getPlayer().setX( x - (0.1 * Math.cos(dir)) );
-                map.getPlayer().setY( y - (0.1 * Math.sin(dir)) );
-            }
             if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE){
-
-                map.getPlayer().setX( x + (0.1 * Math.cos(dir)) );
-                map.getPlayer().setY( y + (0.1 * Math.sin(dir)) );
+                map.getPlayer().setVelocity( vel + 0.005f );
+            }else{
+                map.getPlayer().setVelocity( vel / 1.01);
             }
+
             if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE){
                 camera.setZoom( camera.getZoom() + 0.01);
             }

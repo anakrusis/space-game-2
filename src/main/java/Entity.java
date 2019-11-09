@@ -2,13 +2,16 @@ public class Entity {
     protected double x;
     protected double y;
     protected float dir; // radians
+
     protected double velocity;
+    protected double acceleration;
 
     public Entity (double x, double y, float dir){
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.velocity = 0;
+        this.acceleration = 0;
     }
 
     public double getX() {
@@ -23,6 +26,9 @@ public class Entity {
     public double getVelocity() {
         return velocity;
     }
+    public double getAcceleration() {
+        return acceleration;
+    }
 
     public void setX(double x){
         this.x = x;
@@ -36,8 +42,15 @@ public class Entity {
     public void setVelocity(double velocity) {
         this.velocity = velocity;
     }
+    public void setAcceleration(double acceleration) {
+        this.acceleration = acceleration;
+    }
 
     public void update(){
 
+        //this.velocity += this.acceleration;
+
+        this.x += this.velocity * Math.cos(this.dir);
+        this.y += this.velocity * Math.sin(this.dir);
     }
 }
