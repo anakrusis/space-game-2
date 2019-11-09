@@ -11,8 +11,10 @@ public class Chunk {
         this.y = y;
         this.bodies = new ArrayList<>();
 
-        this.bodies.add(new Body (Main.CHUNK_SIZE * (this.x + Math.random()),
-                Main.CHUNK_SIZE * (this.y + Math.random()), 0, this));
+        for (int i = 0; i < 5; i++){
+            this.bodies.add(new BodyStar (Main.CHUNK_SIZE * (this.x + Math.random()),
+                    Main.CHUNK_SIZE * (this.y + Math.random()), 0, this));
+        }
     }
 
     public int getX() {

@@ -1,8 +1,8 @@
 public class Entity {
-    private double x;
-    private double y;
-    private float dir; // radians
-    private double velocity;
+    protected double x;
+    protected double y;
+    protected float dir; // radians
+    protected double velocity;
 
     public Entity (double x, double y, float dir){
         this.x = x;
@@ -35,5 +35,9 @@ public class Entity {
     }
     public void setVelocity(double velocity) {
         this.velocity = velocity;
+    }
+
+    public void update(){
+
     }
 }

@@ -27,7 +27,10 @@ public class Render {
                  glEnd();
 
                  for (Body body : chunk.getBodies()){
-                     RenderPlayer.renderPlayer(body);
+                     if (body instanceof BodyStar){
+                         RenderStar.renderStar( (BodyStar) body);
+                         //RenderPlayer.renderPlayer(body);
+                     }
                  }
              }
          }
