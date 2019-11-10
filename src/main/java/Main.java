@@ -19,10 +19,11 @@ public class Main {
     // The global viewport to be used everywhere, I guess
     public static Camera camera = new Camera(0,0,1);
 
-    // The world map
+    // The world map, and how many ticks it's existed for
     public static Map map = new Map(10,10);
+    public static int MAP_TIME;
 
-    public static final int CHUNK_SIZE = 128;
+    public static final int CHUNK_SIZE = 512;
 
     public void run() {
         //System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -150,6 +151,8 @@ public class Main {
                     }
                 }
             }
+
+            MAP_TIME++;
 
             glfwSwapBuffers(window); // swap the color buffers
 

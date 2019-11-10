@@ -1,7 +1,7 @@
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderStar {
-    public static void renderStar(BodyStar star){
+    public static void renderStar(Body star, boolean filled){
         Camera camera = Main.camera;
         double camX = camera.getX();
         double camY = camera.getY();
@@ -11,12 +11,20 @@ public class RenderStar {
         double enty = star.getY();
         float entdir = star.getDir();
         float entrad = star.getRadius();
+        float[] terrain = star.getTerrain();
 
-        glBegin(GL_POLYGON);
+        if (filled) {
+            glBegin(GL_POLYGON);
+        }else{
+            glBegin(GL_LINE_LOOP);
+        }
+        glColor3d(1d,1d,1d);
 
-        for (int i = 0; i < 8; i++){
-            double pointx = camera.rotX((float)(entdir + (i * (2 * Math.PI) / 8f)), entrad, 0.0d) + entx;
-            double pointy = camera.rotY((float)(entdir + (i * (2 * Math.PI) / 8f)), entrad, 0.0d) + enty;
+        for (int i = 0; i < terrain.length; i++){
+            double angle = entdir + (i * (2 * Math.PI) / terrain.length);
+
+            double pointx = camera.rotX((float) angle, entrad + terrain[i], 0.0d) + entx;
+            double pointy = camera.rotY((float) angle, entrad + terrain[i], 0.0d) + enty;
 
             glVertex2d(camZoom * (pointx - camX), camZoom * (pointy - camY));
         }

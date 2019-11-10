@@ -13,6 +13,7 @@ public class RenderPlayer {
         float entdir = entity.getDir();
 
         glBegin(GL_LINE_LOOP);
+        glColor3d(0d,1d,1d);
 
         double point1x = camera.rotX(entdir,-0.5d,0.4d) + entx;
         double point1y = camera.rotY(entdir,-0.5d,0.4d) + enty;
