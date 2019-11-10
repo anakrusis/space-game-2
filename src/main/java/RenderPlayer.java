@@ -1,9 +1,13 @@
+import entity.Entity;
+import render.Camera;
+import util.MathHelper;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderPlayer {
 
     public static void renderPlayer(Entity entity){
-        Camera camera = Main.camera;
+        Camera camera = SpaceGame.camera;
         double camX = camera.getX();
         double camY = camera.getY();
         double camZoom = camera.getZoom();
@@ -15,14 +19,14 @@ public class RenderPlayer {
         glBegin(GL_LINE_LOOP);
         glColor3d(0d,1d,1d);
 
-        double point1x = camera.rotX(entdir,-0.5d,0.4d) + entx;
-        double point1y = camera.rotY(entdir,-0.5d,0.4d) + enty;
+        double point1x = MathHelper.rotX(entdir,-0.5d,0.4d) + entx;
+        double point1y = MathHelper.rotY(entdir,-0.5d,0.4d) + enty;
 
-        double point2x = camera.rotX(entdir,0.8d,0.0d) + entx;
-        double point2y = camera.rotY(entdir,0.8d,0.0d) + enty;
+        double point2x = MathHelper.rotX(entdir,0.8d,0.0d) + entx;
+        double point2y = MathHelper.rotY(entdir,0.8d,0.0d) + enty;
 
-        double point3x = camera.rotX(entdir,-0.5d,-0.4d) + entx;
-        double point3y = camera.rotY(entdir,-0.5d,-0.4d) + enty;
+        double point3x = MathHelper.rotX(entdir,-0.5d,-0.4d) + entx;
+        double point3y = MathHelper.rotY(entdir,-0.5d,-0.4d) + enty;
 
         glVertex2d( camZoom * (point1x - camX), camZoom * (point1y - camY));
         glVertex2d( camZoom * (point2x - camX), camZoom * (point2y - camY));

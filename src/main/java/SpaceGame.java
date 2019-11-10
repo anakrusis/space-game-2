@@ -1,7 +1,11 @@
-import org.lwjgl.*;
+import entity.Body;
+import entity.Entity;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
+import render.Camera;
+import world.Chunk;
+import world.Map;
 
 import java.nio.*;
 
@@ -11,7 +15,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class Main {
+public class SpaceGame {
 
     // The window handle
     private long window;
@@ -21,7 +25,6 @@ public class Main {
 
     // The world map, and how many ticks it's existed for
     public static Map map = new Map(10,10);
-    public static int MAP_TIME;
 
     public static final int CHUNK_SIZE = 512;
 
@@ -105,6 +108,10 @@ public class Main {
         // Set the clear color
         glClearColor(0.05f, 0.0f, 0.05f, 0.0f);
 
+        // DeaSTL wanted me to make it hot pink so if you want your build to have a hot pink background
+        // then just uncomment the line below
+        //glClearColor(1f, 0.0f, 1f, 0.0f);
+
         // Aspect ratio fixed
         glOrtho(-13.33,13.33,-10,10,-1,1);
 
@@ -152,7 +159,7 @@ public class Main {
                 }
             }
 
-            MAP_TIME++;
+            map.mapTime++;
 
             glfwSwapBuffers(window); // swap the color buffers
 
@@ -164,7 +171,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        new Main().run();
+        new SpaceGame().run();
     }
 
 }

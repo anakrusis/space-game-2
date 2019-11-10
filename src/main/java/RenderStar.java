@@ -1,8 +1,12 @@
+import entity.Body;
+import render.Camera;
+import util.MathHelper;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderStar {
     public static void renderStar(Body star, boolean filled){
-        Camera camera = Main.camera;
+        Camera camera = SpaceGame.camera;
         double camX = camera.getX();
         double camY = camera.getY();
         double camZoom = camera.getZoom();
@@ -23,8 +27,8 @@ public class RenderStar {
         for (int i = 0; i < terrain.length; i++){
             double angle = entdir + (i * (2 * Math.PI) / terrain.length);
 
-            double pointx = camera.rotX((float) angle, entrad + terrain[i], 0.0d) + entx;
-            double pointy = camera.rotY((float) angle, entrad + terrain[i], 0.0d) + enty;
+            double pointx = MathHelper.rotX((float) angle, entrad + terrain[i], 0.0d) + entx;
+            double pointy = MathHelper.rotY((float) angle, entrad + terrain[i], 0.0d) + enty;
 
             glVertex2d(camZoom * (pointx - camX), camZoom * (pointy - camY));
         }

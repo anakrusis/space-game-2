@@ -1,13 +1,15 @@
-import static org.lwjgl.opengl.GL11.*;
+import entity.Entity;
+import render.Camera;
+import world.Chunk;
 
 public class Render {
      public static void renderMain(){
-         Camera camera = Main.camera;
-         camera.setX(Main.map.getPlayer().getX());
-         camera.setY(Main.map.getPlayer().getY());
+         Camera camera = SpaceGame.camera;
+         camera.setX(SpaceGame.map.getPlayer().getX());
+         camera.setY(SpaceGame.map.getPlayer().getY());
 
          // Drawing chunks
-         for (Chunk[] xarray : Main.map.getChunks()){
+         for (Chunk[] xarray : SpaceGame.map.getChunks()){
 
              for (Chunk chunk : xarray){
                  RenderChunk.renderChunk(chunk);
@@ -15,7 +17,7 @@ public class Render {
          }
 
          //Drawing entities
-         for (Entity entity : Main.map.getEntities()){
+         for (Entity entity : SpaceGame.map.getEntities()){
              RenderPlayer.renderPlayer(entity);
          }
     }

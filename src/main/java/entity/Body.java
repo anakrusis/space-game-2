@@ -1,3 +1,5 @@
+package entity;
+
 // Bodies are big entities that are attached to a chunk
 // generally slow moving or even stationary... at least expected to stay within their chunk,
 // get loaded with the chunk, get unloaded with the chunk...
@@ -8,6 +10,9 @@
 
 // examples: star, planet, moon
 
+import world.Chunk;
+import world.Map;
+
 public class Body extends Entity {
 
     protected float radius;
@@ -17,8 +22,8 @@ public class Body extends Entity {
     // Each item in terrain is a relative coordinate away or toward 0, which is the radius
     protected float[] terrain;
 
-    public Body (double x, double y, float dir, Chunk chunk, float radius){
-        super(x,y,dir);
+    public Body (double x, double y, float dir, Chunk chunk, float radius, Map map){
+        super(x,y,dir,map);
         this.chunk = chunk;
         this.radius = radius;
     }

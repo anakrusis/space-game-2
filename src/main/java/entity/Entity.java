@@ -1,3 +1,7 @@
+package entity;
+
+import world.Map;
+
 public class Entity {
     protected double x;
     protected double y;
@@ -6,12 +10,17 @@ public class Entity {
     protected double velocity;
     protected double acceleration;
 
-    public Entity (double x, double y, float dir){
+    public int ticksExisted;
+    protected Map map;
+
+    public Entity (double x, double y, float dir, Map map){
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.velocity = 0;
         this.acceleration = 0;
+        this.ticksExisted = 0;
+        this.map = map;
     }
 
     public double getX() {
@@ -52,5 +61,11 @@ public class Entity {
 
         this.x += this.velocity * Math.cos(this.dir);
         this.y += this.velocity * Math.sin(this.dir);
+
+        this.ticksExisted++;
+    }
+
+    public boolean isDead(){
+        return false;
     }
 }

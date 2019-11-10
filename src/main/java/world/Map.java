@@ -1,8 +1,16 @@
+package world;
+
+import entity.Entity;
+import entity.EntityPlayer;
+import world.Chunk;
+
 import java.util.ArrayList;
 
 public class Map {
     private Chunk[][] chunks;
     private ArrayList<Entity> entities;
+
+    public int mapTime;
 
     public Map (int xSize, int ySize){
         chunks = new Chunk[xSize][ySize];
@@ -10,13 +18,15 @@ public class Map {
         // For non-body entities like spaceships and animals and people...
         entities = new ArrayList<Entity>();
 
-        entities.add(new EntityPlayer(64,64,0));
+        entities.add(new EntityPlayer(64,64,0, this));
 
         for (int x = 0; x < xSize; x++){
             for (int y = 0; y < ySize; y++){
-                chunks[x][y] = new Chunk(x,y);
+                chunks[x][y] = new Chunk(x,y,this);
             }
         }
+
+        this.mapTime = 0;
     }
 
     public Chunk[][] getChunks(){
