@@ -15,8 +15,8 @@ public class BodyStar extends Body {
     public void update() {
         super.update();
         for (int i = 0; i < this.terrain.length; i++){
-            float random = (float)Math.random();
-            this.terrain[i] = random;
+            //float random = (float)Math.random();
+            //this.terrain[i] = random;
         }
     }
 }
