@@ -70,23 +70,37 @@ public class Entity {
             for (Body body : this.getChunk().getBodies()) {
                 if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
 
-                    this.velocity /= 1.1;
-
-                    this.x -= this.velocity * Math.cos(this.dir) / 2;
-                    this.y -= this.velocity * Math.sin(this.dir) / 2;
-
                     this.grounded = true;
 
+                    // This moves the player along with a planet by anticipating where it will be in the next tick
                     if (body instanceof BodyPlanet){
                         BodyPlanet planet = (BodyPlanet)body;
                         float angle = this.map.mapTime * (float)(Math.PI / 2) / planet.orbitPeriod;
-                        this.x += (MathHelper.rotX(angle, planet.orbitDistance,0) + planet.star.getX() - body.getX());
-                        this.y += (MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY() - body.getY());
+                        double futurePlanetX = MathHelper.rotX(angle, planet.orbitDistance,0) + planet.star.getX();
+                        double futurePlanetY = MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY();
+
+                        this.x += (futurePlanetX - body.getX());
+                        this.y += (futurePlanetY - body.getY());
                     }
 
+                    // This moves the player along with any rotating body
+                    this.dir += body.rotSpeed;
                     this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
                     this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
-                    this.dir += body.rotSpeed;
+
+                    // This is supposed to keep the player from going through it (equal and opposite reaction y'know)
+                    // but it needs a little help.
+                    this.x -= this.velocity * Math.cos(this.dir);
+                    this.y -= this.velocity * Math.sin(this.dir);
+
+                    // This is that slight extra push that keeps the player out.
+                    double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
+                    this.x += 0.005d * Math.cos(angleFromCenter);
+                    this.y += 0.005d * Math.sin(angleFromCenter);
+
+                    // TODO add gravity. Otherwise the player doesn't stay on the planet lol
+
+                    this.velocity /= 1.1;
                 }
             }
         }
