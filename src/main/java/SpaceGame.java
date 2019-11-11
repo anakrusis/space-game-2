@@ -163,14 +163,6 @@ public class SpaceGame {
 
             map.mapTime++;
 
-            if (map.getPlayer().getChunk() != null){
-                for (Body body : map.getPlayer().getChunk().getBodies()){
-                    if (CollisionUtil.isEntityCollidingWithBody(map.getPlayer(), body)){
-                        System.out.println("Colliding");
-                    }
-                }
-            }
-
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events. The key callback above will only be

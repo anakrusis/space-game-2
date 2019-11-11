@@ -5,7 +5,7 @@ import world.Map;
 
 public class BodyStar extends Body {
     public BodyStar(double x, double y, float dir, Chunk chunk, Map map) {
-        super(x, y, dir, chunk,16, map);
+        super(x, y, dir, chunk,32, map);
 
         this.rotSpeed = 0.01f;
         this.terrain = new float[]{ 0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0 };

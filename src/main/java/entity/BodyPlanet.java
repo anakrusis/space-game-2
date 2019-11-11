@@ -10,12 +10,13 @@ public class BodyPlanet extends Body {
     BodyStar star;
     float orbitDistance;
     int orbitPeriod;
+    float orbitSpeed;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float radius, BodyStar star, Map map) {
         super(x, y, dir, chunk, radius, map);
         this.star = star;
-        this.orbitDistance = 20;
-        this.orbitPeriod = 100;
+        this.orbitDistance = 60;
+        this.orbitPeriod = 400;
         this.rotSpeed = 0.05f;
 
         this.terrain = new float[]{ 0, 0, 0, 0, 0, -0.3f, -0.1f, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
@@ -29,5 +30,7 @@ public class BodyPlanet extends Body {
 
         this.x = MathHelper.rotX(angle, this.orbitDistance,0) + this.star.getX();
         this.y = MathHelper.rotY(angle, this.orbitDistance, 0) + this.star.getY();
+        //this.x += Math.cos(0) * this.orbitSpeed;
+        //this.y += Math.sin(0) * this.orbitSpeed;
     }
 }

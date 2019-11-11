@@ -69,9 +69,20 @@ public class Entity {
         if (this.getChunk() != null) {
             for (Body body : this.getChunk().getBodies()) {
                 if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
-                    this.x -= this.velocity * Math.cos(this.dir);
-                    this.y -= this.velocity * Math.sin(this.dir);
+
+                    this.velocity /= 1.1;
+
+                    this.x -= this.velocity * Math.cos(this.dir) / 2;
+                    this.y -= this.velocity * Math.sin(this.dir) / 2;
+
                     this.grounded = true;
+
+                    if (body instanceof BodyPlanet){
+                        BodyPlanet planet = (BodyPlanet)body;
+                        float angle = this.map.mapTime * (float)(Math.PI / 2) / planet.orbitPeriod;
+                        this.x += (MathHelper.rotX(angle, planet.orbitDistance,0) + planet.star.getX() - body.getX());
+                        this.y += (MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY() - body.getY());
+                    }
 
                     this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
                     this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
