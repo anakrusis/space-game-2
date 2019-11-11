@@ -1,5 +1,7 @@
 package entity;
 
+import misc.Reference;
+import world.Chunk;
 import world.Map;
 
 public class Entity {
@@ -67,5 +69,24 @@ public class Entity {
 
     public boolean isDead(){
         return false;
+    }
+
+    public Chunk getChunk(){
+        int chunkx = (int) Math.floor( this.x / Reference.CHUNK_SIZE );
+        int chunky = (int) Math.floor( this.y / Reference.CHUNK_SIZE );
+        if (chunkx >= 0 && chunky >= 0){
+            Chunk entityChunk = this.map.getChunks()[chunkx][chunky];
+            return entityChunk;
+        }else{
+            return null;
+        }
+    }
+
+    // This method is used for collision handling.
+    // The default for an unspecified entity is just to return its position (meaning it only collides as a single point).
+    // If it has a definite shape then it should override this and use that!
+
+    public double[] getAbsolutePoints(){
+        return new double[] { this.x , this.y };
     }
 }

@@ -1,9 +1,11 @@
 import entity.Body;
 import entity.Entity;
+import misc.Reference;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import render.Camera;
+import util.CollisionUtil;
 import world.Chunk;
 import world.Map;
 
@@ -160,6 +162,14 @@ public class SpaceGame {
             }
 
             map.mapTime++;
+
+            if (map.getPlayer().getChunk() != null){
+                for (Body body : map.getPlayer().getChunk().getBodies()){
+                    if (CollisionUtil.isEntityCollidingWithBody(map.getPlayer(), body)){
+                        System.out.println("Colliding");
+                    }
+                }
+            }
 
             glfwSwapBuffers(window); // swap the color buffers
 

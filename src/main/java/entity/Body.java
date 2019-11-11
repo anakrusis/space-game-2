@@ -10,6 +10,7 @@ package entity;
 
 // examples: star, planet, moon
 
+import util.MathHelper;
 import world.Chunk;
 import world.Map;
 
@@ -36,6 +37,7 @@ public class Body extends Entity {
         return radius;
     }
 
+    @Override
     public Chunk getChunk() {
         return chunk;
     }
@@ -43,5 +45,25 @@ public class Body extends Entity {
     @Override
     public void update() {
         this.dir += rotSpeed;
+    }
+
+    // Based off of the terrain, returns the points of the body in absolute coordinates.
+    // These will be used for collision handling.
+    @Override
+    public double[] getAbsolutePoints(){
+
+        double[] absPoints = new double[terrain.length * 2];
+
+        for (int i = 0; i < terrain.length; i++){
+            double angle = this.dir + (i * (2 * Math.PI) / terrain.length);
+
+            double pointx = MathHelper.rotX((float) angle, this.radius + terrain[i], 0.0d) + this.x;
+            double pointy = MathHelper.rotY((float) angle, this.radius + terrain[i], 0.0d) + this.y;
+
+            absPoints[2 * i] = pointx;
+            absPoints[(2 * i) + 1] = pointy;
+        }
+
+        return absPoints;
     }
 }
