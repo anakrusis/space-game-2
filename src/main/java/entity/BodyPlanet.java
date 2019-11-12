@@ -19,7 +19,7 @@ public class BodyPlanet extends Body {
         this.orbitPeriod = 400;
         this.rotSpeed = 0.05f;
 
-        this.terrain = new float[]{ 0, 0, 0, 0, 0, -0.3f, -0.1f, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
+        this.terrain = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
     }
 
     @Override

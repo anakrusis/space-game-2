@@ -14,6 +14,7 @@ public class Entity {
     protected double velocity;
     protected double acceleration;
     protected boolean grounded;
+    protected Body groundedBody;
     protected float mass;
 
     public int ticksExisted;
@@ -74,58 +75,58 @@ public class Entity {
                 if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
 
                     this.grounded = true;
+                    this.groundedBody = body;
 
-                    // This moves the player along with a planet by anticipating where it will be in the next tick
-                    if (body instanceof BodyPlanet){
-                        BodyPlanet planet = (BodyPlanet)body;
-                        float angle = this.map.mapTime * (float)(Math.PI / 2) / planet.orbitPeriod;
-                        double futurePlanetX = MathHelper.rotX(angle, planet.orbitDistance,0) + planet.star.getX();
-                        double futurePlanetY = MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY();
-
-                        this.x += (futurePlanetX - body.getX());
-                        this.y += (futurePlanetY - body.getY());
-                    }
-
-                    // This moves the player along with any rotating body
-                    this.dir += body.rotSpeed;
-                    this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
-                    this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
-
-//                    // This is supposed to keep the player from going through it (equal and opposite reaction y'know)
-//                    // but it needs a little help.
-//                    this.x -= this.velocity * Math.cos(this.dir);
-//                    this.y -= this.velocity * Math.sin(this.dir);
-////
-////                    // This is that slight extra push that keeps the player out.
+                }else{
+//                    // Gravitation
+//                    double forceMagnitude = (0.01d)* (this.mass * body.mass) / (MathHelper.distance(this.x, this.y, body.getX(), body.getY()));
+//
 //                    double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-//                    this.x += 0.03d * Math.cos(angleFromCenter);
-//                    this.y += 0.03d * Math.sin(angleFromCenter);
-
-                    int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-                    double radius = body.getRadius() + body.getTerrain()[index];
-                    double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
-                    if (distance < radius){
-                        //TODO Completely rewrite collision (Does nothing rn)
-                    }
-
-                    this.velocity /= 1.1;
-                }
-
-                // Gravitation
-                double forceMagnitude = (0.01d)* (this.mass * body.mass) / (MathHelper.distance(this.x, this.y, body.getX(), body.getY()));
-
-                double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-
-                int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-                double radius = body.getRadius() + body.getTerrain()[index] + 0.0d;
-
-                this.x -= forceMagnitude * Math.cos(angleFromCenter);
-                this.y -= forceMagnitude * Math.sin(angleFromCenter);
-
-                if (MathHelper.distance(this.x, this.y, body.getX(), body.getY()) > radius){
-
+//
+//                    int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
+//                    double radius = body.getRadius() + body.getTerrain()[index] + 5d;
+//
+//                    if (MathHelper.distance(this.x, this.y, body.getX(), body.getY()) > radius){
+//                        this.x -= forceMagnitude * Math.cos(angleFromCenter);
+//                        this.y -= forceMagnitude * Math.sin(angleFromCenter);
+//
+//                    }
                 }
             }
+        }
+
+        if (grounded && groundedBody != null) {
+            // This moves the player along with a planet by anticipating where it will be in the next tick
+            if (groundedBody instanceof BodyPlanet) {
+                BodyPlanet planet = (BodyPlanet) groundedBody;
+                float angle = this.map.mapTime * (float) (Math.PI / 2) / planet.orbitPeriod;
+                double futurePlanetX = MathHelper.rotX(angle, planet.orbitDistance, 0) + planet.star.getX();
+                double futurePlanetY = MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY();
+
+                this.x += (futurePlanetX - planet.getX());
+                this.y += (futurePlanetY - planet.getY());
+            }
+            Body body = groundedBody;
+
+            // This moves the player along with any rotating body
+            this.dir += body.rotSpeed;
+            this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
+            this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
+
+            double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
+            int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
+            double radius = body.getRadius() + body.getTerrain()[index] + 0.3d;
+
+            this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
+            this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
+
+            double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
+            if (distance > radius) {
+                this.grounded = false;
+                this.groundedBody = null;
+            }
+
+            this.velocity /= 1.1;
         }
 
         this.ticksExisted++;
@@ -160,16 +161,15 @@ public class Entity {
     }
 
     // If so, which body?
-    public Body groundedBody(){
+    public Body getGroundedBody(){
         if (!grounded){
             return null;
         }else{
-            for (Body body : this.getChunk().getBodies()){
-                if (CollisionUtil.isEntityCollidingWithBody(this,body)){
-                    return body;
-                }
-            }
-            return null;
+            return groundedBody;
         }
+    }
+
+    public void explode(){
+
     }
 }
