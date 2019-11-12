@@ -8,8 +8,6 @@ public class CollisionUtil {
 
         boolean isColliding;
 
-        // Temporarily the entity is just a single point for now,
-        // will get its own polygon collision later today
         double[] abspoints = body.getAbsolutePoints();
         double[] entityAbsPoints = entity.getAbsolutePoints();
 
@@ -53,5 +51,25 @@ public class CollisionUtil {
         }
 
         return false;
+    }
+
+    // Based off of where an entity is on the body, returns the index of the body's terrain point.
+    // Maybe usable for collision, since it can get the particular heightmap index accessible from the entity's position
+
+    public static int terrainIndexFromEntityAngle(Entity entity, Body body){
+        float[] terrain = body.getTerrain();
+        int length = terrain.length;
+        double index;
+        double angle = Math.atan2(entity.getY() - body.getY(), entity.getX() - body.getX());
+        angle += body.getDir();
+        angle %= 2 * Math.PI;
+
+        if (angle < 0){
+            index = angle * ((0.5 * length) / Math.PI) + terrain.length;
+        }else{
+            index = angle * ((0.5 * length) / Math.PI);
+        }
+
+        return (int)Math.floor(index);
     }
 }

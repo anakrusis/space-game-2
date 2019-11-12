@@ -20,7 +20,7 @@ public class Chunk {
         this.map = map;
         this.bodies = new ArrayList<>();
 
-        for (int i = 0; i < 2; i++){
+        for (int i = 0; i < 1; i++){
             this.bodies.add(new BodyStar(Reference.CHUNK_SIZE * (this.x + Math.random()),
                 Reference.CHUNK_SIZE * (this.y + Math.random()), 0, this, this.map));
         }

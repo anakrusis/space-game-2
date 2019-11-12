@@ -14,6 +14,7 @@ public class Entity {
     protected double velocity;
     protected double acceleration;
     protected boolean grounded;
+    protected float mass;
 
     public int ticksExisted;
     protected Map map;
@@ -27,6 +28,7 @@ public class Entity {
         this.ticksExisted = 0;
         this.map = map;
         this.grounded = false;
+        this.mass = 1f;
     }
 
     public double getX() {
@@ -66,6 +68,7 @@ public class Entity {
         this.x += this.velocity * Math.cos(this.dir);
         this.y += this.velocity * Math.sin(this.dir);
 
+        // These are physics that don't apply to stationary bodies. Just small entities like ships, asteroids...
         if (this.getChunk() != null) {
             for (Body body : this.getChunk().getBodies()) {
                 if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
@@ -88,19 +91,39 @@ public class Entity {
                     this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
                     this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
 
-                    // This is supposed to keep the player from going through it (equal and opposite reaction y'know)
-                    // but it needs a little help.
-                    this.x -= this.velocity * Math.cos(this.dir);
-                    this.y -= this.velocity * Math.sin(this.dir);
+//                    // This is supposed to keep the player from going through it (equal and opposite reaction y'know)
+//                    // but it needs a little help.
+//                    this.x -= this.velocity * Math.cos(this.dir);
+//                    this.y -= this.velocity * Math.sin(this.dir);
+////
+////                    // This is that slight extra push that keeps the player out.
+//                    double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
+//                    this.x += 0.03d * Math.cos(angleFromCenter);
+//                    this.y += 0.03d * Math.sin(angleFromCenter);
 
-                    // This is that slight extra push that keeps the player out.
-                    double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-                    this.x += 0.005d * Math.cos(angleFromCenter);
-                    this.y += 0.005d * Math.sin(angleFromCenter);
-
-                    // TODO add gravity. Otherwise the player doesn't stay on the planet lol
+                    int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
+                    double radius = body.getRadius() + body.getTerrain()[index];
+                    double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
+                    if (distance < radius){
+                        //TODO Completely rewrite collision (Does nothing rn)
+                    }
 
                     this.velocity /= 1.1;
+                }
+
+                // Gravitation
+                double forceMagnitude = (0.01d)* (this.mass * body.mass) / (MathHelper.distance(this.x, this.y, body.getX(), body.getY()));
+
+                double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
+
+                int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
+                double radius = body.getRadius() + body.getTerrain()[index] + 0.0d;
+
+                this.x -= forceMagnitude * Math.cos(angleFromCenter);
+                this.y -= forceMagnitude * Math.sin(angleFromCenter);
+
+                if (MathHelper.distance(this.x, this.y, body.getX(), body.getY()) > radius){
+
                 }
             }
         }
@@ -115,7 +138,7 @@ public class Entity {
     public Chunk getChunk(){
         int chunkx = (int) Math.floor( this.x / Reference.CHUNK_SIZE );
         int chunky = (int) Math.floor( this.y / Reference.CHUNK_SIZE );
-        if (chunkx >= 0 && chunky >= 0){
+        if (chunkx >= 0 && chunky >= 0 && chunkx < map.getChunks().length && chunky < map.getChunks()[0].length){
             Chunk entityChunk = this.map.getChunks()[chunkx][chunky];
             return entityChunk;
         }else{

@@ -163,6 +163,8 @@ public class SpaceGame {
 
             map.mapTime++;
 
+            //System.out.println( CollisionUtil.terrainIndexFromEntityAngle(map.getPlayer(), map.getPlayer().getChunk().getBodies().get(0)) );
+
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events. The key callback above will only be

@@ -27,6 +27,7 @@ public class Body extends Entity {
         super(x,y,dir,map);
         this.chunk = chunk;
         this.radius = radius;
+        this.mass = radius * 50;
     }
 
     public float[] getTerrain() {
@@ -45,6 +46,7 @@ public class Body extends Entity {
     @Override
     public void update() {
         this.dir += rotSpeed;
+        this.ticksExisted++;
     }
 
     // Based off of the terrain, returns the points of the body in absolute coordinates.
