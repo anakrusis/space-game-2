@@ -1,12 +1,16 @@
 import entity.Entity;
+import entity.EntityParticle;
+import entity.EntityPlayer;
 import render.Camera;
 import world.Chunk;
 
 public class Render {
      public static void renderMain(){
          Camera camera = SpaceGame.camera;
-         camera.setX(SpaceGame.map.getPlayer().getX());
-         camera.setY(SpaceGame.map.getPlayer().getY());
+         if (SpaceGame.map.getPlayer() != null){
+             camera.setX(SpaceGame.map.getPlayer().getX());
+             camera.setY(SpaceGame.map.getPlayer().getY());
+         }
 
          // Drawing chunks
          for (Chunk[] xarray : SpaceGame.map.getChunks()){
@@ -18,7 +22,12 @@ public class Render {
 
          //Drawing entities
          for (Entity entity : SpaceGame.map.getEntities()){
-             RenderPlayer.renderPlayer(entity);
+             if (entity instanceof EntityPlayer){
+                 RenderPlayer.renderPlayer(entity);
+             }else if (entity instanceof EntityParticle){
+                 RenderParticle.renderParticle(entity);
+             }
+
          }
 
          //Drawing text

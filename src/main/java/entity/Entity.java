@@ -20,6 +20,8 @@ public class Entity {
     public int ticksExisted;
     protected Map map;
 
+    protected boolean dead = false;
+
     public Entity (double x, double y, float dir, Map map){
         this.x = x;
         this.y = y;
@@ -76,6 +78,10 @@ public class Entity {
 
                     this.grounded = true;
                     this.groundedBody = body;
+
+                    if (body instanceof BodyStar){
+                        this.explode();
+                    }
 
                 }else{
 //                    // Gravitation
@@ -135,7 +141,7 @@ public class Entity {
     }
 
     public boolean isDead(){
-        return false;
+        return dead;
     }
 
     public Chunk getChunk(){
@@ -172,6 +178,10 @@ public class Entity {
     }
 
     public void explode(){
-
+        this.dead = true;
+        for (int i = 0; i < 30; i++){
+            float randomdir = (float)(2 * Math.PI) * (float)Math.random();
+            this.map.getEntities().add(new EntityParticle(this.x, this.y, randomdir, this.map));
+        }
     }
 }

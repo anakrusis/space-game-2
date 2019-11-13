@@ -126,34 +126,48 @@ public class SpaceGame {
             // The rendering goes here lol
             Render.renderMain();
 
-            double vel = map.getPlayer().getVelocity();
-            float dir = map.getPlayer().getDir();
+            if (map.getPlayer() != null){
+                double vel = map.getPlayer().getVelocity();
+                float dir = map.getPlayer().getDir();
 
-            if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE){
-                map.getPlayer().setDir(dir - 0.1f);
-            }
-            if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE){
-                map.getPlayer().setDir(dir + 0.1f);
-            }
+                if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE){
+                    map.getPlayer().setDir(dir - 0.1f);
+                }
+                if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE){
+                    map.getPlayer().setDir(dir + 0.1f);
+                }
 
-            if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE){
-                map.getPlayer().setVelocity( vel + 0.005f );
-            }else{
-                map.getPlayer().setVelocity( vel / 1.01);
-            }
+                if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE){
+                    map.getPlayer().setVelocity( vel + 0.005f );
+                }else{
+                    map.getPlayer().setVelocity( vel / 1.01);
+                }
 
-            if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE){
-                camera.setZoom( camera.getZoom() + 0.01);
-            }
-            if (glfwGetKey(window, GLFW_KEY_E) == GL_TRUE){
-                if (camera.getZoom() - 0.01 > 0){
-                    camera.setZoom( camera.getZoom() - 0.01);
+                if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE){
+                    camera.setZoom( camera.getZoom() + 0.01);
+                }
+                if (glfwGetKey(window, GLFW_KEY_E) == GL_TRUE){
+                    if (camera.getZoom() - 0.01 > 0){
+                        camera.setZoom( camera.getZoom() - 0.01);
+                    }
+                }
+
+                if (glfwGetKey(window, GLFW_KEY_P) == GL_TRUE){
+                    map.getPlayer().explode();
                 }
             }
 
-            for (Entity entity : map.getEntities()){
-                entity.update();
+//            for (Entity entity : map.getEntities()){
+//                entity.update();
+//            }
+            for (int i = 0; i < map.getEntities().size(); i++){
+                if (map.getEntities().get(i).isDead()){
+                    map.getEntities().remove(i);
+                }else{
+                    map.getEntities().get(i).update();
+                }
             }
+
             for (Chunk[] chunk_array : map.getChunks()){
                 for (Chunk chunk : chunk_array){
                     for (Body body : chunk.getBodies()){
