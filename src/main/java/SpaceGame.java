@@ -30,6 +30,8 @@ public class SpaceGame {
 
     public static final int CHUNK_SIZE = 512;
 
+    public static Texture test_texture;
+
     public void run() {
         //System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
@@ -97,17 +99,13 @@ public class SpaceGame {
 
         // Make the window visible
         glfwShowWindow(window);
-    }
 
-    private void loop() {
-        // This line is critical for LWJGL's interoperation with GLFW's
-        // OpenGL context, or any context that is managed externally.
-        // LWJGL detects the context that is current in the current thread,
-        // creates the GLCapabilities instance and makes the OpenGL
-        // bindings available for use.
+        // This is up here now so it won't go up every tick
         GL.createCapabilities();
+        glEnable(GL_TEXTURE_2D);
 
-        // Set the clear color
+        test_texture = new Texture("src/main/resources/font.png");
+
         glClearColor(0.05f, 0.0f, 0.05f, 0.0f);
 
         // DeaSTL wanted me to make it hot pink so if you want your build to have a hot pink background
@@ -116,6 +114,9 @@ public class SpaceGame {
 
         // Aspect ratio fixed
         glOrtho(-13.33,13.33,-10,10,-1,1);
+    }
+
+    private void loop() {
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.

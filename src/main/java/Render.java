@@ -20,5 +20,8 @@ public class Render {
          for (Entity entity : SpaceGame.map.getEntities()){
              RenderPlayer.renderPlayer(entity);
          }
+
+         //Drawing text
+         RenderText.renderText("SPACE GAME 0.0.1",-12,8,0.5f);
     }
 }

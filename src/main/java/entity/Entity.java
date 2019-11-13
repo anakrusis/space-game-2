@@ -113,6 +113,8 @@ public class Entity {
             this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
             this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
 
+            // TODO Fix this system of determining heightmap. Seems to not work
+            // (maybe should be measured on a ray out from the player. Internal angles would glitch it out!)
             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
             int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
             double radius = body.getRadius() + body.getTerrain()[index] + 0.3d;
