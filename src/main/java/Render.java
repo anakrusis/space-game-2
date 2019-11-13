@@ -31,6 +31,7 @@ public class Render {
          }
 
          //Drawing text
-         RenderText.renderText("SPACE GAME 0.0.1",-12,8,0.5f);
-    }
+         RenderText.renderText("Space Game 0.0.1",-12,8,0.5f);
+         RenderText.renderText("WASD TO MOVE - QE TO ZOOM - P TO SELF-DESTRUCT",-12,-8.5f,0.5f);
+     }
 }

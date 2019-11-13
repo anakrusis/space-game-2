@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'distribution'
 }
 
 group 'net.adnre'
@@ -39,4 +40,27 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-par::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
+}
+jar {
+    manifest {
+        attributes 'Main-Class': 'SpaceGame'
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory()? it: zipTree(it)
+        }
+    }
+}
+
+task copyRuntimeLibs(type: Copy) {
+    into "build/libs/lib"
+    from configurations.testRuntime - configurations.runtime
+}
+distributions {
+    main {
+        contents {
+            from jar // copies your jar
+            from(project.configurations.runtime) // copies dependency jars
+        }
+    }
 }

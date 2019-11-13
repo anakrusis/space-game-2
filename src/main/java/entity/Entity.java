@@ -181,7 +181,7 @@ public class Entity {
         this.dead = true;
         for (int i = 0; i < 30; i++){
             float randomdir = (float)(2 * Math.PI) * (float)Math.random();
-            this.map.getEntities().add(new EntityParticle(this.x, this.y, randomdir, this.map));
+            this.map.getEntities().add(new ParticleExplosion(this.x, this.y, randomdir, this.map));
         }
     }
 }

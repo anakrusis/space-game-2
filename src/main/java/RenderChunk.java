@@ -1,5 +1,6 @@
 import entity.Body;
 import entity.BodyStar;
+import misc.Reference;
 import world.Chunk;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -10,11 +11,10 @@ public class RenderChunk {
         double camY = SpaceGame.camera.getY();
         double camZoom = SpaceGame.camera.getZoom();
 
-        int cbs = SpaceGame.CHUNK_SIZE;
+        int cbs = Reference.CHUNK_SIZE;
 
+        // Drawing the main chunk grid
         glBegin(GL_LINE_LOOP);
-
-        // Drawing the main chunk
         glColor3d(0.5d,0.5d,0.5d);
         glVertex2d(camZoom * (cbs * (0d + chunk.getX()) - camX), camZoom * (cbs * (0d + chunk.getY()) - camY));
         glVertex2d(camZoom * (cbs * (0d + chunk.getX()) - camX), camZoom * (cbs * (1d + chunk.getY()) - camY));
