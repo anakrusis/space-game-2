@@ -1,6 +1,5 @@
 import entity.Body;
-import entity.BodyStar;
-import misc.Reference;
+import util.Reference;
 import world.Chunk;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -24,7 +23,7 @@ public class RenderChunk {
 
         // Drawing all the bodies inside the chunk
         for (Body body : chunk.getBodies()){
-            RenderStar.renderStar(body, body instanceof BodyStar);
+            RenderStar.renderStar(body, true);
         }
     }
 }

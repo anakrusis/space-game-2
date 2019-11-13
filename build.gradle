@@ -44,6 +44,9 @@ dependencies {
 jar {
     manifest {
         attributes 'Main-Class': 'SpaceGame'
+        attributes 'Class-Path': 'lib/lwjgl.jar lib/lwjgl-glfw.jar' +
+                ' lib/lwjgl-natives-windows.jar lib/lwjgl-glfw-natives-windows.jar' +
+                ' lib/lwjgl-opengl-natives-windows.jar lib/lwjgl-opengl.jar'
     }
     from {
         configurations.compile.collect {
@@ -63,4 +66,12 @@ distributions {
             from(project.configurations.runtime) // copies dependency jars
         }
     }
+}
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'SpaceGame'
+    }
+    baseName = 'all-in-one-jar'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }

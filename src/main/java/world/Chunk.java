@@ -3,7 +3,7 @@ package world;
 import entity.Body;
 import entity.BodyPlanet;
 import entity.BodyStar;
-import misc.Reference;
+import util.Reference;
 
 import java.util.ArrayList;
 

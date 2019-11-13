@@ -2,6 +2,7 @@ import entity.Entity;
 import entity.EntityParticle;
 import entity.EntityPlayer;
 import render.Camera;
+import util.Reference;
 import world.Chunk;
 
 public class Render {
@@ -31,7 +32,7 @@ public class Render {
          }
 
          //Drawing text
-         RenderText.renderText("Space Game 0.0.1",-12,8,0.5f);
-         RenderText.renderText("WASD TO MOVE - QE TO ZOOM - P TO SELF-DESTRUCT",-12,-8.5f,0.5f);
+         RenderText.renderText("Space Game " + Reference.VERSION,-12,8,0.6f);
+         RenderText.renderText("WASD to move - QE to zoom - P to self-destruct",-12,-8.5f,0.45f);
      }
 }

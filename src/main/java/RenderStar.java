@@ -22,7 +22,7 @@ public class RenderStar {
         }else{
             glBegin(GL_LINE_LOOP);
         }
-        glColor3d(1d,1d,1d);
+        glColor3d(star.getColor()[0], star.getColor()[1], star.getColor()[2]);
 
         for (int i = 0; i < absPoints.length; i += 2){
 //            double angle = entdir + (i * (2 * Math.PI) / terrain.length);

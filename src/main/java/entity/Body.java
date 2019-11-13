@@ -20,6 +20,8 @@ public class Body extends Entity {
     protected Chunk chunk;
     protected float rotSpeed; //radians per tick
 
+    float[] color;
+
     // Each item in terrain is a relative coordinate away or toward 0, which is the radius
     protected float[] terrain;
 
@@ -28,6 +30,7 @@ public class Body extends Entity {
         this.chunk = chunk;
         this.radius = radius;
         this.mass = radius * 50;
+        this.color = new float[]{1f, 1f, 1f};
     }
 
     public float[] getTerrain() {
@@ -67,5 +70,9 @@ public class Body extends Entity {
         }
 
         return absPoints;
+    }
+
+    public float[] getColor() {
+        return color;
     }
 }

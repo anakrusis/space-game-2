@@ -1,11 +1,9 @@
 import entity.Body;
-import entity.Entity;
-import misc.Reference;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import render.Camera;
-import util.CollisionUtil;
+import util.GenUtil;
 import world.Chunk;
 import world.Map;
 
@@ -104,7 +102,7 @@ public class SpaceGame {
         GL.createCapabilities();
         glEnable(GL_TEXTURE_2D);
 
-        test_texture = new Texture("src/main/resources/font.png");
+        test_texture = new Texture("src/main/resources/font3.png");
 
         glClearColor(0.05f, 0.0f, 0.05f, 0.0f);
 

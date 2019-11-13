@@ -1,6 +1,6 @@
 package entity;
 
-import misc.Reference;
+import util.Reference;
 import util.CollisionUtil;
 import util.MathHelper;
 import world.Chunk;

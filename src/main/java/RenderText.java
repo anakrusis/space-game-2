@@ -3,8 +3,6 @@ import static org.lwjgl.opengl.GL11.*;
 public class RenderText {
 
     public static void renderText(String input, float x, float y, float size){
-        // Todo add uppercase letters
-        input = input.toUpperCase();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
