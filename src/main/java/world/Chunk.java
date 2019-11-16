@@ -3,6 +3,7 @@ package world;
 import entity.Body;
 import entity.BodyPlanet;
 import entity.BodyStar;
+import util.GenUtil;
 import util.Reference;
 
 import java.util.ArrayList;
@@ -20,11 +21,19 @@ public class Chunk {
         this.map = map;
         this.bodies = new ArrayList<>();
 
-        for (int i = 0; i < 1; i++){
-            this.bodies.add(new BodyStar(Reference.CHUNK_SIZE * (this.x + Math.random()),
-                Reference.CHUNK_SIZE * (this.y + Math.random()), 0, this, this.map));
+        // Makes five attempts to spawn a star within the chunk padding.
+        // If all five of these attempts fail then fuggedaboutit, no star in the chunk.
+        for (int i = 0; i < 5; i++){
+            double genx = Reference.CHUNK_SIZE * (this.x + Math.random());
+            double geny = Reference.CHUNK_SIZE * (this.y + Math.random());
+
+            if (GenUtil.withinPadding(genx, geny, 100)){
+                this.bodies.add(new BodyStar(genx, geny, 0, this, this.map));
+                break;
+            }
         }
 
+        // Every star gets a planet (TODO Randomize this)
         for (int i= 0; i < this.bodies.size(); i++){
             Body body = this.bodies.get(i);
             if (body instanceof BodyStar){
