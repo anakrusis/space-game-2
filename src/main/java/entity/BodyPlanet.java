@@ -21,6 +21,7 @@ public class BodyPlanet extends Body {
         this.color = new float[]{0.5f, 0.5f, 0.5f};
 
         this.terrain = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
+        this.name = "Planet " + chunk.getX() + " " + chunk.getY();
     }
 
     @Override

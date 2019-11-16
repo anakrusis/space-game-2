@@ -9,6 +9,8 @@ public class BodyStar extends Body {
 
         this.rotSpeed = 0.01f;
         this.terrain = new float[]{ 0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0 };
+
+        this.name = "Star " + chunk.getX() + " " + chunk.getY();
     }
 
     @Override

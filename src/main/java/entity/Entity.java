@@ -73,13 +73,15 @@ public class Entity {
 
         // These are physics that don't apply to stationary bodies. Just small entities like ships, asteroids...
         if (this.getChunk() != null) {
+            boolean isColliding = false;
             for (Body body : this.getChunk().getBodies()) {
                 if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
 
                     this.grounded = true;
                     this.groundedBody = body;
+                    isColliding = true;
 
-                    if (body instanceof BodyStar){
+                    if (body instanceof BodyStar || this.velocity > 1.5){
                         this.explode();
                     }
 
@@ -98,6 +100,11 @@ public class Entity {
 //
 //                    }
                 }
+            }
+
+            if (!(isColliding)){
+                this.groundedBody = null;
+                this.grounded = false;
             }
         }
 
@@ -128,11 +135,11 @@ public class Entity {
             this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
             this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
 
-            double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
-            if (distance > radius) {
-                this.grounded = false;
-                this.groundedBody = null;
-            }
+//            double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
+//            if (distance - 0.5 > radius) {
+//                this.grounded = false;
+//                this.groundedBody = null;
+//            }
 
             this.velocity /= 1.1;
         }
@@ -145,8 +152,8 @@ public class Entity {
     }
 
     public Chunk getChunk(){
-        int chunkx = (int) Math.floor( this.x / Reference.CHUNK_SIZE );
-        int chunky = (int) Math.floor( this.y / Reference.CHUNK_SIZE );
+        int chunkx = (int)( this.x / Reference.CHUNK_SIZE );
+        int chunky = (int)( this.y / Reference.CHUNK_SIZE );
         if (chunkx >= 0 && chunky >= 0 && chunkx < map.getChunks().length && chunky < map.getChunks()[0].length){
             Chunk entityChunk = this.map.getChunks()[chunkx][chunky];
             return entityChunk;

@@ -13,14 +13,6 @@ public class Render {
              camera.setY(SpaceGame.map.getPlayer().getY());
          }
 
-         // Drawing chunks
-         for (Chunk[] xarray : SpaceGame.map.getChunks()){
-
-             for (Chunk chunk : xarray){
-                 RenderChunk.renderChunk(chunk);
-             }
-         }
-
          //Drawing entities
          for (Entity entity : SpaceGame.map.getEntities()){
              if (entity instanceof EntityPlayer){
@@ -31,8 +23,27 @@ public class Render {
 
          }
 
+         // Drawing chunks
+         for (Chunk[] xarray : SpaceGame.map.getChunks()){
+
+             for (Chunk chunk : xarray){
+                 RenderChunk.renderChunk(chunk);
+             }
+         }
+
          //Drawing text
          RenderText.renderText("Space Game " + Reference.VERSION,-12,8,0.6f);
          RenderText.renderText("WASD to move - QE to zoom - P to self-destruct",-12,-8.5f,0.45f);
+
+         if (SpaceGame.map.getPlayer() != null){
+             if (SpaceGame.map.getPlayer().isGrounded()){
+                 RenderText.renderText(SpaceGame.map.getPlayer().getGroundedBody().getName(),
+                          10, 5, 0.3f);
+             }
+             if (SpaceGame.map.getPlayer().getChunk() != null){
+                 RenderText.renderText(SpaceGame.map.getPlayer().getChunk().getX() + "X", 11, 3, 1.0f);
+                 RenderText.renderText(SpaceGame.map.getPlayer().getChunk().getY() + "Y", 11, 2, 1.0f);
+             }
+         }
      }
 }

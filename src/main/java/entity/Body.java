@@ -16,6 +16,8 @@ import world.Map;
 
 public class Body extends Entity {
 
+    protected String name;
+
     protected float radius;
     protected Chunk chunk;
     protected float rotSpeed; //radians per tick
@@ -31,6 +33,7 @@ public class Body extends Entity {
         this.radius = radius;
         this.mass = radius * 50;
         this.color = new float[]{1f, 1f, 1f};
+        this.name = "Body";
     }
 
     public float[] getTerrain() {
@@ -74,5 +77,9 @@ public class Body extends Entity {
 
     public float[] getColor() {
         return color;
+    }
+
+    public String getName() {
+        return name;
     }
 }
