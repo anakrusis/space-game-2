@@ -152,8 +152,8 @@ public class Entity {
     }
 
     public Chunk getChunk(){
-        int chunkx = (int)( this.x / Reference.CHUNK_SIZE );
-        int chunky = (int)( this.y / Reference.CHUNK_SIZE );
+        int chunkx = (int)Math.floor( this.x / Reference.CHUNK_SIZE );
+        int chunky = (int)Math.floor( this.y / Reference.CHUNK_SIZE );
         if (chunkx >= 0 && chunky >= 0 && chunkx < map.getChunks().length && chunky < map.getChunks()[0].length){
             Chunk entityChunk = this.map.getChunks()[chunkx][chunky];
             return entityChunk;

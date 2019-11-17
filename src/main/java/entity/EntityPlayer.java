@@ -21,4 +21,14 @@ public class EntityPlayer extends Entity {
 
         return new double[]{ point1x, point1y, point2x, point2y, point3x, point3y };
     }
+
+    @Override
+    public void update() {
+        super.update();
+        if (this.velocity > 0.1 && this.ticksExisted % 10 == 0){
+            float dir = (float) (this.dir - Math.PI + (Math.random() * 0.5f));
+            ParticleSmoke smoke = new ParticleSmoke(this.x, this.y, dir, this.map);
+            this.map.getEntities().add(smoke);
+        }
+    }
 }

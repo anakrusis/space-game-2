@@ -6,6 +6,7 @@ import world.Map;
 public class ParticleExplosion extends EntityParticle {
     public ParticleExplosion(double x, double y, float dir, Map map) {
         super(x, y, dir, map);
+        this.velocity = 1;
     }
 
     @Override

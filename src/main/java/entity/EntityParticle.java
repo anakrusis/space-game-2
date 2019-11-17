@@ -6,7 +6,7 @@ import world.Map;
 public class EntityParticle extends Entity {
     public EntityParticle(double x, double y, float dir, Map map) {
         super(x, y, dir, map);
-        this.velocity = 1;
+        this.velocity = 0;
     }
 
     @Override
