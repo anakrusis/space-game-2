@@ -174,7 +174,7 @@ public class SpaceGame {
                 }
             }
 
-            map.mapTime++;
+            map.update();
 
             //System.out.println( CollisionUtil.terrainIndexFromEntityAngle(map.getPlayer(), map.getPlayer().getChunk().getBodies().get(0)) );
 

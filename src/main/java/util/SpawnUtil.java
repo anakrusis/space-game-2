@@ -49,7 +49,7 @@ public class SpawnUtil {
                     if (shuffledbodies.get(z) instanceof BodyPlanet){
                         BodyPlanet planet = (BodyPlanet)shuffledbodies.get(z);
                         spawnx = planet.getX() + planet.getRadius();
-                        spawny = planet.getY() + planet.getRadius();
+                        spawny = planet.getY();
                         return new double[] {spawnx, spawny};
                     }
                 }

@@ -186,6 +186,8 @@ public class Entity {
 
     public void explode(){
         this.dead = true;
+        this.map.playerLastDeathTime = this.map.mapTime;
+
         for (int i = 0; i < 30; i++){
             float randomdir = (float)(2 * Math.PI) * (float)Math.random();
             this.map.getEntities().add(new ParticleExplosion(this.x, this.y, randomdir, this.map));

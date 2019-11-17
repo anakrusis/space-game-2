@@ -16,6 +16,8 @@ public class Map {
     private int height;
 
     public int mapTime;
+    public int playerLastDeathTime = -10000;
+    private int RESPAWN_INTERVAL = 100;
 
     public Map (int xSize, int ySize){
         chunks = new Chunk[xSize][ySize];
@@ -32,10 +34,7 @@ public class Map {
         }
 
         double[] spawnpos = SpawnUtil.playerNewRespawnPos(this);
-        //double[] spawnpos = new double[]{700, 64};
         entities.add(new EntityPlayer(spawnpos[0],spawnpos[1],0, this));
-        //System.out.println(this.getPlayer().getChunk().getX());
-        //System.out.println(this.getPlayer().getChunk().getY());
 
         this.mapTime = 0;
     }
@@ -67,5 +66,14 @@ public class Map {
     // For lazy folks
     public int getChunkCount(){
         return width * height;
+    }
+
+    public void update(){
+        if (this.mapTime - this.playerLastDeathTime == RESPAWN_INTERVAL){
+            double[] spawnpos = SpawnUtil.playerNewRespawnPos(this);
+            entities.add(new EntityPlayer(spawnpos[0],spawnpos[1],(float)Math.PI, this));
+        }
+
+        this.mapTime++;
     }
 }
