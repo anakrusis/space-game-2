@@ -4,6 +4,7 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import render.Camera;
 import util.GenUtil;
+import util.Reference;
 import world.Chunk;
 import world.Map;
 
@@ -61,7 +62,7 @@ public class SpaceGame {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(1024, 768, "lwjgl test", NULL, NULL);
+        window = glfwCreateWindow(1024, 768, Reference.GAME_NAME + " " + Reference.VERSION, NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 

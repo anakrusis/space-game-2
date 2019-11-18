@@ -47,7 +47,7 @@ public class Render {
          }
 
          //Drawing text
-         RenderText.renderText("Space Game " + Reference.VERSION,-12,8,0.6f);
+         RenderText.renderText(Reference.GAME_NAME + " " + Reference.VERSION,-12,8,0.6f);
          RenderText.renderText("WASD to move - QE to zoom - P to self-destruct",-12,-8.5f,0.45f);
 
          if (SpaceGame.map.getPlayer() != null){

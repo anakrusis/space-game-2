@@ -34,7 +34,7 @@ public class Map {
         }
 
         double[] spawnpos = SpawnUtil.playerNewRespawnPos(this);
-        entities.add(new EntityPlayer(spawnpos[0],spawnpos[1],0, this));
+        entities.add(new EntityPlayer(spawnpos[0],spawnpos[1],(float)Math.PI, this));
 
         this.mapTime = 0;
     }
