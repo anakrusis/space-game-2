@@ -1,7 +1,4 @@
-import entity.Entity;
-import entity.EntityParticle;
-import entity.ParticleExplosion;
-import entity.ParticleSmoke;
+import entity.*;
 import render.Camera;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -20,6 +17,8 @@ public class RenderParticle {
             glColor3d(1d,0.5d,0d);
         } else if (entity instanceof ParticleSmoke){
             glColor3d(0.35d,0.25d,0.40d);
+        } else if (entity instanceof ParticleOrbit){
+            glColor3d(0d,0.45d,0d);
         }
 
         for (int i = 0; i < abspoints.length; i += 2){

@@ -34,5 +34,9 @@ public class BodyPlanet extends Body {
         this.y = MathHelper.rotY(angle, this.orbitDistance, 0) + this.star.getY();
         //this.x += Math.cos(0) * this.orbitSpeed;
         //this.y += Math.sin(0) * this.orbitSpeed;
+
+        if (this.ticksExisted % 20 == 0){
+            this.map.getEntities().add( new ParticleOrbit(this.x, this.y, this.dir, this.map) );
+        }
     }
 }

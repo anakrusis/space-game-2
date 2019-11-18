@@ -2,6 +2,7 @@ import entity.Entity;
 import entity.EntityParticle;
 import entity.EntityPlayer;
 import render.Camera;
+import util.MathHelper;
 import util.Reference;
 import world.Chunk;
 
@@ -27,7 +28,21 @@ public class Render {
          for (Chunk[] xarray : SpaceGame.map.getChunks()){
 
              for (Chunk chunk : xarray){
-                 RenderChunk.renderChunk(chunk);
+
+                 if (SpaceGame.map.getPlayer() != null){
+                     if (SpaceGame.map.getPlayer().getChunk() != null){
+
+                         int playerChunkX = SpaceGame.map.getPlayer().getChunk().getX();
+                         int playerChunkY = SpaceGame.map.getPlayer().getChunk().getY();
+                         int chebyschev = MathHelper.chebyshev(chunk.getX(), chunk.getY(),playerChunkX,playerChunkY);
+
+                         if (chebyschev <= 1){
+                             RenderChunk.renderChunk(chunk);
+                         }
+                     }
+                 }else{
+                     RenderChunk.renderChunk(chunk);
+                 }
              }
          }
 
