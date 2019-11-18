@@ -9,6 +9,7 @@ import world.Chunk;
 public class Render {
      public static void renderMain(){
          Camera camera = SpaceGame.camera;
+
          if (SpaceGame.map.getPlayer() != null){
              camera.setX(SpaceGame.map.getPlayer().getX());
              camera.setY(SpaceGame.map.getPlayer().getY());

@@ -113,6 +113,15 @@ public class SpaceGame {
 
         // Aspect ratio fixed
         glOrtho(-13.33,13.33,-10,10,-1,1);
+
+        glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback(){
+            @Override
+            public void invoke(long window, int width, int height) {
+
+                // Basic window resize, should probably be redone with glOrtho soon (Can't get it to work right now)
+                GL11.glViewport(0, 0, width, height);
+            }
+        });
     }
 
     private void loop() {
@@ -122,9 +131,10 @@ public class SpaceGame {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            // The rendering goes here lol
+            // All rendering goes here
             Render.renderMain();
 
+            // All key handling here (for now)
             if (map.getPlayer() != null){
                 double vel = map.getPlayer().getVelocity();
                 float dir = map.getPlayer().getDir();
@@ -156,9 +166,7 @@ public class SpaceGame {
                 }
             }
 
-//            for (Entity entity : map.getEntities()){
-//                entity.update();
-//            }
+            // Deleting entities marked dead, or if living, updating them
             for (int i = 0; i < map.getEntities().size(); i++){
                 if (map.getEntities().get(i).isDead()){
                     map.getEntities().remove(i);
@@ -167,6 +175,7 @@ public class SpaceGame {
                 }
             }
 
+            // Updating astronomical bodies per chunk
             for (Chunk[] chunk_array : map.getChunks()){
                 for (Chunk chunk : chunk_array){
                     for (Body body : chunk.getBodies()){
@@ -175,9 +184,8 @@ public class SpaceGame {
                 }
             }
 
+            // The map steps its own time, and also handles player respawning.
             map.update();
-
-            //System.out.println( CollisionUtil.terrainIndexFromEntityAngle(map.getPlayer(), map.getPlayer().getChunk().getBodies().get(0)) );
 
             glfwSwapBuffers(window); // swap the color buffers
 
