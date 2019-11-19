@@ -61,8 +61,19 @@ public class CollisionUtil {
         int length = terrain.length;
         double index;
         double angle = Math.atan2(entity.getY() - body.getY(), entity.getX() - body.getX());
-        angle += body.getDir();
+        float bodydir = body.getDir();
+
+        // This maps the value to between -pi and pi
+        bodydir += Math.PI;
+        bodydir %= 2 * Math.PI;
+        bodydir -= Math.PI;
+
+        angle -= bodydir;
+
+        // I was just being safe here in fear of the dreaded IndexOutOfBoundsException
+        angle += Math.PI;
         angle %= 2 * Math.PI;
+        angle -= Math.PI;
 
         if (angle < 0){
             index = angle * ((0.5 * length) / Math.PI) + terrain.length;

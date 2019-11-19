@@ -2,6 +2,7 @@ import entity.Entity;
 import entity.EntityParticle;
 import entity.EntityPlayer;
 import render.Camera;
+import util.CollisionUtil;
 import util.MathHelper;
 import util.Reference;
 import world.Chunk;
@@ -52,13 +53,16 @@ public class Render {
          RenderText.renderText("WASD to move - QE to zoom - P to self-destruct",-12,-8.5f,0.45f);
 
          if (SpaceGame.map.getPlayer() != null){
-             if (SpaceGame.map.getPlayer().isGrounded()){
-                 RenderText.renderText(SpaceGame.map.getPlayer().getGroundedBody().getName(),
+             EntityPlayer player = SpaceGame.map.getPlayer();
+             if (player.isGrounded()){
+                 RenderText.renderText(player.getGroundedBody().getName(),
                           10, 5, 0.3f);
+                 RenderText.renderText(CollisionUtil.terrainIndexFromEntityAngle(player, player.getGroundedBody()) + "",
+                 2, 2, 1.0f);
              }
-             if (SpaceGame.map.getPlayer().getChunk() != null){
-                 RenderText.renderText(SpaceGame.map.getPlayer().getChunk().getX() + "X", 11, 3, 1.0f);
-                 RenderText.renderText(SpaceGame.map.getPlayer().getChunk().getY() + "Y", 11, 2, 1.0f);
+             if (player.getChunk() != null){
+                 RenderText.renderText(player.getChunk().getX() + "X", 11, 3, 1.0f);
+                 RenderText.renderText(player.getChunk().getY() + "Y", 11, 2, 1.0f);
              }
          }
      }

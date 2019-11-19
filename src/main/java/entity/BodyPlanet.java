@@ -17,10 +17,14 @@ public class BodyPlanet extends Body {
         this.star = star;
         this.orbitDistance = 60;
         this.orbitPeriod = 400;
+        //this.rotSpeed = 0.05f;
         this.rotSpeed = 0.05f;
         this.color = new float[]{0.5f, 0.5f, 0.5f};
 
-        this.terrain = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
+        this.terrain = new float[]{ 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0 ,0 ,0 ,0 ,0,
+                0 ,0 ,0 ,0, 0 };
         this.name = "Planet " + chunk.getX() + " " + chunk.getY();
     }
 
