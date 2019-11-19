@@ -25,8 +25,8 @@ public class RenderPlayer {
             cx = camZoom * (abspoints[i] - camX);
             cy = camZoom * (abspoints[i + 1] - camY);
             if (camZoom < Reference.MAP_SCREEN_THRESHOLD){
-                cx *= 20;
-                cy *= 20;
+                cx *= 40;
+                cy *= 40;
             }
             glVertex2d(cx , cy);
         }

@@ -58,7 +58,7 @@ public class Render {
                  RenderText.renderText(player.getGroundedBody().getName(),
                           10, 5, 0.3f);
                  RenderText.renderText(CollisionUtil.terrainIndexFromEntityAngle(player, player.getGroundedBody()) + "",
-                 2, 2, 1.0f);
+                 10, 8, 0.5f);
              }
              if (player.getChunk() != null){
                  RenderText.renderText(player.getChunk().getX() + "X", 11, 3, 1.0f);
