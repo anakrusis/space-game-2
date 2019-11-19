@@ -1,6 +1,7 @@
 import entity.Entity;
 import render.Camera;
 import util.MathHelper;
+import util.Reference;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -17,8 +18,17 @@ public class RenderPlayer {
         glBegin(GL_LINE_LOOP);
         glColor3d(0d,1d,1d);
 
+        double cx;
+        double cy;
+
         for (int i = 0; i < abspoints.length; i += 2){
-            glVertex2d( camZoom * (abspoints[i] - camX), camZoom * (abspoints[i + 1] - camY));
+            cx = camZoom * (abspoints[i] - camX);
+            cy = camZoom * (abspoints[i + 1] - camY);
+            if (camZoom < Reference.MAP_SCREEN_THRESHOLD){
+                cx *= 20;
+                cy *= 20;
+            }
+            glVertex2d(cx , cy);
         }
 
         glEnd();

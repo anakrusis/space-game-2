@@ -153,11 +153,11 @@ public class SpaceGame {
                 }
 
                 if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE){
-                    camera.setZoom( camera.getZoom() + 0.01);
+                    camera.setZoom( camera.getZoom() + ( camera.getZoom() / 25 ) );
                 }
                 if (glfwGetKey(window, GLFW_KEY_E) == GL_TRUE){
-                    if (camera.getZoom() - 0.01 > 0){
-                        camera.setZoom( camera.getZoom() - 0.01);
+                    if (camera.getZoom() > Reference.MIN_ZOOM){
+                        camera.setZoom( camera.getZoom() - ( camera.getZoom() / 25 ) );
                     }
                 }
 

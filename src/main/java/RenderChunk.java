@@ -1,4 +1,5 @@
 import entity.Body;
+import entity.BodyPlanet;
 import util.Reference;
 import world.Chunk;
 
@@ -23,7 +24,14 @@ public class RenderChunk {
 
         // Drawing all the bodies inside the chunk
         for (Body body : chunk.getBodies()){
-            RenderStar.renderStar(body, true);
+            if (body instanceof BodyPlanet){
+                if (camZoom > 0.01){
+                    RenderStar.renderStar(body, true);
+                }
+            }else{
+                RenderStar.renderStar(body, true);
+            }
+
         }
     }
 }

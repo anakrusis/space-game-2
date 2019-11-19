@@ -38,7 +38,7 @@ public class Render {
                          int playerChunkY = SpaceGame.map.getPlayer().getChunk().getY();
                          int chebyschev = MathHelper.chebyshev(chunk.getX(), chunk.getY(),playerChunkX,playerChunkY);
 
-                         if (chebyschev <= 1){
+                         if (chebyschev <= Reference.RENDER_DISTANCE){
                              RenderChunk.renderChunk(chunk);
                          }
                      }
