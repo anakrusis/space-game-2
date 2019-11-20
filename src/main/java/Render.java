@@ -20,10 +20,9 @@ public class Render {
          for (Entity entity : SpaceGame.map.getEntities()){
              if (entity instanceof EntityPlayer){
                  RenderPlayer.renderPlayer(entity);
-             }else if (entity instanceof EntityParticle){
+             }else{
                  RenderParticle.renderParticle(entity);
              }
-
          }
 
          // Drawing chunks

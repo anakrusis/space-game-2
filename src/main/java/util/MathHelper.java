@@ -16,4 +16,11 @@ public class MathHelper {
     public static int chebyshev (int x1, int y1, int x2, int y2){
         return Math.max( Math.abs( x2 - x1 ), Math.abs( y2 - y1 ) );
     }
+
+    public static double screenToWorldX(double screenX, double camX, double camZoom){
+        return (screenX / camZoom) + camX;
+    }
+    public static double screenToWorldY(double screenY, double camY, double camZoom){
+        return (screenY / camZoom) + camY;
+    }
 }

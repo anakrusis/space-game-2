@@ -1,4 +1,5 @@
 import entity.Body;
+import entity.EntityBuilding;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -70,6 +71,14 @@ public class SpaceGame {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+        });
+        glfwSetMouseButtonCallback(window, new GLFWMouseButtonCallback() {
+            @Override
+            public void invoke(long window, int button, int action, int mods) {
+                if (action == GLFW_PRESS){
+                    MouseHandler.onClick();
+                }
+            }
         });
 
         // Get the thread stack and push a new frame
