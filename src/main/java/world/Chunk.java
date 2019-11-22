@@ -4,6 +4,7 @@ import entity.Body;
 import entity.BodyPlanet;
 import entity.BodyStar;
 import util.GenUtil;
+import util.RandomUtil;
 import util.Reference;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class Chunk {
             double genx = Reference.CHUNK_SIZE * (this.x + Math.random());
             double geny = Reference.CHUNK_SIZE * (this.y + Math.random());
 
-            if (GenUtil.withinPadding(genx, geny, 100)){
+            if (GenUtil.withinPadding(genx, geny, 200)){
                 this.bodies.add(new BodyStar(genx, geny, 0, this, this.map));
                 break;
             }
@@ -37,7 +38,8 @@ public class Chunk {
         for (int i= 0; i < this.bodies.size(); i++){
             Body body = this.bodies.get(i);
             if (body instanceof BodyStar){
-                this.bodies.add( new BodyPlanet(body.getX() + 80, body.getY(), 0, this, 5, (BodyStar)body, this.map));
+                float orbitDistance = RandomUtil.fromRangeF(180,240);
+                this.bodies.add( new BodyPlanet(body.getX() + orbitDistance, body.getY(), 0, this, orbitDistance, (BodyStar)body, this.map));
             }
         }
     }

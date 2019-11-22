@@ -19,4 +19,12 @@ public class EntityBuilding extends Entity {
         };
         return abspoints;
     }
+
+    @Override
+    public void update() {
+        super.update();
+        if (this.ticksExisted > 300 && !this.grounded){
+            this.dead = true;
+        }
+    }
 }

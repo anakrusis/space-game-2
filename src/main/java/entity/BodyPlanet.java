@@ -1,6 +1,7 @@
 package entity;
 
 import util.MathHelper;
+import util.RandomUtil;
 import world.Chunk;
 import world.Map;
 
@@ -12,11 +13,11 @@ public class BodyPlanet extends Body {
     int orbitPeriod;
     float orbitSpeed;
 
-    public BodyPlanet(double x, double y, float dir, Chunk chunk, float radius, BodyStar star, Map map) {
-        super(x, y, dir, chunk, radius, map);
+    public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map) {
+        super(x, y, dir, chunk, RandomUtil.fromRangeF(8,16), map);
         this.star = star;
-        this.orbitDistance = 80;
-        this.orbitPeriod = 400;
+        this.orbitDistance = orbitDistance;
+        this.orbitPeriod = 1600;
         //this.rotSpeed = 0.05f;
         this.rotSpeed = 0.005f;
         this.color = new float[]{0.5f, 0.5f, 0.5f};

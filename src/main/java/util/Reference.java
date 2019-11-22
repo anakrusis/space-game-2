@@ -1,7 +1,7 @@
 package util;
 
 public class Reference {
-    public static final int CHUNK_SIZE = 1024;
+    public static final int CHUNK_SIZE = 2048;
     public static final int RENDER_DISTANCE = 1;
     public static final double MIN_ZOOM = 0.001;
 
