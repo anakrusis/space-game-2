@@ -31,4 +31,10 @@ public class EntityPlayer extends Entity {
             this.map.getEntities().add(smoke);
         }
     }
+
+    @Override
+    public void explode() {
+        super.explode();
+        this.map.playerLastDeathTime = this.map.mapTime;
+    }
 }

@@ -1,5 +1,6 @@
 import entity.Body;
 import entity.BodyPlanet;
+import entity.BodyStar;
 import util.Reference;
 import world.Chunk;
 
@@ -29,7 +30,7 @@ public class RenderChunk {
                     RenderStar.renderStar(body, true);
                 }
             }else{
-                RenderStar.renderStar(body, true);
+                RenderStar.renderStar(body, body instanceof BodyStar);
             }
 
         }

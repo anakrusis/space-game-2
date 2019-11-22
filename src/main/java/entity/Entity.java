@@ -77,12 +77,25 @@ public class Entity {
             for (Body body : this.getChunk().getBodies()) {
                 if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
 
-                    this.grounded = true;
-                    this.groundedBody = body;
-                    isColliding = true;
+                    // Setting collision markers
+                    if (body.canEntitiesCollide){
+                        if (this.velocity > 1.5){
+                            this.explode();
+                        }else{
+                            this.grounded = true;
+                            this.groundedBody = body;
+                            isColliding = true;
+                        }
+                    }
 
-                    if (body instanceof BodyStar || this.velocity > 1.5){
+                    if (body instanceof BodyStar){
                         this.explode();
+
+                    }else if (body instanceof BodyGravityRadius){
+                        double forceMagnitude = 0.1d;
+                        double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
+                        this.x -= forceMagnitude * Math.cos(angleFromCenter);
+                        this.y -= forceMagnitude * Math.sin(angleFromCenter);
                     }
 
                 }else{
@@ -186,7 +199,6 @@ public class Entity {
 
     public void explode(){
         this.dead = true;
-        this.map.playerLastDeathTime = this.map.mapTime;
 
         for (int i = 0; i < 30; i++){
             float randomdir = (float)(2 * Math.PI) * (float)Math.random();

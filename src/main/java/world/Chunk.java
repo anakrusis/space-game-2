@@ -37,7 +37,7 @@ public class Chunk {
         for (int i= 0; i < this.bodies.size(); i++){
             Body body = this.bodies.get(i);
             if (body instanceof BodyStar){
-                this.bodies.add( new BodyPlanet(body.getX() + 60, body.getY(), 0, this, 5, (BodyStar)body, this.map));
+                this.bodies.add( new BodyPlanet(body.getX() + 80, body.getY(), 0, this, 5, (BodyStar)body, this.map));
             }
         }
     }

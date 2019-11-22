@@ -15,17 +15,21 @@ public class BodyPlanet extends Body {
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float radius, BodyStar star, Map map) {
         super(x, y, dir, chunk, radius, map);
         this.star = star;
-        this.orbitDistance = 60;
+        this.orbitDistance = 80;
         this.orbitPeriod = 400;
         //this.rotSpeed = 0.05f;
         this.rotSpeed = 0.005f;
         this.color = new float[]{0.5f, 0.5f, 0.5f};
+        this.canEntitiesCollide = true;
 
-        this.terrain = new float[]{ 0, 0, 0, 0, 0,
+        this.terrain = new float[]{ 0.25f, 0.5f, 0.25f, 0, 0,
                 0, 0, 0, 0, 0,
                 0 ,0 ,0 ,0 ,0,
                 0 ,0 ,0 ,0, 0 };
         this.name = "Planet " + chunk.getX() + " " + chunk.getY();
+
+        BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
+        this.chunk.getBodies().add(bgr);
     }
 
     @Override

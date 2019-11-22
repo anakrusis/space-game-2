@@ -9,8 +9,12 @@ public class BodyStar extends Body {
 
         this.rotSpeed = 0.01f;
         this.terrain = new float[]{ 0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0 };
+        this.canEntitiesCollide = true;
 
         this.name = "Star " + chunk.getX() + " " + chunk.getY();
+
+        BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
+        this.chunk.getBodies().add(bgr);
     }
 
     @Override

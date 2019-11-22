@@ -1,5 +1,6 @@
 import entity.Body;
 import entity.BodyPlanet;
+import entity.BodyStar;
 import render.Camera;
 import util.MathHelper;
 import util.Reference;
@@ -32,7 +33,7 @@ public class RenderStar {
         glEnd();
 
         // Map rendering with names of stars
-        if (camZoom < Reference.MAP_SCREEN_THRESHOLD && !(star instanceof BodyPlanet)){
+        if (camZoom < Reference.MAP_SCREEN_THRESHOLD && (star instanceof BodyStar)){
             double x = camZoom * (star.getX() - camX);
             double y = camZoom * (star.getY() - camY) + 0.5;
             RenderText.renderText(star.getName(), (float)x, (float)y, 0.25f);

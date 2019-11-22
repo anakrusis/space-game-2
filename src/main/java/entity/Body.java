@@ -22,6 +22,8 @@ public class Body extends Entity {
     protected Chunk chunk;
     protected float rotSpeed; //radians per tick
 
+    public boolean canEntitiesCollide = false;
+
     float[] color;
 
     // Each item in terrain is a relative coordinate away or toward 0, which is the radius
