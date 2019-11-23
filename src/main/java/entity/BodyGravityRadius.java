@@ -11,7 +11,7 @@ public class BodyGravityRadius extends Body {
         super(x, y, dir, chunk, radius, map);
         this.dependentBody = body;
         this.terrain = new float[]{ 0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0 };
-        this.rotSpeed = 0.05f;
+        this.rotSpeed = 0f;
     }
 
     public Body getDependentBody() {

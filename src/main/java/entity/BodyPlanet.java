@@ -17,13 +17,14 @@ public class BodyPlanet extends Body {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(8,16), map);
         this.star = star;
         this.orbitDistance = orbitDistance;
-        this.orbitPeriod = 1600;
+        this.orbitPeriod = 16000;
         //this.rotSpeed = 0.05f;
         this.rotSpeed = 0.005f;
         this.color = new float[]{0.5f, 0.5f, 0.5f};
         this.canEntitiesCollide = true;
 
-        this.terrain = new float[]{ 0.25f, 0.5f, 0.25f, 0, 0,
+        this.terrain = new float[]{
+                0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0,
                 0 ,0 ,0 ,0 ,0,
                 0 ,0 ,0 ,0, 0 };

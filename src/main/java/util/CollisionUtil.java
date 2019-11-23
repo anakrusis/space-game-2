@@ -6,7 +6,6 @@ import entity.Entity;
 
 public class CollisionUtil {
 
-    @Deprecated
     public static boolean isEntityCollidingWithBody (Entity entity, Body body){
 
         boolean isColliding;
@@ -131,22 +130,17 @@ public class CollisionUtil {
                     {
                         displaceX += (1.0f - t1) * (diagEX - diagSX);
                         displaceY += (1.0f - t1) * (diagEY - diagSY);
-                        return true;
                     }
 
                 }
-//                double coefficient = (currentpoly == 0 ? -1 : 1);
-//                if (!(e1 instanceof Body)){
-//                    if (e2 instanceof Body){
-//                        if ( ((Body) e2).canEntitiesCollide ){
-//                            e1.setX( e1.getX() + displaceX * coefficient);
-//                            e1.setY( e1.getY() + displaceY * coefficient);
-//                        }
-//                    }else{
-//                        e1.setX( e1.getX() + displaceX * coefficient);
-//                        e1.setY( e1.getY() + displaceY * coefficient);
-//                    }
-//                }
+                double coefficient = (currentpoly == 0 ? -1f : 1f);
+
+                e1.setX( e1.getX() + displaceX * coefficient);
+                e1.setY( e1.getY() + displaceY * coefficient);
+
+                if (Math.abs(displaceX) > 0 || Math.abs(displaceY) > 0) {
+                    return true;
+                }
             }
         }
 

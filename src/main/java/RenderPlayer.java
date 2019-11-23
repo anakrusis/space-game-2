@@ -25,10 +25,12 @@ public class RenderPlayer {
             cx = camZoom * (abspoints[i] - camX);
             cy = camZoom * (abspoints[i + 1] - camY);
             if (camZoom < Reference.MAP_SCREEN_THRESHOLD){
-                cx *= 40;
-                cy *= 40;
+                cx *= 80;
+                cy *= 80;
             }
-            glVertex2d(cx , cy);
+            if (SpaceGame.map.mapTime % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD){
+                glVertex2d(cx , cy);
+            }
         }
 
         glEnd();

@@ -1,4 +1,5 @@
 import entity.Body;
+import entity.BodyGravityRadius;
 import entity.BodyPlanet;
 import entity.BodyStar;
 import util.Reference;
@@ -25,12 +26,12 @@ public class RenderChunk {
 
         // Drawing all the bodies inside the chunk
         for (Body body : chunk.getBodies()){
-            if (body instanceof BodyPlanet){
+            if (body instanceof BodyPlanet || body instanceof BodyGravityRadius){
                 if (camZoom > 0.01){
-                    RenderStar.renderStar(body, true);
+                    RenderStar.renderStar(body, body instanceof BodyPlanet);
                 }
             }else{
-                RenderStar.renderStar(body, body instanceof BodyStar);
+                RenderStar.renderStar(body, true);
             }
 
         }

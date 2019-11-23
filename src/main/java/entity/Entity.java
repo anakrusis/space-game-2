@@ -75,46 +75,32 @@ public class Entity {
         if (this.getChunk() != null) {
             boolean isColliding = false;
             for (Body body : this.getChunk().getBodies()) {
-                if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
+                if (body.canEntitiesCollide){
+                    if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
 
-                    // Setting collision markers
-                    if (body.canEntitiesCollide){
-                        if (this.velocity > 1.5){
+                        // Setting collision markers
+                        if (this.velocity > 1.0 || body instanceof BodyStar) {
                             this.explode();
-                        }else{
+                        } else {
                             this.grounded = true;
                             this.groundedBody = body;
                             isColliding = true;
                         }
                     }
-
-                    if (body instanceof BodyStar){
-                        this.explode();
-
-                    }else if (body instanceof BodyGravityRadius){
-                        double forceMagnitude = 0.1d;
-                        double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-                        this.x -= forceMagnitude * Math.cos(angleFromCenter);
-                        this.y -= forceMagnitude * Math.sin(angleFromCenter);
+                } else {
+                    // Gravitation (simple linear pull towards the body)
+                    if (CollisionUtil.isEntityCollidingWithBody(this, body)){
+                        if (body instanceof BodyGravityRadius) {
+                            double forceMagnitude = 0.1d;
+                            double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
+                            this.x -= forceMagnitude * Math.cos(angleFromCenter);
+                            this.y -= forceMagnitude * Math.sin(angleFromCenter);
+                        }
                     }
-
-                }else{
-//                    // Gravitation
-//                    double forceMagnitude = (0.01d)* (this.mass * body.mass) / (MathHelper.distance(this.x, this.y, body.getX(), body.getY()));
-//
-//                    double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-//
-//                    int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-//                    double radius = body.getRadius() + body.getTerrain()[index] + 5d;
-//
-//                    if (MathHelper.distance(this.x, this.y, body.getX(), body.getY()) > radius){
-//                        this.x -= forceMagnitude * Math.cos(angleFromCenter);
-//                        this.y -= forceMagnitude * Math.sin(angleFromCenter);
-//
-//                    }
                 }
             }
 
+            // No collisions? Not grounded, okay
             if (!(isColliding)){
                 this.groundedBody = null;
                 this.grounded = false;
@@ -122,7 +108,7 @@ public class Entity {
         }
 
         if (grounded && groundedBody != null) {
-            // This moves the player along with a planet by anticipating where it will be in the next tick
+            // This moves the entity along with a planet by anticipating where it will be in the next tick
             if (groundedBody instanceof BodyPlanet) {
                 BodyPlanet planet = (BodyPlanet) groundedBody;
                 float angle = this.map.mapTime * (float) (Math.PI / 2) / planet.orbitPeriod;
@@ -134,27 +120,21 @@ public class Entity {
             }
             Body body = groundedBody;
 
-            // This moves the player along with any rotating body
+            // This moves the entity along with any rotating body
             this.dir += body.rotSpeed;
             this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
             this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
 
-            // TODO Fix this system of determining heightmap. Seems to not work
-            // (maybe should be measured on a ray out from the player. Internal angles would glitch it out!)
+            // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
             int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-            double radius = body.getRadius() + body.getTerrain()[index] + 0.4d;
+            double radius = body.getRadius() + body.getTerrain()[index] + 0.3;
 
-            this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
-            this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
-
-//            double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
-//            if (distance - 0.5 > radius) {
-//                this.grounded = false;
-//                this.groundedBody = null;
-//            }
-
-            this.velocity /= 1.1;
+            double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
+            if (distance < radius) {
+                this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
+                this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
+            }
         }
 
         this.ticksExisted++;

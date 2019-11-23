@@ -155,8 +155,10 @@ public class SpaceGame {
                     map.getPlayer().setDir(dir + 0.1f);
                 }
 
-                if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE){
-                    map.getPlayer().setVelocity( vel + 0.005f );
+                if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE) {
+                    map.getPlayer().setVelocity(vel + 0.005f);
+                }else if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE){
+                    map.getPlayer().setVelocity(vel - 0.005f);
                 }else{
                     map.getPlayer().setVelocity( vel / 1.01);
                 }

@@ -28,7 +28,7 @@ public class Chunk {
             double genx = Reference.CHUNK_SIZE * (this.x + Math.random());
             double geny = Reference.CHUNK_SIZE * (this.y + Math.random());
 
-            if (GenUtil.withinPadding(genx, geny, 200)){
+            if (GenUtil.withinPadding(genx, geny, 400)){
                 this.bodies.add(new BodyStar(genx, geny, 0, this, this.map));
                 break;
             }
