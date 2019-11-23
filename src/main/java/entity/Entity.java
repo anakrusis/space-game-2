@@ -75,7 +75,7 @@ public class Entity {
         if (this.getChunk() != null) {
             boolean isColliding = false;
             for (Body body : this.getChunk().getBodies()) {
-                if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
+                if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
 
                     // Setting collision markers
                     if (body.canEntitiesCollide){
@@ -143,7 +143,7 @@ public class Entity {
             // (maybe should be measured on a ray out from the player. Internal angles would glitch it out!)
             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
             int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-            double radius = body.getRadius() + body.getTerrain()[index] + 0.3d;
+            double radius = body.getRadius() + body.getTerrain()[index] + 0.4d;
 
             this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
             this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
