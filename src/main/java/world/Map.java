@@ -16,7 +16,10 @@ public class Map {
     private int height;
 
     public int mapTime;
-    public int playerLastDeathTime = -10000;
+
+    // This is kinda hacky, but it means that the player initially spawns on the second game tick,
+    // allowing the planets' positions in orbit to be initialized
+    public int playerLastDeathTime = -99;
     private int RESPAWN_INTERVAL = 100;
 
     public Map (int xSize, int ySize){
@@ -32,9 +35,6 @@ public class Map {
                 chunks[x][y] = new Chunk(x,y,this);
             }
         }
-
-        double[] spawnpos = SpawnUtil.playerNewRespawnPos(this);
-        entities.add(new EntityPlayer(spawnpos[0],spawnpos[1],(float)Math.PI, this));
 
         this.mapTime = 0;
     }

@@ -111,7 +111,7 @@ public class Entity {
             // This moves the entity along with a planet by anticipating where it will be in the next tick
             if (groundedBody instanceof BodyPlanet) {
                 BodyPlanet planet = (BodyPlanet) groundedBody;
-                float angle = this.map.mapTime * (float) (Math.PI / 2) / planet.orbitPeriod;
+                float angle = planet.getOrbitAngle();
                 double futurePlanetX = MathHelper.rotX(angle, planet.orbitDistance, 0) + planet.star.getX();
                 double futurePlanetY = MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY();
 

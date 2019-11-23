@@ -30,6 +30,7 @@ public class EntityBuilding extends Entity {
 
     @Override
     public void update() {
+        // TODO: Clean this up (it's mostly redundant) and re-add the Buildings despawning after a certain amt of time
 //        if (this.ticksExisted > 300 && !this.isCollidingGravityBody) {
 //            this.dead = true;
 //        }
@@ -78,7 +79,7 @@ public class EntityBuilding extends Entity {
                 // This moves the player along with a planet by anticipating where it will be in the next tick
                 if (groundedBody instanceof BodyPlanet) {
                     BodyPlanet planet = (BodyPlanet) groundedBody;
-                    float angle = this.map.mapTime * (float) (Math.PI / 2) / planet.orbitPeriod;
+                    float angle = planet.getOrbitAngle();
                     double futurePlanetX = MathHelper.rotX(angle, planet.orbitDistance, 0) + planet.star.getX();
                     double futurePlanetY = MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY();
 

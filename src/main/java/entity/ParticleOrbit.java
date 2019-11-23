@@ -18,7 +18,7 @@ public class ParticleOrbit extends EntityParticle {
         this.x += this.velocity * Math.cos(this.dir);
         this.y += this.velocity * Math.sin(this.dir);
         this.ticksExisted++;
-        this.size -= 0.0005;
+        this.size -= 0.00005;
     }
 
     @Override

@@ -11,7 +11,8 @@ public class BodyPlanet extends Body {
     BodyStar star;
     float orbitDistance;
     int orbitPeriod;
-    float orbitSpeed;
+    private float orbitStart;
+    private float orbitAngle;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(8,16), map);
@@ -32,21 +33,26 @@ public class BodyPlanet extends Body {
 
         BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
         this.chunk.getBodies().add(bgr);
+        this.orbitStart =  RandomUtil.fromRangeF(0f,(float)Math.PI * 2);
     }
 
     @Override
     public void update() {
         super.update();
 
-        float angle = this.map.mapTime * (float)(Math.PI / 2) / this.orbitPeriod;
+        this.orbitAngle = this.orbitStart + (this.map.mapTime * (float)(Math.PI / 2) / this.orbitPeriod);
 
-        this.x = MathHelper.rotX(angle, this.orbitDistance,0) + this.star.getX();
-        this.y = MathHelper.rotY(angle, this.orbitDistance, 0) + this.star.getY();
+        this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.star.getX();
+        this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.star.getY();
         //this.x += Math.cos(0) * this.orbitSpeed;
         //this.y += Math.sin(0) * this.orbitSpeed;
 
         if (this.ticksExisted % 20 == 0){
             this.map.getEntities().add( new ParticleOrbit(this.x, this.y, this.dir, this.map) );
         }
+    }
+
+    public float getOrbitAngle() {
+        return orbitAngle;
     }
 }
