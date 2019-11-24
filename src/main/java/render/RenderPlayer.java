@@ -1,3 +1,5 @@
+package render;
+
 import entity.Entity;
 import render.Camera;
 import util.MathHelper;
@@ -7,8 +9,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class RenderPlayer {
 
-    public static void renderPlayer(Entity entity){
-        Camera camera = SpaceGame.camera;
+    public static void renderPlayer(Entity entity, Camera camera){
         double camX = camera.getX();
         double camY = camera.getY();
         double camZoom = camera.getZoom();
@@ -28,7 +29,7 @@ public class RenderPlayer {
                 cx *= 80;
                 cy *= 80;
             }
-            if (SpaceGame.map.mapTime % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD){
+            if (entity.ticksExisted % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD){
                 glVertex2d(cx , cy);
             }
         }

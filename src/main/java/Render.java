@@ -1,14 +1,14 @@
 import entity.Entity;
-import entity.EntityParticle;
 import entity.EntityPlayer;
-import render.Camera;
+import render.*;
 import util.CollisionUtil;
 import util.MathHelper;
 import util.Reference;
 import world.Chunk;
+import world.Map;
 
 public class Render {
-     public static void renderMain(){
+     public static void renderMain(Map map){
          Camera camera = SpaceGame.camera;
 
          if (SpaceGame.map.getPlayer() != null){
@@ -19,9 +19,9 @@ public class Render {
          //Drawing entities
          for (Entity entity : SpaceGame.map.getEntities()){
              if (entity instanceof EntityPlayer){
-                 RenderPlayer.renderPlayer(entity);
+                 RenderPlayer.renderPlayer(entity, camera);
              }else{
-                 RenderParticle.renderParticle(entity);
+                 RenderParticle.renderParticle(entity, camera);
              }
          }
 
@@ -38,11 +38,11 @@ public class Render {
                          int chebyschev = MathHelper.chebyshev(chunk.getX(), chunk.getY(),playerChunkX,playerChunkY);
 
                          if (chebyschev <= Reference.RENDER_DISTANCE){
-                             RenderChunk.renderChunk(chunk);
+                             RenderChunk.renderChunk(chunk, camera);
                          }
                      }
                  }else{
-                     RenderChunk.renderChunk(chunk);
+                     RenderChunk.renderChunk(chunk, camera);
                  }
              }
          }

@@ -1,3 +1,5 @@
+package render;
+
 import entity.Body;
 import entity.BodyGravityRadius;
 import entity.BodyPlanet;
@@ -8,10 +10,10 @@ import world.Chunk;
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderChunk {
-    public static void renderChunk(Chunk chunk){
-        double camX = SpaceGame.camera.getX();
-        double camY = SpaceGame.camera.getY();
-        double camZoom = SpaceGame.camera.getZoom();
+    public static void renderChunk(Chunk chunk, Camera camera){
+        double camX = camera.getX();
+        double camY = camera.getY();
+        double camZoom = camera.getZoom();
 
         int cbs = Reference.CHUNK_SIZE;
 
@@ -28,10 +30,10 @@ public class RenderChunk {
         for (Body body : chunk.getBodies()){
             if (body instanceof BodyPlanet || body instanceof BodyGravityRadius){
                 if (camZoom > 0.01){
-                    RenderStar.renderStar(body, body instanceof BodyPlanet);
+                    RenderStar.renderStar(body, body instanceof BodyPlanet, camera);
                 }
             }else{
-                RenderStar.renderStar(body, true);
+                RenderStar.renderStar(body, true, camera);
             }
 
         }

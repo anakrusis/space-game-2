@@ -4,8 +4,11 @@ import util.MathHelper;
 import world.Map;
 
 public class EntityPlayer extends Entity {
+    public float money;
+
     public EntityPlayer (double x, double y, float dir, Map map){
         super(x,y,dir,map);
+        this.money = 100;
     }
 
     @Override

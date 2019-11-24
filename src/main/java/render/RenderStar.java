@@ -1,3 +1,5 @@
+package render;
+
 import entity.Body;
 import entity.BodyPlanet;
 import entity.BodyStar;
@@ -8,8 +10,7 @@ import util.Reference;
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderStar {
-    public static void renderStar(Body star, boolean filled){
-        Camera camera = SpaceGame.camera;
+    public static void renderStar(Body star, boolean filled, Camera camera){
         double camX = camera.getX();
         double camY = camera.getY();
         double camZoom = camera.getZoom();

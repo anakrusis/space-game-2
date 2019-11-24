@@ -9,7 +9,7 @@ public class ParticleOrbit extends EntityParticle {
 
     public ParticleOrbit(double x, double y, float dir, Map map) {
         super(x, y, dir, map);
-        this.velocity = 0.001;
+        this.velocity = 0;
         this.size = 0.30;
     }
 
@@ -37,6 +37,6 @@ public class ParticleOrbit extends EntityParticle {
 
     @Override
     public boolean isDead() {
-        return this.ticksExisted > 500;
+        return this.ticksExisted > 5000;
     }
 }

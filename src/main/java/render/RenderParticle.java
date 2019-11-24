@@ -1,12 +1,13 @@
+package render;
+
 import entity.*;
-import render.Camera;
 import util.Reference;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderParticle {
-    public static void renderParticle(Entity entity){
-        Camera camera = SpaceGame.camera;
+    public static void renderParticle(Entity entity, Camera camera){
+
         double camX = camera.getX();
         double camY = camera.getY();
         double camZoom = camera.getZoom();

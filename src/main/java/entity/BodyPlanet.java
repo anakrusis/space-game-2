@@ -47,8 +47,12 @@ public class BodyPlanet extends Body {
         //this.x += Math.cos(0) * this.orbitSpeed;
         //this.y += Math.sin(0) * this.orbitSpeed;
 
-        if (this.ticksExisted % 20 == 0){
-            this.map.getEntities().add( new ParticleOrbit(this.x, this.y, this.dir, this.map) );
+        if (this.ticksExisted % 250 == 0 && this.map.getPlayer() != null){
+            if (this.map.getPlayer().getChunk() != null){
+                if (this.map.getPlayer().getChunk() == this.chunk){
+                    this.map.getEntities().add( new ParticleOrbit(this.x, this.y, this.dir, this.map) );
+                }
+            }
         }
     }
 

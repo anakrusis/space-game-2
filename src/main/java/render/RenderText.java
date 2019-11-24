@@ -1,14 +1,17 @@
+package render;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderText {
 
+    static Texture rendererFont;
     public static void renderText(String input, float x, float y, float size){
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
         glColor3d(0.75,0.75,1.0);
-        SpaceGame.test_texture.bind();
+        rendererFont.bind();
 
         // Current x and y globally for the whole string
         float cx = x;
@@ -42,5 +45,9 @@ public class RenderText {
         }
 
         glDisable(GL_BLEND);
+    }
+
+    public static void setFont(Texture font){
+        rendererFont = font;
     }
 }

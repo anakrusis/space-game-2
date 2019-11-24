@@ -1,3 +1,5 @@
+package render;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 import static org.lwjgl.opengl.GL11.*;

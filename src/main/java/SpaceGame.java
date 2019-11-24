@@ -1,10 +1,10 @@
 import entity.Body;
-import entity.EntityBuilding;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import render.Camera;
-import util.GenUtil;
+import render.RenderText;
+import render.Texture;
 import util.Reference;
 import world.Chunk;
 import world.Map;
@@ -112,8 +112,6 @@ public class SpaceGame {
         GL.createCapabilities();
         glEnable(GL_TEXTURE_2D);
 
-        test_texture = new Texture("src/main/resources/font3.png");
-
         glClearColor(0.05f, 0.0f, 0.05f, 0.0f);
 
         // DeaSTL wanted me to make it hot pink so if you want your build to have a hot pink background
@@ -131,6 +129,8 @@ public class SpaceGame {
                 GL11.glViewport(0, 0, width, height);
             }
         });
+
+        RenderText.setFont(Textures.test_texture);
     }
 
     private void loop() {
@@ -141,7 +141,7 @@ public class SpaceGame {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             // All rendering goes here
-            Render.renderMain();
+            Render.renderMain(map);
 
             // All key handling here (for now)
             if (map.getPlayer() != null){
