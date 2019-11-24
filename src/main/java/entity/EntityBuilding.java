@@ -89,7 +89,6 @@ public class EntityBuilding extends Entity {
                 Body body = groundedBody;
 
                 // This moves the player along with any rotating body
-                this.dir += body.rotSpeed;
                 this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
                 this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
 
@@ -97,7 +96,8 @@ public class EntityBuilding extends Entity {
                 // (maybe should be measured on a ray out from the player. Internal angles would glitch it out!)
                 double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
                 int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-                double radius = body.getRadius() + body.getTerrain()[index] + 0.4d;
+                double radius = body.getRadius() + body.getTerrain()[index] + 0.8d;
+                this.dir = (float)angleFromCenter;
 
                 this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
                 this.y = (Math.sin(angleFromCenter) * radius) + body.getY();

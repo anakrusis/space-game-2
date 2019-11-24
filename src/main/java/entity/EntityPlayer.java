@@ -40,4 +40,16 @@ public class EntityPlayer extends Entity {
         super.explode();
         this.map.playerLastDeathTime = this.map.mapTime;
     }
+
+    public float getMoney() {
+        return money;
+    }
+
+    public void setMoney(float money) {
+        this.money = money;
+    }
+
+    public void addMoney(float money){
+        this.money += money;
+    }
 }
