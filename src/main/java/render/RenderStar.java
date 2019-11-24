@@ -37,7 +37,11 @@ public class RenderStar {
         if (camZoom < Reference.MAP_SCREEN_THRESHOLD && (star instanceof BodyStar)){
             double x = camZoom * (star.getX() - camX);
             double y = camZoom * (star.getY() - camY) + 0.5;
-            RenderText.renderText(star.getName(), (float)x, (float)y, 0.25f);
+            if (star == star.getMap().getHomeStar()){
+                RenderText.renderText((char) 0x7f + " " + star.getName(), (float)x, (float)y, 0.25f);
+            }else{
+                RenderText.renderText(star.getName(), (float)x, (float)y, 0.25f);
+            }
         }
     }
 }

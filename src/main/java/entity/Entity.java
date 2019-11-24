@@ -185,4 +185,8 @@ public class Entity {
             this.map.getEntities().add(new ParticleExplosion(this.x, this.y, randomdir, this.map));
         }
     }
+
+    public Map getMap() {
+        return map;
+    }
 }

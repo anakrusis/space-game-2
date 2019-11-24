@@ -59,4 +59,8 @@ public class BodyPlanet extends Body {
     public float getOrbitAngle() {
         return orbitAngle;
     }
+
+    public BodyStar getStar() {
+        return star;
+    }
 }

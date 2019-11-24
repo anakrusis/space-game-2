@@ -1,5 +1,7 @@
 package world;
 
+import entity.BodyPlanet;
+import entity.BodyStar;
 import entity.Entity;
 import entity.EntityPlayer;
 import util.SpawnUtil;
@@ -16,6 +18,8 @@ public class Map {
     private int height;
 
     public int mapTime;
+    private BodyPlanet homePlanet = null;
+    private BodyStar homeStar = null;
 
     // This is kinda hacky, but it means that the player initially spawns on the second game tick,
     // allowing the planets' positions in orbit to be initialized
@@ -70,10 +74,23 @@ public class Map {
 
     public void update(){
         if (this.mapTime - this.playerLastDeathTime == RESPAWN_INTERVAL){
-            double[] spawnpos = SpawnUtil.playerNewRespawnPos(this);
-            entities.add(new EntityPlayer(spawnpos[0],spawnpos[1],(float)Math.PI, this));
+            if (homePlanet == null){
+                homePlanet = SpawnUtil.newHomePlanet(this);
+                homeStar = homePlanet.getStar();
+            }
+            double spawnx = homePlanet.getX() + homePlanet.getRadius();
+            double spawny = homePlanet.getY();
+            entities.add(new EntityPlayer(spawnx,spawny,(float)Math.PI, this));
         }
 
         this.mapTime++;
+    }
+
+    public BodyStar getHomeStar() {
+        return homeStar;
+    }
+
+    public BodyPlanet getHomePlanet() {
+        return homePlanet;
     }
 }
