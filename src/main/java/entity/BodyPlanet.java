@@ -13,6 +13,7 @@ public class BodyPlanet extends Body {
     int orbitPeriod;
     private float orbitStart;
     private float orbitAngle;
+    private EntityBuilding[] buildings;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(8,16), map);
@@ -34,6 +35,10 @@ public class BodyPlanet extends Body {
         BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
         this.chunk.getBodies().add(bgr);
         this.orbitStart =  RandomUtil.fromRangeF(0f,(float)Math.PI * 2);
+
+        // Todo: index buildings on a "grid" basis, just one building per terrain face.
+        // (This is so you don't pile up 10000 factories on one planet)
+        buildings = new EntityBuilding[terrain.length];
     }
 
     @Override
@@ -62,5 +67,9 @@ public class BodyPlanet extends Body {
 
     public BodyStar getStar() {
         return star;
+    }
+
+    public EntityBuilding[] getBuildings() {
+        return buildings;
     }
 }

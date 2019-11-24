@@ -76,31 +76,32 @@ public class EntityBuilding extends Entity {
             }
 
             if (grounded && groundedBody != null) {
-                // This moves the player along with a planet by anticipating where it will be in the next tick
                 if (groundedBody instanceof BodyPlanet) {
                     BodyPlanet planet = (BodyPlanet) groundedBody;
-                    float angle = planet.getOrbitAngle();
-                    double futurePlanetX = MathHelper.rotX(angle, planet.orbitDistance, 0) + planet.star.getX();
-                    double futurePlanetY = MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY();
+                    int index = CollisionUtil.terrainIndexFromEntityAngle(this, planet);
+                    // Empty slot ready to put a building on!
+                    if (planet.getBuildings()[index] == null) {
+                        planet.getBuildings()[index] = this;
 
-                    this.x += (futurePlanetX - planet.getX());
-                    this.y += (futurePlanetY - planet.getY());
+                    // If this is the building at that spot, align it with the grid of terrain
+                    }else if (planet.getBuildings()[index] == this){
+
+                        double angle = planet.dir + (2 * Math.PI * ((float)(index + 0.5f) / (float)planet.terrain.length));
+                        double rad = planet.radius + 0.8d;
+                        this.x = (Math.cos(angle) * rad) + planet.getX();
+                        this.y = (Math.sin(angle) * rad) + planet.getY();
+
+                        double angleFromCenter = Math.atan2(this.y - planet.getY(), this.x - planet.getX());
+                        this.dir = (float)angleFromCenter;
+
+                    // If there already is another building at that spot, then refund the player
+                    }else{
+                        this.dead = true;
+                        if (map.getPlayer() != null){
+                            map.getPlayer().addMoney(50);
+                        }
+                    }
                 }
-                Body body = groundedBody;
-
-                // This moves the player along with any rotating body
-                this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
-                this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
-
-                // TODO Fix this system of determining heightmap. Seems to not work
-                // (maybe should be measured on a ray out from the player. Internal angles would glitch it out!)
-                double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-                int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-                double radius = body.getRadius() + body.getTerrain()[index] + 0.8d;
-                this.dir = (float)angleFromCenter;
-
-                this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
-                this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
             }
 
             this.ticksExisted++;
