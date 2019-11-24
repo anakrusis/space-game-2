@@ -14,10 +14,16 @@ public class RenderBuilding{
 
         if (camZoom > Reference.MAP_SCREEN_THRESHOLD){
             double[] abspoints = entity.getAbsolutePoints();
+            float[] texpoints = new float[]{
+                0, 0,
+                1f, 0,
+                1f, 1f,
+                0, 1f
+            };
 
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-            glColor3d(1d,1d,1d);
+            glColor4d(1d,1d,1d,1d);
             if (entity instanceof BuildingFactory) {
                 Textures.factory.bind();
             }
@@ -26,8 +32,7 @@ public class RenderBuilding{
 
             for (int i = 0; i < abspoints.length; i += 2){
                 glVertex2d( camZoom * (abspoints[i] - camX), camZoom * (abspoints[i + 1] - camY));
-                glTexCoord2f(i == 2 || i == 4 ? 1 : 0, i > 2 ? 1 : 0);
-
+                glTexCoord2f(texpoints[i], texpoints[i + 1]);
             }
 
             glEnd();

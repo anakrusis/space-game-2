@@ -45,6 +45,7 @@ public class RenderText {
         }
 
         glDisable(GL_BLEND);
+        glTexCoord2f(0,1);
     }
 
     public static void setFont(Texture font){
