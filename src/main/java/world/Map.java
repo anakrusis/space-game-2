@@ -1,9 +1,6 @@
 package world;
 
-import entity.BodyPlanet;
-import entity.BodyStar;
-import entity.Entity;
-import entity.EntityPlayer;
+import entity.*;
 import util.SpawnUtil;
 import world.Chunk;
 
@@ -74,9 +71,14 @@ public class Map {
 
     public void update(){
         if (this.mapTime - this.playerLastDeathTime == RESPAWN_INTERVAL){
+            // This is just a first time kind of thing
             if (homePlanet == null){
                 homePlanet = SpawnUtil.newHomePlanet(this);
                 homeStar = homePlanet.getStar();
+
+                BuildingFactory factory = new BuildingFactory(homePlanet.getX() + homePlanet.getRadius() + 5,
+                        homePlanet.getY(), 0, this);
+                entities.add(factory);
             }
             double spawnx = homePlanet.getX() + homePlanet.getRadius();
             double spawny = homePlanet.getY();
