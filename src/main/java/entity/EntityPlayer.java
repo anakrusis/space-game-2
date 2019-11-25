@@ -8,7 +8,7 @@ public class EntityPlayer extends Entity {
 
     public EntityPlayer (double x, double y, float dir, Map map){
         super(x,y,dir,map);
-        this.money = 0;
+        this.money = 1000;
     }
 
     @Override

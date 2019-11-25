@@ -6,7 +6,6 @@ import util.MathHelper;
 import world.Map;
 
 public class EntityBuilding extends Entity {
-    private boolean isCollidingGravityBody = false;
 
     public EntityBuilding(double x, double y, float dir, Map map) {
         super(x, y, dir, map);
@@ -30,10 +29,9 @@ public class EntityBuilding extends Entity {
 
     @Override
     public void update() {
-        // TODO: Clean this up (it's mostly redundant) and re-add the Buildings despawning after a certain amt of time
-//        if (this.ticksExisted > 300 && !this.isCollidingGravityBody) {
-//            this.dead = true;
-//        }
+        if (this.ticksExisted > 300 && this.groundedBody == null) {
+            this.dead = true;
+        }
 
         this.x += this.velocity * Math.cos(this.dir);
         this.y += this.velocity * Math.sin(this.dir);
@@ -63,7 +61,6 @@ public class EntityBuilding extends Entity {
                         double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
                         this.x -= forceMagnitude * Math.cos(angleFromCenter);
                         this.y -= forceMagnitude * Math.sin(angleFromCenter);
-                        this.isCollidingGravityBody = true;
                     }
 
                 }
@@ -71,7 +68,6 @@ public class EntityBuilding extends Entity {
                 if (!(isColliding)) {
                     this.groundedBody = null;
                     this.grounded = false;
-                    this.isCollidingGravityBody = false;
                 }
             }
 

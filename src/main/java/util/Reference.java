@@ -10,5 +10,5 @@ public class Reference {
     public static final double MAP_SCREEN_THRESHOLD = 0.01;
 
     public static final String GAME_NAME = "Space Game";
-    public static final String VERSION = "0.0.2";
+    public static final String VERSION = "0.0.3pre";
 }
