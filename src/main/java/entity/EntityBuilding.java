@@ -7,6 +7,8 @@ import world.Map;
 
 public class EntityBuilding extends Entity {
 
+    private int planetIndex = -1;
+
     public EntityBuilding(double x, double y, float dir, Map map) {
         super(x, y, dir, map);
     }
@@ -73,13 +75,17 @@ public class EntityBuilding extends Entity {
                     int index = CollisionUtil.terrainIndexFromEntityAngle(this, planet);
                     // Empty slot ready to put a building on!
                     if (planet.getBuildings()[index] == null) {
-                        planet.getBuildings()[index] = this;
+                        if (this.planetIndex == -1){
+                            planet.getBuildings()[index] = this;
+                            this.planetIndex = index;
+                        }
+
 
                     // If this is the building at that spot, align it with the grid of terrain
                     }else if (planet.getBuildings()[index] == this){
 
                         float angle = (float) (planet.dir + (2f * Math.PI * ((index + 0.5f) / planet.terrain.length)));
-                        double rad = planet.radius + planet.getTerrain()[index];
+                        double rad = 0.8 + planet.radius + Math.min(planet.getTerrain()[index], planet.getTerrain()[(index + 1) % planet.terrain.length]);
                         this.x = MathHelper.rotX(angle, rad, 0) + planet.getX();
                         this.y = MathHelper.rotY(angle, rad, 0) + planet.getY();
 

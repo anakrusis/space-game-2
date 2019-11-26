@@ -16,10 +16,10 @@ public class BodyPlanet extends Body {
     private EntityBuilding[] buildings;
     private float[] surfaceColor;
 
-    private int terrainSize = 20;
+    private int terrainSize = 40;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map) {
-        super(x, y, dir, chunk, RandomUtil.fromRangeF(8,16), map);
+        super(x, y, dir, chunk, RandomUtil.fromRangeF(16,32), map);
         this.star = star;
         this.orbitDistance = orbitDistance;
         this.orbitPeriod = 16000;
@@ -28,7 +28,7 @@ public class BodyPlanet extends Body {
 
         // the stone color, or whatever
         this.color = new float[]{0.5f, 0.5f, 0.5f};
-        this.surfaceColor = new float[]{0.1f, 0.4f, 0.1f};
+        this.surfaceColor = new float[]{RandomUtil.fromRangeF(0f,1f), RandomUtil.fromRangeF(0f,1f), RandomUtil.fromRangeF(0f,1f)};
         this.canEntitiesCollide = true;
 
         this.terrain = new float[terrainSize];
@@ -42,8 +42,6 @@ public class BodyPlanet extends Body {
         this.chunk.getBodies().add(bgr);
         this.orbitStart =  RandomUtil.fromRangeF(0f,(float)Math.PI * 2);
 
-        // Todo: index buildings on a "grid" basis, just one building per terrain face.
-        // (This is so you don't pile up 10000 factories on one planet)
         buildings = new EntityBuilding[terrain.length];
     }
 

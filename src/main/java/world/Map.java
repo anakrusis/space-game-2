@@ -1,6 +1,7 @@
 package world;
 
 import entity.*;
+import util.CollisionUtil;
 import util.SpawnUtil;
 import world.Chunk;
 
@@ -83,6 +84,11 @@ public class Map {
             double spawnx = homePlanet.getX() + homePlanet.getRadius();
             double spawny = homePlanet.getY();
             entities.add(new EntityPlayer(spawnx,spawny,(float)Math.PI, this));
+
+            int index = CollisionUtil.terrainIndexFromEntityAngle(this.getPlayer(), homePlanet);
+            double radius = homePlanet.getRadius() + homePlanet.getTerrain()[index];
+            this.getPlayer().setX(homePlanet.getX() + radius);
+            CollisionUtil.resolveCollision(this.getPlayer(), homePlanet);
         }
 
         this.mapTime++;

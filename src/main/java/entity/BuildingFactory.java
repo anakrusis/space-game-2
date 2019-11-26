@@ -36,7 +36,7 @@ public class BuildingFactory extends EntityBuilding {
         if (this.isGrounded()){
             if (this.groundedBody.getDir() % Math.PI <= this.groundedBody.rotSpeed){
                 if (this.map.getPlayer() != null){
-                    this.map.getPlayer().addMoney(1);
+                    this.map.getPlayer().addMoney(2);
                 }
             }
         }
