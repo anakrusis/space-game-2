@@ -146,4 +146,59 @@ public class CollisionUtil {
 
         return false;
     }
+
+    public static void resolveCollision(Entity entity1, Entity entity2){
+        Entity e1 = entity1;
+        Entity e2 = entity2;
+        double[] e1AbsPoints, e2AbsPoints;
+        // Start and end points of diagonal
+        double diagSX, diagSY;
+        double diagEX, diagEY;
+
+        // Start and end points of edge
+        double edgeSX, edgeSY;
+        double edgeEX, edgeEY;
+
+        double displaceX, displaceY;
+
+        for (int currentpoly = 0; currentpoly < 2; currentpoly++){
+            if (currentpoly == 1){
+                e1 = entity2;
+                e2 = entity1;
+            }
+            e1AbsPoints = e1.getAbsolutePoints();
+            e2AbsPoints = e2.getAbsolutePoints();
+
+            for (int p = 0; p < e1AbsPoints.length; p += 2){
+                diagSX = e1.getX();
+                diagSY = e1.getY();
+                diagEX = e1AbsPoints[p];
+                diagEY = e1AbsPoints[p + 1];
+                displaceX = 0;
+                displaceY = 0;
+
+                for (int q = 0; q < e2AbsPoints.length; q += 2){
+                    edgeSX = e2AbsPoints[q];
+                    edgeSY = e2AbsPoints[q + 1];
+                    edgeEX = e2AbsPoints[ (q+2) % e2AbsPoints.length ];
+                    edgeEY = e2AbsPoints[ (q+3) % e2AbsPoints.length ];
+
+                    double h = (edgeEX - edgeSX) * (diagSY - diagEY) - (diagSX - diagEX) * (edgeEY - edgeSY);
+                    double t1 = ((edgeSY - edgeEY) * (diagSX - edgeSX) + (edgeEX - edgeSX) * (diagSY - edgeSY)) / h;
+                    double t2 = ((diagSY - diagEY) * (diagSX - edgeSX) + (diagEX - diagSX) * (diagSY - edgeSY)) / h;
+                    if (t1 >= 0.0f && t1 < 1.0f && t2 >= 0.0f && t2 < 1.0f)
+                    {
+                        displaceX += (1.0f - t1) * (diagEX - diagSX);
+                        displaceY += (1.0f - t1) * (diagEY - diagSY);
+                    }
+                }
+                double coefficient = (currentpoly == 0 ? -1f : 1f);
+
+                if (!(e1 instanceof Body)){
+                    e1.setX( e1.getX() + displaceX * coefficient);
+                    e1.setY( e1.getY() + displaceY * coefficient);
+                }
+            }
+        }
+    }
 }

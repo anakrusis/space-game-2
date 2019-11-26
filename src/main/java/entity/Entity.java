@@ -76,7 +76,7 @@ public class Entity {
             boolean isColliding = false;
             for (Body body : this.getChunk().getBodies()) {
                 if (body.canEntitiesCollide){
-                    if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
+                    if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
 
                         // Setting collision markers
                         if (this.velocity > 1.0 || body instanceof BodyStar) {
@@ -128,13 +128,15 @@ public class Entity {
             // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
             int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-            double radius = body.getRadius() + body.getTerrain()[index] + 0.3;
+            double radius = body.getRadius() + body.getTerrain()[index];
+            double innermostradius = body.getRadius() - 1f;
 
             double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
-            if (distance < radius) {
+            if (distance < innermostradius) {
                 this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
                 this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
             }
+            CollisionUtil.resolveCollision(this, body);
         }
 
         this.ticksExisted++;

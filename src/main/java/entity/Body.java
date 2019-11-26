@@ -58,7 +58,7 @@ public class Body extends Entity {
     }
 
     // Based off of the terrain, returns the points of the body in absolute coordinates.
-    // These will be used for collision handling.
+    // These are used for collision and rendering.
     @Override
     public double[] getAbsolutePoints(){
 

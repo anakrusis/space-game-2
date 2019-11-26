@@ -28,14 +28,20 @@ public class RenderChunk {
 
         // Drawing all the bodies inside the chunk
         for (Body body : chunk.getBodies()){
-            if (body instanceof BodyPlanet || body instanceof BodyGravityRadius){
-                if (camZoom > 0.01){
-                    RenderStar.renderStar(body, body instanceof BodyPlanet, camera);
+
+            // Culled bodies
+            if (camZoom > 0.01){
+                if (body instanceof BodyGravityRadius){
+                    RenderStar.renderStar(body, false, camera);
+                }else if (body instanceof BodyPlanet){
+                    RenderPlanet.renderPlanet(body,camera);
                 }
-            }else{
-                RenderStar.renderStar(body, true, camera);
             }
 
+            // Non-culled bodies (just the stars for now)
+            if (body instanceof BodyStar){
+                RenderStar.renderStar(body, true, camera);
+            }
         }
     }
 }

@@ -14,6 +14,9 @@ public class BodyPlanet extends Body {
     private float orbitStart;
     private float orbitAngle;
     private EntityBuilding[] buildings;
+    private float[] surfaceColor;
+
+    private int terrainSize = 20;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(8,16), map);
@@ -22,14 +25,17 @@ public class BodyPlanet extends Body {
         this.orbitPeriod = 16000;
         //this.rotSpeed = 0.05f;
         this.rotSpeed = 0.005f;
+
+        // the stone color, or whatever
         this.color = new float[]{0.5f, 0.5f, 0.5f};
+        this.surfaceColor = new float[]{0.1f, 0.4f, 0.1f};
         this.canEntitiesCollide = true;
 
-        this.terrain = new float[]{
-                0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0,
-                0 ,0 ,0 ,0 ,0,
-                0 ,0 ,0 ,0, 0 };
+        this.terrain = new float[terrainSize];
+        for (int i = 0; i < terrain.length; i++){
+            this.terrain[i] = RandomUtil.fromRangeF(-0.5f,1.6f);
+        }
+
         this.name = "Planet " + chunk.getX() + " " + chunk.getY();
 
         BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
@@ -71,5 +77,26 @@ public class BodyPlanet extends Body {
 
     public EntityBuilding[] getBuildings() {
         return buildings;
+    }
+
+    public float[] getSurfaceColor() {
+        return surfaceColor;
+    }
+
+    public double[] getStonePoints(){
+        double[] stonePoints = new double[terrain.length * 2];
+
+        for (int i = 0; i < terrain.length; i++){
+            double angle = this.dir + (i * (2 * Math.PI) / terrain.length);
+
+            double terrane = Math.min(0, terrain[i]);
+            double pointx = MathHelper.rotX((float) angle, this.radius + terrane, 0.0d) + this.x;
+            double pointy = MathHelper.rotY((float) angle, this.radius + terrane, 0.0d) + this.y;
+
+            stonePoints[2 * i] = pointx;
+            stonePoints[(2 * i) + 1] = pointy;
+        }
+
+        return stonePoints;
     }
 }

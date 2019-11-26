@@ -64,11 +64,7 @@ public class EntityBuilding extends Entity {
                     }
 
                 }
-
-                if (!(isColliding)) {
-                    this.groundedBody = null;
-                    this.grounded = false;
-                }
+                // Buildings can't get ungrounded once grounded
             }
 
             if (grounded && groundedBody != null) {
@@ -82,10 +78,10 @@ public class EntityBuilding extends Entity {
                     // If this is the building at that spot, align it with the grid of terrain
                     }else if (planet.getBuildings()[index] == this){
 
-                        double angle = planet.dir + (2 * Math.PI * ((float)(index + 0.5f) / (float)planet.terrain.length));
-                        double rad = planet.radius + 0.8d;
-                        this.x = (Math.cos(angle) * rad) + planet.getX();
-                        this.y = (Math.sin(angle) * rad) + planet.getY();
+                        float angle = (float) (planet.dir + (2f * Math.PI * ((index + 0.5f) / planet.terrain.length)));
+                        double rad = planet.radius + planet.getTerrain()[index];
+                        this.x = MathHelper.rotX(angle, rad, 0) + planet.getX();
+                        this.y = MathHelper.rotY(angle, rad, 0) + planet.getY();
 
                         double angleFromCenter = Math.atan2(this.y - planet.getY(), this.x - planet.getX());
                         this.dir = (float)angleFromCenter;
