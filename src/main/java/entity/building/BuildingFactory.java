@@ -1,5 +1,7 @@
-package entity;
+package entity.building;
 
+import entity.EntityBuilding;
+import entity.ParticleSmoke;
 import util.MathHelper;
 import world.Map;
 
@@ -34,7 +36,7 @@ public class BuildingFactory extends EntityBuilding {
             }
         }
         if (this.isGrounded()){
-            if (this.groundedBody.getDir() % Math.PI <= this.groundedBody.rotSpeed){
+            if (this.groundedBody.getDir() % Math.PI <= this.groundedBody.getRotSpeed()){
                 if (this.map.getPlayer() != null){
                     this.map.getPlayer().addMoney(2);
                 }

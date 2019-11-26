@@ -5,6 +5,7 @@ import world.Map;
 
 public class EntityPlayer extends Entity {
     public float money;
+    int currentItemSlot = 2;
 
     public EntityPlayer (double x, double y, float dir, Map map){
         super(x,y,dir,map);
@@ -51,5 +52,13 @@ public class EntityPlayer extends Entity {
 
     public void addMoney(float money){
         this.money += money;
+    }
+
+    public int getCurrentItemSlot() {
+        return currentItemSlot;
+    }
+
+    public void setCurrentItemSlot(int currentItemSlot) {
+        this.currentItemSlot = currentItemSlot;
     }
 }

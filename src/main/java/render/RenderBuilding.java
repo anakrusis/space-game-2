@@ -1,6 +1,8 @@
 package render;
 
 import entity.*;
+import entity.building.BuildingApartment;
+import entity.building.BuildingFactory;
 import util.Reference;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -26,6 +28,8 @@ public class RenderBuilding{
             glColor4d(1d,1d,1d,1d);
             if (entity instanceof BuildingFactory) {
                 Textures.factory.bind();
+            }else if (entity instanceof BuildingApartment) {
+                Textures.apartment.bind();
             }
 
             glBegin(GL_QUADS);

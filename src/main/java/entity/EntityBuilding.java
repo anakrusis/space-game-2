@@ -78,13 +78,7 @@ public class EntityBuilding extends Entity {
                         if (this.planetIndex == -1){
                             planet.getBuildings()[index] = this;
                             this.planetIndex = index;
-                        }else{
-                            this.dead = true;
-                            if (map.getPlayer() != null){
-                                map.getPlayer().addMoney(50);
-                            }
                         }
-
 
                     // If this is the building at that spot, align it with the grid of terrain
                     }else if (planet.getBuildings()[index] == this){

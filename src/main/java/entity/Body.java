@@ -84,4 +84,8 @@ public class Body extends Entity {
     public String getName() {
         return name;
     }
+
+    public float getRotSpeed() {
+        return rotSpeed;
+    }
 }

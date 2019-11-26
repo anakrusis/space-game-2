@@ -137,6 +137,8 @@ public class Entity {
                 this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
             }
             CollisionUtil.resolveCollision(this, body);
+
+            this.velocity /= 1.01;
         }
 
         this.ticksExisted++;

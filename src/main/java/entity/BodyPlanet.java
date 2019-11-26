@@ -53,9 +53,9 @@ public class BodyPlanet extends Body {
 
         this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.star.getX();
         this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.star.getY();
-        //this.x += Math.cos(0) * this.orbitSpeed;
-        //this.y += Math.sin(0) * this.orbitSpeed;
 
+        // Todo: Replace this with a one-time orbit circle that stays forever, made in the constructor, or init method when made
+        // (Less particles being made and destroyed all over the place)
         if (this.ticksExisted % 250 == 0 && this.map.getPlayer() != null){
             if (this.map.getPlayer().getChunk() != null){
                 if (this.map.getPlayer().getChunk() == this.chunk){

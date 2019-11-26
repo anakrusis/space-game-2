@@ -179,6 +179,13 @@ public class SpaceGame {
                 if (glfwGetKey(window, GLFW_KEY_P) == GL_TRUE){
                     map.getPlayer().explode();
                 }
+
+                if (glfwGetKey(window, GLFW_KEY_1) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(1);
+                }
+                if (glfwGetKey(window, GLFW_KEY_2) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(2);
+                }
             }
 
             // Deleting entities marked dead, or if living, updating them

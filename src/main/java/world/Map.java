@@ -1,9 +1,9 @@
 package world;
 
 import entity.*;
+import entity.building.BuildingFactory;
 import util.CollisionUtil;
 import util.SpawnUtil;
-import world.Chunk;
 
 import java.util.ArrayList;
 
