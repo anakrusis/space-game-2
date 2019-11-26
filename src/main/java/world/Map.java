@@ -81,6 +81,8 @@ public class Map {
                         homePlanet.getY(), 0, this);
                 entities.add(factory);
             }
+
+            // This is for all respawns
             double spawnx = homePlanet.getX() + homePlanet.getRadius();
             double spawny = homePlanet.getY();
             entities.add(new EntityPlayer(spawnx,spawny,(float)Math.PI, this));

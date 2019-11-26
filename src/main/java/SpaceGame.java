@@ -1,4 +1,7 @@
 import entity.Body;
+import entity.BodyPlanet;
+import entity.Entity;
+import entity.EntityBuilding;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -180,8 +183,24 @@ public class SpaceGame {
 
             // Deleting entities marked dead, or if living, updating them
             for (int i = 0; i < map.getEntities().size(); i++){
-                if (map.getEntities().get(i).isDead()){
+                Entity currentEntity = map.getEntities().get(i);
+                if (currentEntity.isDead()){
+
+                    // For cleaning up the building pointers when a building is destroyed
+                    if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()){
+                        if (currentEntity.getGroundedBody() instanceof BodyPlanet){
+                            BodyPlanet planet = (BodyPlanet)currentEntity.getGroundedBody();
+                            EntityBuilding building = (EntityBuilding)currentEntity;
+
+                            // -1 is used for floating buildings
+                            if (building.getPlanetIndex() != -1){
+                                planet.getBuildings()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                            }
+                        }
+                    }
+
                     map.getEntities().remove(i);
+
                 }else{
                     map.getEntities().get(i).update();
                 }

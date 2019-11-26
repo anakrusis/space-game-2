@@ -78,6 +78,11 @@ public class EntityBuilding extends Entity {
                         if (this.planetIndex == -1){
                             planet.getBuildings()[index] = this;
                             this.planetIndex = index;
+                        }else{
+                            this.dead = true;
+                            if (map.getPlayer() != null){
+                                map.getPlayer().addMoney(50);
+                            }
                         }
 
 
@@ -104,5 +109,9 @@ public class EntityBuilding extends Entity {
 
             this.ticksExisted++;
         }
+    }
+
+    public int getPlanetIndex() {
+        return planetIndex;
     }
 }
