@@ -162,7 +162,9 @@ public class SpaceGame {
                 if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE) {
                     map.getPlayer().setVelocity(vel + 0.005f);
                 }else if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE){
-                    map.getPlayer().setVelocity(vel - 0.005f);
+                    if (map.getPlayer().getVelocity() > -0.3f){
+                        map.getPlayer().setVelocity(vel - 0.005f);
+                    }
                 }else{
                     map.getPlayer().setVelocity( vel / 1.01);
                 }

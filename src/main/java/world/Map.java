@@ -87,8 +87,8 @@ public class Map {
             double spawny = homePlanet.getY();
             entities.add(new EntityPlayer(spawnx,spawny,(float)Math.PI, this));
 
-            int index = CollisionUtil.terrainIndexFromEntityAngle(this.getPlayer(), homePlanet);
-            double radius = homePlanet.getRadius() + homePlanet.getTerrain()[index];
+            float height = CollisionUtil.heightFromEntityAngle(this.getPlayer(), homePlanet);
+            double radius = homePlanet.getRadius() + height + 0.5f;
             this.getPlayer().setX(homePlanet.getX() + radius);
             CollisionUtil.resolveCollision(this.getPlayer(), homePlanet);
         }

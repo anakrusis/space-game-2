@@ -85,6 +85,7 @@ public class Entity {
                             this.grounded = true;
                             this.groundedBody = body;
                             isColliding = true;
+                            CollisionUtil.resolveCollision(this, body);
                         }
                     }
                 } else {
@@ -108,6 +109,11 @@ public class Entity {
         }
 
         if (grounded && groundedBody != null) {
+
+            if (this.velocity > 0.1){
+                this.velocity = 0.1;
+            }
+
             // This moves the entity along with a planet by anticipating where it will be in the next tick
             if (groundedBody instanceof BodyPlanet) {
                 BodyPlanet planet = (BodyPlanet) groundedBody;
@@ -129,12 +135,12 @@ public class Entity {
             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
             int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
             double radius = body.getRadius() + body.getTerrain()[index];
-            double innermostradius = body.getRadius() - 1f;
+            double innermostradius = body.radius + CollisionUtil.heightFromEntityAngle(this, body) - 2f;
 
             double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
             if (distance < innermostradius) {
-                this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
-                this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
+//                this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
+//                this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
             }
             CollisionUtil.resolveCollision(this, body);
 

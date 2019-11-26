@@ -84,7 +84,7 @@ public class EntityBuilding extends Entity {
                     }else if (planet.getBuildings()[index] == this){
 
                         float angle = (float) (planet.dir + (2f * Math.PI * ((index + 0.5f) / planet.terrain.length)));
-                        double rad = 0.8 + planet.radius + Math.min(planet.getTerrain()[index], planet.getTerrain()[(index + 1) % planet.terrain.length]);
+                        double rad = planet.radius + CollisionUtil.heightFromEntityAngle(this, planet) + 0.8;
                         this.x = MathHelper.rotX(angle, rad, 0) + planet.getX();
                         this.y = MathHelper.rotY(angle, rad, 0) + planet.getY();
 
