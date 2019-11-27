@@ -10,13 +10,13 @@ public class MouseHandler {
             EntityPlayer player = map.getPlayer();
             if (player.getCurrentItemSlot() == 1){
                 if (map.getPlayer().getMoney() >= 50){
-                    BuildingFactory factory = new BuildingFactory(map.getPlayer().getX(), map.getPlayer().getY(), map.getPlayer().getDir(), map);
+                    BuildingFactory factory = new BuildingFactory(map.getPlayer().getX(), map.getPlayer().getY(), map.getPlayer().getDir(), map, map.getPlayer());
                     map.getPlayer().addMoney(-50f);
                     map.getEntities().add(factory);
                 }
             }else if (player.getCurrentItemSlot() == 2){
                 if (map.getPlayer().getMoney() >= 25){
-                    BuildingApartment apt = new BuildingApartment(map.getPlayer().getX(), map.getPlayer().getY(), map.getPlayer().getDir(), map);
+                    BuildingApartment apt = new BuildingApartment(map.getPlayer().getX(), map.getPlayer().getY(), map.getPlayer().getDir(), map, map.getPlayer());
                     map.getPlayer().addMoney(-25f);
                     map.getEntities().add(apt);
                 }

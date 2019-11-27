@@ -134,8 +134,8 @@ public class Entity {
             // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
             int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-            double radius = body.getRadius() + body.getTerrain()[index];
-            double innermostradius = body.radius + CollisionUtil.heightFromEntityAngle(this, body) - 2f;
+            double radius = body.getRadius() + body.getTerrain()[index] + 0.5;
+            double innermostradius = body.radius + CollisionUtil.heightFromEntityAngle(this, body) - 3f;
 
             double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
             if (distance < innermostradius) {
@@ -144,7 +144,7 @@ public class Entity {
             }
             CollisionUtil.resolveCollision(this, body);
 
-            this.velocity /= 1.01;
+//            this.velocity /= 1.01;
         }
 
         this.ticksExisted++;

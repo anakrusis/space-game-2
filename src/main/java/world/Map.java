@@ -78,7 +78,7 @@ public class Map {
                 homeStar = homePlanet.getStar();
 
                 BuildingFactory factory = new BuildingFactory(homePlanet.getX() + homePlanet.getRadius() + 5,
-                        homePlanet.getY(), 0, this);
+                        homePlanet.getY(), 0, this, this.getPlayer());
                 entities.add(factory);
             }
 
@@ -88,7 +88,7 @@ public class Map {
             entities.add(new EntityPlayer(spawnx,spawny,(float)Math.PI, this));
 
             float height = CollisionUtil.heightFromEntityAngle(this.getPlayer(), homePlanet);
-            double radius = homePlanet.getRadius() + height + 0.5f;
+            double radius = homePlanet.getRadius() + height + 2f;
             this.getPlayer().setX(homePlanet.getX() + radius);
             CollisionUtil.resolveCollision(this.getPlayer(), homePlanet);
         }

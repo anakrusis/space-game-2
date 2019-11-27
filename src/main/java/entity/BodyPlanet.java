@@ -1,5 +1,6 @@
 package entity;
 
+import entity.building.BuildingApartment;
 import util.MathHelper;
 import util.RandomUtil;
 import world.Chunk;
@@ -18,13 +19,15 @@ public class BodyPlanet extends Body {
 
     private int terrainSize = 40;
 
+    private int population;
+
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(16,32), map);
         this.star = star;
         this.orbitDistance = orbitDistance;
         this.orbitPeriod = 16000;
         //this.rotSpeed = 0.05f;
-        this.rotSpeed = 0.005f;
+        this.rotSpeed = 0.0005f;
 
         // the stone color, or whatever
         this.color = new float[]{0.5f, 0.5f, 0.5f};
@@ -43,14 +46,15 @@ public class BodyPlanet extends Body {
         this.orbitStart =  RandomUtil.fromRangeF(0f,(float)Math.PI * 2);
 
         buildings = new EntityBuilding[terrain.length];
+        population = 0;
     }
 
     @Override
     public void update() {
         super.update();
 
+        // This moves the planet around the star in orbit
         this.orbitAngle = this.orbitStart + (this.map.mapTime * (float)(Math.PI / 2) / this.orbitPeriod);
-
         this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.star.getX();
         this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.star.getY();
 
@@ -63,6 +67,15 @@ public class BodyPlanet extends Body {
                 }
             }
         }
+
+        int pop = 0;
+        for (int i = 0; i < terrainSize; i++){
+            EntityBuilding build = this.buildings[i];
+            if (build instanceof BuildingApartment){
+                pop += ((BuildingApartment) build).getPopulation();
+            }
+        }
+        this.population = pop;
     }
 
     public float getOrbitAngle() {
@@ -96,5 +109,9 @@ public class BodyPlanet extends Body {
         }
 
         return stonePoints;
+    }
+
+    public int getPopulation() {
+        return population;
     }
 }

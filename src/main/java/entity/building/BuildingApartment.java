@@ -1,12 +1,17 @@
 package entity.building;
 
 import entity.EntityBuilding;
+import entity.EntityPlayer;
 import util.MathHelper;
 import world.Map;
 
 public class BuildingApartment extends EntityBuilding {
-    public BuildingApartment(double x, double y, float dir, Map map) {
-        super(x, y, dir, map);
+
+    private int population;
+
+    public BuildingApartment(double x, double y, float dir, Map map, EntityPlayer player) {
+        super(x, y, dir, map, player);
+        this.price = 25;
     }
 
     @Override
@@ -23,5 +28,9 @@ public class BuildingApartment extends EntityBuilding {
             abspoints[i + 1] = MathHelper.rotY(this.dir,relpoints[i],relpoints[ i + 1 ]) + this.y;
         }
         return abspoints;
+    }
+
+    public int getPopulation() {
+        return population;
     }
 }

@@ -1,13 +1,15 @@
 package entity.building;
 
 import entity.EntityBuilding;
+import entity.EntityPlayer;
 import entity.ParticleSmoke;
 import util.MathHelper;
 import world.Map;
 
 public class BuildingFactory extends EntityBuilding {
-    public BuildingFactory(double x, double y, float dir, Map map) {
-        super(x, y, dir, map);
+    public BuildingFactory(double x, double y, float dir, Map map, EntityPlayer player) {
+        super(x, y, dir, map, player);
+        this.price = 50;
     }
     @Override
     public double[] getAbsolutePoints() {

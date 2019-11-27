@@ -60,7 +60,7 @@ public class Render {
              if (player.isGrounded()){
                  RenderText.renderText(player.getGroundedBody().getName(),
                           10, 5, 0.3f);
-                 RenderText.renderText(CollisionUtil.terrainIndexFromEntityAngle(player, player.getGroundedBody()) + "",
+                 RenderText.renderText(player.getGroundedBody().getTerrain()[CollisionUtil.terrainIndexFromEntityAngle(player, player.getGroundedBody())] + "",
                  10, 8, 0.5f);
              }
              if (player.getChunk() != null){

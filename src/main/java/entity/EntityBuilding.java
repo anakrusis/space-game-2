@@ -8,9 +8,15 @@ import world.Map;
 public class EntityBuilding extends Entity {
 
     private int planetIndex = -1;
+    protected EntityPlayer playerPlaced;
+    protected int price;
 
-    public EntityBuilding(double x, double y, float dir, Map map) {
+    public EntityBuilding(double x, double y, float dir, Map map, EntityPlayer playerPlaced) {
         super(x, y, dir, map);
+        this.playerPlaced = playerPlaced;
+    }
+    public EntityBuilding(double x, double y, float dir, Map map){
+        this(x, y, dir, map,null);
     }
 
     @Override
@@ -94,8 +100,8 @@ public class EntityBuilding extends Entity {
                     // If there already is another building at that spot, then refund the player
                     }else{
                         this.dead = true;
-                        if (map.getPlayer() != null){
-                            map.getPlayer().addMoney(50);
+                        if (this.playerPlaced != null){
+                            this.playerPlaced.addMoney(this.price);
                         }
                     }
                 }
@@ -107,5 +113,9 @@ public class EntityBuilding extends Entity {
 
     public int getPlanetIndex() {
         return planetIndex;
+    }
+
+    public EntityPlayer getPlayerPlaced() {
+        return playerPlaced;
     }
 }
