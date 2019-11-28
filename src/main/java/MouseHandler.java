@@ -3,13 +3,25 @@ import entity.EntityCursor;
 import entity.building.BuildingApartment;
 import entity.building.BuildingFactory;
 import entity.EntityPlayer;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MathUtil;
+import render.Camera;
 import util.MathHelper;
 import world.Map;
 
+import java.nio.DoubleBuffer;
+import java.nio.IntBuffer;
+
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
+import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
+
 public class MouseHandler {
+
+    static Map map = SpaceGame.map;
+    static Camera camera = SpaceGame.camera;
+
     public static void onClick(){
-        Map map = SpaceGame.map;
+
         EntityCursor cursor = map.getCursor();
         if (map.getPlayer() != null){
             EntityPlayer player = map.getPlayer();
@@ -31,5 +43,25 @@ public class MouseHandler {
                 }
             }
         }
+    }
+
+    public static void update( long window ){
+        // :(
+        DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
+        glfwGetCursorPos(window, posX, null);
+        double xpos = posX.get(0);
+
+        DoubleBuffer posY = BufferUtils.createDoubleBuffer(1);
+        glfwGetCursorPos(window, null, posY);
+        double ypos = posY.get(0);
+
+        IntBuffer w = BufferUtils.createIntBuffer(1);
+        IntBuffer h = BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(window, w, h);
+        int windowWidth = w.get();
+        int windowHeight = h.get();
+
+        map.getCursor().setX( MathHelper.screenToWorldX(xpos, windowWidth, camera.getX(), camera.getZoom() ) );
+        map.getCursor().setY( MathHelper.screenToWorldY(ypos, windowHeight, camera.getY(), camera.getZoom() ) );
     }
 }

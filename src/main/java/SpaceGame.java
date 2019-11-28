@@ -2,6 +2,7 @@ import entity.Body;
 import entity.body.BodyPlanet;
 import entity.Entity;
 import entity.EntityBuilding;
+import gui.EnumGui;
 import gui.TextBox;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
@@ -137,6 +138,9 @@ public class SpaceGame {
         });
 
         RenderText.setFont(Textures.test_texture);
+
+        TextBox tx = new TextBox(10.77f,-3,7,7,"Test","", EnumGui.GUI_SELECTED_ENTITY);
+        guiElements.add(tx);
     }
 
     private void loop() {
@@ -193,23 +197,7 @@ public class SpaceGame {
                     map.getPlayer().setCurrentItemSlot(2);
                 }
             }
-
-            DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
-            glfwGetCursorPos(window, posX, null);
-            double xpos = posX.get(0);
-
-            DoubleBuffer posY = BufferUtils.createDoubleBuffer(1);
-            glfwGetCursorPos(window, null, posY);
-            double ypos = posY.get(0);
-
-            IntBuffer w = BufferUtils.createIntBuffer(1);
-            IntBuffer h = BufferUtils.createIntBuffer(1);
-            glfwGetWindowSize(window, w, h);
-            int windowWidth = w.get();
-            int windowHeight = h.get();
-
-            map.getCursor().setX( MathHelper.screenToWorldX(xpos, windowWidth, camera.getX(), camera.getZoom() ) );
-            map.getCursor().setY( MathHelper.screenToWorldY(ypos, windowHeight, camera.getY(), camera.getZoom() ) );
+            MouseHandler.update(window);
 
             // Deleting entities marked dead, or if living, updating them
             for (int i = 0; i < map.getEntities().size(); i++){

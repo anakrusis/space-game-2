@@ -12,12 +12,13 @@ public class Render {
      public static void renderMain(Map map){
          Camera camera = SpaceGame.camera;
 
+         // Camera follows player if it exists
          if (SpaceGame.map.getPlayer() != null){
              camera.setX(SpaceGame.map.getPlayer().getX());
              camera.setY(SpaceGame.map.getPlayer().getY());
          }
 
-         //Drawing entities
+         // Drawing entities
          for (Entity entity : SpaceGame.map.getEntities()){
              if (entity instanceof EntityPlayer) {
                  RenderPlayer.renderPlayer(entity, camera);
@@ -50,7 +51,12 @@ public class Render {
              }
          }
 
-         //Drawing text
+         // Drawing textBoxes, gui stuff
+         for (int i = 0; i < SpaceGame.guiElements.size(); i++){
+             RenderTextBox.renderTextBox(SpaceGame.guiElements.get(i));
+         }
+
+         // Drawing text
          String renderstring = Reference.GAME_NAME + " " + Reference.VERSION;
 
          if (Reference.DEASTL_MODE){
@@ -60,8 +66,7 @@ public class Render {
          }
 
          RenderText.renderText(renderstring,-12,8,0.6f);
-         RenderText.renderText("WASD to move - QE to zoom - P to self-destruct",-12,-8.5f,0.45f);
-         RenderText.renderText("Click to place factories ($50)",-12,-9.5f,0.45f);
+         RenderText.renderText("WASD to move - QE to zoom - P to self-destruct \nClick to place factories ($50)",-12,-8.5f,0.45f);
 
          if (SpaceGame.map.getPlayer() != null){
              EntityPlayer player = SpaceGame.map.getPlayer();
@@ -79,10 +84,6 @@ public class Render {
                      10, 7.5f, 0.5f);
 
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
-         }
-
-         for (int i = 0; i < SpaceGame.guiElements.size(); i++){
-
          }
 
          //RenderPlayer.renderPlayer(SpaceGame.map.getCursor(), camera);
