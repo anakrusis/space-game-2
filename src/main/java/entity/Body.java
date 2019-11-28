@@ -22,7 +22,7 @@ public class Body extends Entity {
 
     public boolean canEntitiesCollide = false;
 
-    float[] color;
+    protected float[] color;
 
     // Each item in terrain is a relative coordinate away or toward 0, which is the radius
     protected float[] terrain;

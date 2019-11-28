@@ -1,8 +1,8 @@
 package world;
 
 import entity.Body;
-import entity.BodyPlanet;
-import entity.BodyStar;
+import entity.body.BodyPlanet;
+import entity.body.BodyStar;
 import util.GenUtil;
 import util.RandomUtil;
 import util.Reference;

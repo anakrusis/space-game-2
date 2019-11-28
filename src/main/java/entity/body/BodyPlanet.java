@@ -1,5 +1,10 @@
-package entity;
+package entity.body;
 
+import entity.Body;
+import entity.EntityBuilding;
+import entity.ParticleOrbit;
+import entity.body.BodyGravityRadius;
+import entity.body.BodyStar;
 import entity.building.BuildingApartment;
 import util.MathHelper;
 import util.RandomUtil;
@@ -10,8 +15,8 @@ public class BodyPlanet extends Body {
 
     // The star which the planet orbits around, how far away it orbits, and how often
     BodyStar star;
-    float orbitDistance;
-    int orbitPeriod;
+    private float orbitDistance;
+    private int orbitPeriod;
     private float orbitStart;
     private float orbitAngle;
     private EntityBuilding[] buildings;
@@ -113,5 +118,9 @@ public class BodyPlanet extends Body {
 
     public int getPopulation() {
         return population;
+    }
+
+    public float getOrbitDistance() {
+        return orbitDistance;
     }
 }

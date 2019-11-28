@@ -81,6 +81,10 @@ public class Render {
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
          }
 
-         RenderPlayer.renderPlayer(SpaceGame.map.getCursor(), camera);
+         for (int i = 0; i < SpaceGame.guiElements.size(); i++){
+
+         }
+
+         //RenderPlayer.renderPlayer(SpaceGame.map.getCursor(), camera);
      }
 }

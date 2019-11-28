@@ -1,10 +1,9 @@
-package entity;
+package entity.body;
 
+import entity.Body;
 import util.RandomUtil;
 import world.Chunk;
 import world.Map;
-
-import java.util.Random;
 
 public class BodyStar extends Body {
     public BodyStar(double x, double y, float dir, Chunk chunk, Map map) {

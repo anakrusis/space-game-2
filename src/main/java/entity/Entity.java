@@ -1,5 +1,8 @@
 package entity;
 
+import entity.body.BodyGravityRadius;
+import entity.body.BodyPlanet;
+import entity.body.BodyStar;
 import util.Reference;
 import util.CollisionUtil;
 import util.MathHelper;
@@ -120,8 +123,8 @@ public class Entity {
             if (groundedBody instanceof BodyPlanet) {
                 BodyPlanet planet = (BodyPlanet) groundedBody;
                 float angle = planet.getOrbitAngle();
-                double futurePlanetX = MathHelper.rotX(angle, planet.orbitDistance, 0) + planet.star.getX();
-                double futurePlanetY = MathHelper.rotY(angle, planet.orbitDistance, 0) + planet.star.getY();
+                double futurePlanetX = MathHelper.rotX(angle, planet.getOrbitDistance(), 0) + planet.getStar().getX();
+                double futurePlanetY = MathHelper.rotY(angle, planet.getOrbitDistance(), 0) + planet.getStar().getY();
 
                 this.x += (futurePlanetX - planet.getX());
                 this.y += (futurePlanetY - planet.getY());

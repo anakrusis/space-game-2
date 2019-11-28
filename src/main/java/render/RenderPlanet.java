@@ -1,8 +1,7 @@
 package render;
 
 import entity.Body;
-import entity.BodyPlanet;
-import util.CollisionUtil;
+import entity.body.BodyPlanet;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;

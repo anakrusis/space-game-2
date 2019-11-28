@@ -1,5 +1,8 @@
 package entity;
 
+import entity.body.BodyGravityRadius;
+import entity.body.BodyPlanet;
+import entity.body.BodyStar;
 import util.CollisionUtil;
 import util.MathHelper;
 import world.Map;

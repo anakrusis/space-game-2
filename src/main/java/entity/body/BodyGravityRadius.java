@@ -1,5 +1,6 @@
-package entity;
+package entity.body;
 
+import entity.Body;
 import world.Chunk;
 import world.Map;
 

@@ -1,9 +1,9 @@
 package render;
 
 import entity.Body;
-import entity.BodyGravityRadius;
-import entity.BodyPlanet;
-import entity.BodyStar;
+import entity.body.BodyGravityRadius;
+import entity.body.BodyPlanet;
+import entity.body.BodyStar;
 import util.Reference;
 import world.Chunk;
 

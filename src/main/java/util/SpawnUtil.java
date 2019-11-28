@@ -1,8 +1,8 @@
 package util;
 
 import entity.Body;
-import entity.BodyPlanet;
-import entity.BodyStar;
+import entity.body.BodyPlanet;
+import entity.body.BodyStar;
 import world.Chunk;
 import world.Map;
 

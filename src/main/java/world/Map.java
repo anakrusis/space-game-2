@@ -1,11 +1,12 @@
 package world;
 
 import entity.*;
+import entity.body.BodyPlanet;
+import entity.body.BodyStar;
 import entity.building.BuildingFactory;
 import util.CollisionUtil;
 import util.SpawnUtil;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Map {

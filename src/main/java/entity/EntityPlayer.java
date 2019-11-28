@@ -10,7 +10,13 @@ public class EntityPlayer extends Entity {
 
     public EntityPlayer (double x, double y, float dir, Map map){
         super(x,y,dir,map);
-        this.money = Reference.DEBUG_MODE ? 1000 : 0;
+        if (Reference.DEASTL_MODE){
+            this.money = 69000000;
+        }else if (Reference.DEBUG_MODE){
+            this.money = 1000;
+        }else{
+            this.money = 0;
+        }
     }
 
     @Override

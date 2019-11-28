@@ -1,7 +1,8 @@
 import entity.Body;
-import entity.BodyPlanet;
+import entity.body.BodyPlanet;
 import entity.Entity;
 import entity.EntityBuilding;
+import gui.TextBox;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -10,13 +11,13 @@ import render.Camera;
 import render.RenderText;
 import render.Texture;
 import render.Textures;
-import util.CollisionUtil;
 import util.MathHelper;
 import util.Reference;
 import world.Chunk;
 import world.Map;
 
 import java.nio.*;
+import java.util.ArrayList;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -34,6 +35,8 @@ public class SpaceGame {
 
     // The world map, and how many ticks it's existed for
     public static Map map = new Map(10,10);
+
+    public static ArrayList<TextBox> guiElements = new ArrayList<>();
 
     public static final int CHUNK_SIZE = 512;
 
