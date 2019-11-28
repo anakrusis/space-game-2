@@ -17,6 +17,7 @@ public class Entity {
     protected Body groundedBody;
     protected float mass;
 
+    protected String name;
     public int ticksExisted;
     protected Map map;
 
@@ -32,6 +33,7 @@ public class Entity {
         this.map = map;
         this.grounded = false;
         this.mass = 1f;
+        this.name = "Entity";
     }
 
     public double getX() {
@@ -76,7 +78,7 @@ public class Entity {
             boolean isColliding = false;
             for (Body body : this.getChunk().getBodies()) {
                 if (body.canEntitiesCollide){
-                    if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
+                    if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
 
                         // Setting collision markers
                         if (this.velocity > 1.0 || body instanceof BodyStar) {
@@ -90,7 +92,7 @@ public class Entity {
                     }
                 } else {
                     // Gravitation (simple linear pull towards the body)
-                    if (CollisionUtil.isEntityCollidingWithBody(this, body)){
+                    if (CollisionUtil.isEntityCollidingWithEntity(this, body)){
                         if (body instanceof BodyGravityRadius) {
                             double forceMagnitude = 0.1d;
                             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
@@ -110,8 +112,8 @@ public class Entity {
 
         if (grounded && groundedBody != null) {
 
-            if (this.velocity > 0.1){
-                this.velocity = 0.1;
+            if (this.velocity > 0.2){
+                this.velocity = 0.2;
             }
 
             // This moves the entity along with a planet by anticipating where it will be in the next tick
@@ -135,12 +137,12 @@ public class Entity {
             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
             int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
             double radius = body.getRadius() + body.getTerrain()[index] + 0.5;
-            double innermostradius = body.radius + CollisionUtil.heightFromEntityAngle(this, body) - 3f;
+            double innermostradius = body.radius + CollisionUtil.heightFromEntityAngle(this, body) - 4f;
 
             double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
             if (distance < innermostradius) {
-//                this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
-//                this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
+                this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
+                this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
             }
             CollisionUtil.resolveCollision(this, body);
 

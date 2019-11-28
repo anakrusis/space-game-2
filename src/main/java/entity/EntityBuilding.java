@@ -1,6 +1,5 @@
 package entity;
 
-import org.lwjgl.system.MathUtil;
 import util.CollisionUtil;
 import util.MathHelper;
 import world.Map;
@@ -14,6 +13,7 @@ public class EntityBuilding extends Entity {
     public EntityBuilding(double x, double y, float dir, Map map, EntityPlayer playerPlaced) {
         super(x, y, dir, map);
         this.playerPlaced = playerPlaced;
+        this.name = "Building";
     }
     public EntityBuilding(double x, double y, float dir, Map map){
         this(x, y, dir, map,null);
@@ -37,7 +37,7 @@ public class EntityBuilding extends Entity {
 
     @Override
     public void update() {
-        if (this.ticksExisted > 300 && this.groundedBody == null) {
+        if (this.ticksExisted > 1000 && this.groundedBody == null) {
             this.dead = true;
         }
 
@@ -48,7 +48,7 @@ public class EntityBuilding extends Entity {
         if (this.getChunk() != null) {
             boolean isColliding = false;
             for (Body body : this.getChunk().getBodies()) {
-                if (CollisionUtil.isEntityCollidingWithBody(this, body)) {
+                if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
 
                     // Setting collision markers
                     if (body.canEntitiesCollide) {
@@ -117,5 +117,9 @@ public class EntityBuilding extends Entity {
 
     public EntityPlayer getPlayerPlaced() {
         return playerPlaced;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

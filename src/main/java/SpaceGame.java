@@ -2,6 +2,7 @@ import entity.Body;
 import entity.BodyPlanet;
 import entity.Entity;
 import entity.EntityBuilding;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -9,6 +10,8 @@ import render.Camera;
 import render.RenderText;
 import render.Texture;
 import render.Textures;
+import util.CollisionUtil;
+import util.MathHelper;
 import util.Reference;
 import world.Chunk;
 import world.Map;
@@ -67,7 +70,7 @@ public class SpaceGame {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(1024, 768, Reference.GAME_NAME + " " + Reference.VERSION, NULL, NULL);
+        window = glfwCreateWindow(1280, 720, Reference.GAME_NAME + " " + Reference.VERSION, NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -116,14 +119,10 @@ public class SpaceGame {
         GL.createCapabilities();
         glEnable(GL_TEXTURE_2D);
 
-        glClearColor(0.05f, 0.0f, 0.05f, 0.0f);
-
-        // DeaSTL wanted me to make it hot pink so if you want your build to have a hot pink background
-        // then just uncomment the line below
-        //glClearColor(1f, 0.0f, 1f, 0.0f);
+        glClearColor(Reference.DEASTL_MODE ? 1 : 0.05f, 0.0f, Reference.DEASTL_MODE ? 1 : 0.05f, 0.0f);
 
         // Aspect ratio fixed
-        glOrtho(-13.33,13.33,-10,10,-1,1);
+        glOrtho(-17.77,17.77,-10,10,-1,1);
 
         glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback(){
             @Override
@@ -170,7 +169,9 @@ public class SpaceGame {
                 }
 
                 if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE){
-                    camera.setZoom( camera.getZoom() + ( camera.getZoom() / 25 ) );
+                    if (camera.getZoom() + (camera.getZoom() / 25) < Reference.MAX_ZOOM){
+                        camera.setZoom( camera.getZoom() + ( camera.getZoom() / 25 ) );
+                    }
                 }
                 if (glfwGetKey(window, GLFW_KEY_E) == GL_TRUE){
                     if (camera.getZoom() > Reference.MIN_ZOOM){
@@ -189,6 +190,23 @@ public class SpaceGame {
                     map.getPlayer().setCurrentItemSlot(2);
                 }
             }
+
+            DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
+            glfwGetCursorPos(window, posX, null);
+            double xpos = posX.get(0);
+
+            DoubleBuffer posY = BufferUtils.createDoubleBuffer(1);
+            glfwGetCursorPos(window, null, posY);
+            double ypos = posY.get(0);
+
+            IntBuffer w = BufferUtils.createIntBuffer(1);
+            IntBuffer h = BufferUtils.createIntBuffer(1);
+            glfwGetWindowSize(window, w, h);
+            int windowWidth = w.get();
+            int windowHeight = h.get();
+
+            map.getCursor().setX( MathHelper.screenToWorldX(xpos, windowWidth, camera.getX(), camera.getZoom() ) );
+            map.getCursor().setY( MathHelper.screenToWorldY(ypos, windowHeight, camera.getY(), camera.getZoom() ) );
 
             // Deleting entities marked dead, or if living, updating them
             for (int i = 0; i < map.getEntities().size(); i++){

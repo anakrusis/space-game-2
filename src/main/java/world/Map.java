@@ -5,10 +5,12 @@ import entity.building.BuildingFactory;
 import util.CollisionUtil;
 import util.SpawnUtil;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Map {
     private Chunk[][] chunks;
+    private ArrayList<Chunk> loadedChunks;
     private ArrayList<Entity> entities;
 
     // In chunks
@@ -18,6 +20,8 @@ public class Map {
     public int mapTime;
     private BodyPlanet homePlanet = null;
     private BodyStar homeStar = null;
+
+    EntityCursor cursor;
 
     // This is kinda hacky, but it means that the player initially spawns on the second game tick,
     // allowing the planets' positions in orbit to be initialized
@@ -39,6 +43,7 @@ public class Map {
         }
 
         this.mapTime = 0;
+        this.cursor = new EntityCursor(0,0,0,this);
     }
 
     public Chunk[][] getChunks(){
@@ -93,6 +98,7 @@ public class Map {
             CollisionUtil.resolveCollision(this.getPlayer(), homePlanet);
         }
 
+        this.cursor.update();
         this.mapTime++;
     }
 
@@ -102,5 +108,9 @@ public class Map {
 
     public BodyPlanet getHomePlanet() {
         return homePlanet;
+    }
+
+    public EntityCursor getCursor() {
+        return cursor;
     }
 }

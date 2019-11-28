@@ -2,6 +2,7 @@ package render;
 
 import entity.Body;
 import entity.BodyPlanet;
+import util.CollisionUtil;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;
@@ -16,6 +17,8 @@ public class RenderPlanet {
         double[] absPoints = planet.getAbsolutePoints();
         double[] stonePoints = planet.getStonePoints();
 
+        double[] triSlice;
+
         // Surface
         glBegin(GL_POLYGON);
         glColor3d(planet.getSurfaceColor()[0], planet.getSurfaceColor()[1], planet.getSurfaceColor()[2]);
@@ -29,8 +32,8 @@ public class RenderPlanet {
         }
         glEnd();
 
-        // Stone underneath
         glBegin(GL_POLYGON);
+        // Stone underneath
         glColor3d(planet.getColor()[0], planet.getColor()[1], planet.getColor()[2]);
         for (int i = 0; i < stonePoints.length; i += 2){
 

@@ -51,7 +51,15 @@ public class Render {
          }
 
          //Drawing text
-         RenderText.renderText(Reference.GAME_NAME + " " + Reference.VERSION,-12,8,0.6f);
+         String renderstring = Reference.GAME_NAME + " " + Reference.VERSION;
+
+         if (Reference.DEASTL_MODE){
+             renderstring += " (DEASTL MODE)";
+         }else if (Reference.DEBUG_MODE) {
+             renderstring += " (DEBUG)";
+         }
+
+         RenderText.renderText(renderstring,-12,8,0.6f);
          RenderText.renderText("WASD to move - QE to zoom - P to self-destruct",-12,-8.5f,0.45f);
          RenderText.renderText("Click to place factories ($50)",-12,-9.5f,0.45f);
 
@@ -60,14 +68,19 @@ public class Render {
              if (player.isGrounded()){
                  RenderText.renderText(player.getGroundedBody().getName(),
                           10, 5, 0.3f);
-                 RenderText.renderText(player.getGroundedBody().getTerrain()[CollisionUtil.terrainIndexFromEntityAngle(player, player.getGroundedBody())] + "",
-                 10, 8, 0.5f);
              }
              if (player.getChunk() != null){
                  RenderText.renderText(player.getChunk().getX() + "X", 11, 3, 1.0f);
                  RenderText.renderText(player.getChunk().getY() + "Y", 11, 2, 1.0f);
              }
+             RenderText.renderText(map.getCursor().getX() + "",
+                     10, 8, 0.5f);
+             RenderText.renderText(map.getCursor().getY() + "",
+                     10, 7.5f, 0.5f);
+
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
          }
+
+         RenderPlayer.renderPlayer(SpaceGame.map.getCursor(), camera);
      }
 }

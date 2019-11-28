@@ -1,6 +1,7 @@
 package entity;
 
 import util.MathHelper;
+import util.Reference;
 import world.Map;
 
 public class EntityPlayer extends Entity {
@@ -9,7 +10,7 @@ public class EntityPlayer extends Entity {
 
     public EntityPlayer (double x, double y, float dir, Map map){
         super(x,y,dir,map);
-        this.money = 1000;
+        this.money = Reference.DEBUG_MODE ? 1000 : 0;
     }
 
     @Override

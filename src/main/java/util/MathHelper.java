@@ -17,10 +17,30 @@ public class MathHelper {
         return Math.max( Math.abs( x2 - x1 ), Math.abs( y2 - y1 ) );
     }
 
-    public static double screenToWorldX(double screenX, double camX, double camZoom){
-        return (screenX / camZoom) + camX;
+    public static double screenToWorldX(double screenX, double screenWidth, double camX, double camZoom){
+        screenX = screenToGLX( screenX, screenWidth);
+        return ( screenX / camZoom ) + camX;
     }
-    public static double screenToWorldY(double screenY, double camY, double camZoom){
-        return (screenY / camZoom) + camY;
+    public static double screenToWorldY(double screenY, double screenHeight, double camY, double camZoom){
+        screenY = screenToGLY( screenY, screenHeight);
+        return ( screenY / camZoom ) + camY;
     }
+
+    public static double screenToGLX(double screenX, double screenWidth) {
+        screenX /= screenWidth;
+        screenX *= 35.55;
+        screenX -= 17.77;
+        return screenX;
+    }
+
+    public static double screenToGLY(double screenY, double screenHeight) {
+        screenY /= screenHeight;
+        screenY *= 20;
+        screenY -= 10;
+
+        // Because Y increases towards the top in the gl viewport
+        screenY *= -1;
+        return screenY;
+    }
+
 }

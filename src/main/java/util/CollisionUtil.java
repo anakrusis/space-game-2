@@ -17,7 +17,7 @@ public class CollisionUtil {
         Input an entity position and get the height of the terrain directly below it, I guess
      */
 
-    public static boolean isEntityCollidingWithBody (Entity entity, Body body){
+    public static boolean isEntityCollidingWithEntity(Entity entity, Entity body){
 
         boolean isColliding;
 
@@ -95,81 +95,6 @@ public class CollisionUtil {
         }
 
         return (int)Math.floor(index);
-    }
-
-    public static boolean isEntityCollidingWithEntity (Entity entity1, Entity entity2){
-        Entity e1 = entity1;
-        Entity e2 = entity2;
-        double[] e1AbsPoints, e2AbsPoints;
-        // Start and end points of diagonal
-        double diagSX, diagSY;
-        double diagEX, diagEY;
-
-        // Start and end points of edge
-        double edgeSX, edgeSY;
-        double edgeEX, edgeEY;
-
-        int terrainindex;
-
-        double displaceX, displaceY;
-
-        for (int currentpoly = 0; currentpoly < 2; currentpoly++){
-            if (currentpoly == 1){
-                e1 = entity2;
-                e2 = entity1;
-            }
-
-            e1AbsPoints = e1.getAbsolutePoints();
-
-            // A single triangle "pizza slice" of the planet
-            if (e2 instanceof Body){
-                terrainindex = CollisionUtil.terrainIndexFromEntityAngle(e1,(Body)e2);
-                e2AbsPoints = new double[]{
-                        e2.getX(), e2.getY(),
-                        e2.getAbsolutePoints()[2 * terrainindex], e2.getAbsolutePoints()[(2 * terrainindex) + 1],
-                        e2.getAbsolutePoints()[2 * (terrainindex + 1)], e2.getAbsolutePoints()[(2 * (terrainindex + 1)) + 1],
-                };
-            }else{
-                e2AbsPoints = e2.getAbsolutePoints();
-            }
-
-            for (int p = 0; p < e1AbsPoints.length; p += 2){
-                diagSX = e1.getX();
-                diagSY = e1.getY();
-                diagEX = e1AbsPoints[p];
-                diagEY = e1AbsPoints[p + 1];
-                displaceX = 0;
-                displaceY = 0;
-
-                for (int q = 0; q < e2AbsPoints.length; q += 2){
-                    edgeSX = e2AbsPoints[q];
-                    edgeSY = e2AbsPoints[q + 1];
-                    edgeEX = e2AbsPoints[ (q+2) % e2AbsPoints.length ];
-                    edgeEY = e2AbsPoints[ (q+3) % e2AbsPoints.length ];
-
-                    double h = (edgeEX - edgeSX) * (diagSY - diagEY) - (diagSX - diagEX) * (edgeEY - edgeSY);
-                    double t1 = ((edgeSY - edgeEY) * (diagSX - edgeSX) + (edgeEX - edgeSX) * (diagSY - edgeSY)) / h;
-                    double t2 = ((diagSY - diagEY) * (diagSX - edgeSX) + (diagEX - diagSX) * (diagSY - edgeSY)) / h;
-
-                    if (t1 >= 0.0f && t1 < 1.0f && t2 >= 0.0f && t2 < 1.0f)
-                    {
-                        displaceX += (1.0f - t1) * (diagEX - diagSX);
-                        displaceY += (1.0f - t1) * (diagEY - diagSY);
-                    }
-
-                }
-                double coefficient = (currentpoly == 0 ? -1f : 1f);
-
-                e1.setX( e1.getX() + displaceX * coefficient);
-                e1.setY( e1.getY() + displaceY * coefficient);
-
-                if (Math.abs(displaceX) > 0 || Math.abs(displaceY) > 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     public static void resolveCollision(Entity entity1, Entity entity2){
