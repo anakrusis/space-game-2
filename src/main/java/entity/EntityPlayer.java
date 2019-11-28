@@ -17,6 +17,7 @@ public class EntityPlayer extends Entity {
         }else{
             this.money = 0;
         }
+        this.name = "Player";
     }
 
     @Override

@@ -10,6 +10,7 @@ public class BuildingFactory extends EntityBuilding {
     public BuildingFactory(double x, double y, float dir, Map map, EntityPlayer player) {
         super(x, y, dir, map, player);
         this.price = 50;
+        this.name = "Factory";
     }
     @Override
     public double[] getAbsolutePoints() {

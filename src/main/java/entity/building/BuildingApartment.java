@@ -3,7 +3,10 @@ package entity.building;
 import entity.EntityBuilding;
 import entity.EntityPlayer;
 import util.MathHelper;
+import util.RandomUtil;
 import world.Map;
+
+import java.util.Random;
 
 public class BuildingApartment extends EntityBuilding {
 
@@ -12,6 +15,7 @@ public class BuildingApartment extends EntityBuilding {
     public BuildingApartment(double x, double y, float dir, Map map, EntityPlayer player) {
         super(x, y, dir, map, player);
         this.price = 25;
+        this.name = "Apartment";
     }
 
     @Override
@@ -32,5 +36,16 @@ public class BuildingApartment extends EntityBuilding {
 
     public int getPopulation() {
         return population;
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        if (this.ticksExisted % 200 == 39 && this.population <= 99){
+            this.population++;
+            if (RandomUtil.percentChance(25)){
+                this.population++;
+            }
+        }
     }
 }

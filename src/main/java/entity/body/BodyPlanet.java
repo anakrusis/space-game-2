@@ -73,6 +73,7 @@ public class BodyPlanet extends Body {
             }
         }
 
+        // Calculating the planet's population from the sum of individual apt buildings
         int pop = 0;
         for (int i = 0; i < terrainSize; i++){
             EntityBuilding build = this.buildings[i];

@@ -198,6 +198,7 @@ public class SpaceGame {
                 }
             }
             MouseHandler.update(window);
+            GuiHandler.update(guiElements);
 
             // Deleting entities marked dead, or if living, updating them
             for (int i = 0; i < map.getEntities().size(); i++){

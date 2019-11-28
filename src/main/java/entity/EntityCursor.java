@@ -15,11 +15,18 @@ public class EntityCursor extends Entity {
     public void update() {
         // Has none of the physics of the base entity
 
+        this.selectedEntity = null;
         if (this.getChunk() != null){
             for (int i = 0; i < this.getChunk().getBodies().size(); i++){
                 Body body = this.getChunk().getBodies().get(i);
-                if (CollisionUtil.isEntityCollidingWithEntity(this, body)){
+                if (CollisionUtil.isEntityCollidingWithEntity(this, body) && body.canEntitiesCollide){
                     this.selectedEntity = body;
+                }
+                for (int j = 0; j < this.getMap().getEntities().size(); j++){
+                    Entity entity = this.getMap().getEntities().get(j);
+                    if (entity instanceof EntityBuilding && CollisionUtil.isEntityCollidingWithEntity(this, entity)){
+                        this.selectedEntity = entity;
+                    }
                 }
             }
         }

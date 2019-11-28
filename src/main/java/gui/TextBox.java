@@ -55,6 +55,8 @@ public class TextBox {
         this.textBody = textBody;
     }
 
+    public void addTextBody(String textBody) { this.textBody += textBody; }
+
     public void setHeader(String header) {
         this.header = header;
     }

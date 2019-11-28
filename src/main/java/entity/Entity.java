@@ -204,4 +204,8 @@ public class Entity {
     public Map getMap() {
         return map;
     }
+
+    public String getName() {
+        return name;
+    }
 }
