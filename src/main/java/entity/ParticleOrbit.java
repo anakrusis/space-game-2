@@ -29,8 +29,8 @@ public class ParticleOrbit extends EntityParticle {
         double point2x = MathHelper.rotX(this.dir,size,0d) + this.x;
         double point2y = MathHelper.rotY(this.dir,size,0d) + this.y;
 
-        double point3x = MathHelper.rotX(this.dir,-size,-size) + this.x;
-        double point3y = MathHelper.rotY(this.dir,-size,-size) + this.y;
+        double point3x = MathHelper.rotX(this.dir,-size,-size * 20) + this.x;
+        double point3y = MathHelper.rotY(this.dir,-size,-size * 20) + this.y;
 
         return new double[]{ point1x, point1y, point2x, point2y, point3x, point3y };
     }

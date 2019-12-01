@@ -7,10 +7,15 @@ import util.MathHelper;
 import world.Map;
 
 public class BuildingFactory extends EntityBuilding {
+
+    private int employees;
+    private int capacity;
+
     public BuildingFactory(double x, double y, float dir, Map map, EntityPlayer player) {
         super(x, y, dir, map, player);
         this.price = 50;
         this.name = "Factory";
+        this.capacity = 56;
     }
     @Override
     public double[] getAbsolutePoints() {
@@ -46,4 +51,17 @@ public class BuildingFactory extends EntityBuilding {
             }
         }
     }
+
+    public int getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(int employees) {
+        this.employees = employees;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
 }

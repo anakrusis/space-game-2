@@ -11,10 +11,12 @@ import java.util.Random;
 public class BuildingApartment extends EntityBuilding {
 
     private int population;
+    private int capacity;
 
     public BuildingApartment(double x, double y, float dir, Map map, EntityPlayer player) {
         super(x, y, dir, map, player);
         this.price = 25;
+        this.capacity = 100;
         this.name = "Apartment";
     }
 
@@ -38,14 +40,15 @@ public class BuildingApartment extends EntityBuilding {
         return population;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
     @Override
     public void update() {
         super.update();
-        if (this.ticksExisted % 200 == 39 && this.population <= 99){
+        if (this.ticksExisted % 200 == 39 && this.population < capacity && RandomUtil.percentChance(50)){
             this.population++;
-            if (RandomUtil.percentChance(25)){
-                this.population++;
-            }
         }
     }
 }

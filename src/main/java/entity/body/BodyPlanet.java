@@ -63,16 +63,6 @@ public class BodyPlanet extends Body {
         this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.star.getX();
         this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.star.getY();
 
-        // Todo: Replace this with a one-time orbit circle that stays forever, made in the constructor, or init method when made
-        // (Less particles being made and destroyed all over the place)
-        if (this.ticksExisted % 250 == 0 && this.map.getPlayer() != null){
-            if (this.map.getPlayer().getChunk() != null){
-                if (this.map.getPlayer().getChunk() == this.chunk){
-                    this.map.getEntities().add( new ParticleOrbit(this.x, this.y, this.dir, this.map) );
-                }
-            }
-        }
-
         // Calculating the planet's population from the sum of individual apt buildings
         int pop = 0;
         for (int i = 0; i < terrainSize; i++){

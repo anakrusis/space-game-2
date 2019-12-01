@@ -7,6 +7,8 @@ import static org.lwjgl.opengl.GL11.*;
 public class RenderText {
 
     static Texture rendererFont;
+    static float textspacing = 1.2f;
+
     public static void renderText(String input, float x, float y, float size, float[] color, boolean bold){
 
         glEnable(GL_BLEND);
@@ -39,7 +41,7 @@ public class RenderText {
             // Newline handling
             if (character == 0x0a){
                 cx = x;
-                cy -= size;
+                cy -= size * textspacing;
 
             // All other text characters
             }else{

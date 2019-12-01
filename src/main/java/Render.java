@@ -1,6 +1,7 @@
 import entity.Entity;
 import entity.EntityBuilding;
 import entity.EntityPlayer;
+import entity.ParticleOrbit;
 import render.*;
 import util.CollisionUtil;
 import util.MathHelper;
@@ -34,19 +35,15 @@ public class Render {
 
              for (Chunk chunk : xarray){
 
-                 if (SpaceGame.map.getPlayer() != null){
-                     if (SpaceGame.map.getPlayer().getChunk() != null){
+                 if (camera.getChunk() != null){
+                     int cameraChunkX = camera.getChunk().getX();
+                     int cameraChunkY = camera.getChunk().getY();
 
-                         int playerChunkX = SpaceGame.map.getPlayer().getChunk().getX();
-                         int playerChunkY = SpaceGame.map.getPlayer().getChunk().getY();
-                         int chebyschev = MathHelper.chebyshev(chunk.getX(), chunk.getY(),playerChunkX,playerChunkY);
+                     int chebyschev = MathHelper.chebyshev(chunk.getX(), chunk.getY(),cameraChunkX,cameraChunkY);
 
-                         if (chebyschev <= Reference.RENDER_DISTANCE){
-                             RenderChunk.renderChunk(chunk, camera);
-                         }
+                     if (chebyschev <= Reference.RENDER_DISTANCE){
+                         RenderChunk.renderChunk(chunk, camera);
                      }
-                 }else{
-                     RenderChunk.renderChunk(chunk, camera);
                  }
              }
          }

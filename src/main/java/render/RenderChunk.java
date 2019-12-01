@@ -1,9 +1,8 @@
 package render;
 
 import entity.Body;
-import entity.body.BodyGravityRadius;
-import entity.body.BodyPlanet;
-import entity.body.BodyStar;
+import entity.ParticleOrbit;
+import entity.body.*;
 import util.Reference;
 import world.Chunk;
 
@@ -31,9 +30,17 @@ public class RenderChunk {
 
             // Culled bodies
             if (camZoom > 0.01){
+
                 if (body instanceof BodyGravityRadius){
                     RenderStar.renderStar(body, false, camera);
                 }else if (body instanceof BodyPlanet){
+
+                    for (int j = 0; j < 100; j++){
+                        BodyPlanet planet = (BodyPlanet)body;
+                        BodyOrbit orbit = new BodyOrbit(planet.getStar().getX(), planet.getStar().getY(), 0, chunk, planet.getOrbitDistance(), chunk.getMap());
+                        RenderStar.renderStar(orbit, false, camera);
+                    }
+
                     RenderPlanet.renderPlanet(body,camera);
                 }
             }

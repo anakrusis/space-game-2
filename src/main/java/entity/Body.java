@@ -34,6 +34,9 @@ public class Body extends Entity {
         this.mass = radius * 50;
         this.color = new float[]{1f, 1f, 1f};
         this.name = "Body";
+
+        // Default terrain is 16 long, usually overwritten
+        this.terrain = new float[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     }
 
     public float[] getTerrain() {

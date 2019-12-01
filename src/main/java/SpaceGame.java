@@ -31,11 +31,11 @@ public class SpaceGame {
     // The window handle
     private long window;
 
-    // The global viewport to be used everywhere, I guess
-    public static Camera camera = new Camera(0,0,1);
-
     // The world map, and how many ticks it's existed for
     public static Map map = new Map(10,10);
+
+    // The global viewport to be used everywhere, I guess
+    public static Camera camera = new Camera(0,0,1, map);
 
     public static ArrayList<TextBox> guiElements = new ArrayList<>();
 

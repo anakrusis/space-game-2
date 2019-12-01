@@ -1,6 +1,7 @@
 package world;
 
 import entity.Body;
+import entity.ParticleOrbit;
 import entity.body.BodyPlanet;
 import entity.body.BodyStar;
 import util.GenUtil;
@@ -40,8 +41,9 @@ public class Chunk {
             if (body instanceof BodyStar){
                 int planetnum = 120 * RandomUtil.fromRangeI(2, 6) + 120;
                 for (int planetdist = 240; planetdist < planetnum; planetdist += 120){
-                    float orbitDistance = RandomUtil.fromRangeF(planetdist,planetdist + 120);
-                    this.bodies.add( new BodyPlanet(body.getX() + orbitDistance, body.getY(), 0, this, orbitDistance, (BodyStar)body, this.map));
+                    float orbitDistance = RandomUtil.fromRangeF(planetdist - 20,planetdist + 20);
+                    BodyPlanet planet = new BodyPlanet(body.getX() + orbitDistance, body.getY(), 0, this, orbitDistance, (BodyStar)body, this.map );
+                    this.bodies.add(planet);
                 }
             }
         }
@@ -57,5 +59,9 @@ public class Chunk {
 
     public ArrayList<Body> getBodies() {
         return bodies;
+    }
+
+    public Map getMap() {
+        return map;
     }
 }

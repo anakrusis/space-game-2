@@ -16,6 +16,7 @@ public class RenderParticle {
             double[] abspoints = entity.getAbsolutePoints();
 
             glBegin(GL_LINE_LOOP);
+            // Todo: Inherent particle color property, just like Bodies have (Why didn't I do this earlier?)
             if (entity instanceof ParticleExplosion){
                 glColor3d(1d,0.5d,0d);
             } else if (entity instanceof ParticleSmoke){

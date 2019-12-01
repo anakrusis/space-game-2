@@ -1,14 +1,20 @@
 package render;
 
+import util.Reference;
+import world.Chunk;
+import world.Map;
+
 public class Camera {
     private double x;
     private double y;
     private double zoom;
+    private Map map;
 
-    public Camera (double x, double y, double zoom){
+    public Camera (double x, double y, double zoom, Map map){
         this.x = x;
         this.y = y;
         this.zoom = zoom;
+        this.map = map;
     }
 
     public double getX() {
@@ -33,5 +39,16 @@ public class Camera {
 
     public void setZoom(double zoom) {
         this.zoom = zoom;
+    }
+
+    public Chunk getChunk(){
+        int chunkx = (int)Math.floor( this.x / Reference.CHUNK_SIZE );
+        int chunky = (int)Math.floor( this.y / Reference.CHUNK_SIZE );
+        if (chunkx >= 0 && chunky >= 0 && chunkx < map.getChunks().length && chunky < map.getChunks()[0].length){
+            Chunk entityChunk = this.map.getChunks()[chunkx][chunky];
+            return entityChunk;
+        }else{
+            return null;
+        }
     }
 }
