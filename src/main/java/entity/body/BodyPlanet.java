@@ -27,7 +27,7 @@ public class BodyPlanet extends Body {
 
     private int population;
 
-    public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map) {
+    public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map, String name) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(16,32), map);
         this.star = star;
         this.orbitDistance = orbitDistance;
@@ -45,7 +45,7 @@ public class BodyPlanet extends Body {
             this.terrain[i] = RandomUtil.fromRangeF(-0.5f,1.6f);
         }
 
-        this.name = "Planet " + chunk.getX() + " " + chunk.getY();
+        this.name = name;
 
         BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
         this.chunk.getBodies().add(bgr);
@@ -53,6 +53,10 @@ public class BodyPlanet extends Body {
 
         buildings = new EntityBuilding[terrain.length];
         population = 0;
+    }
+
+    public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map){
+        this(x, y, dir, chunk, orbitDistance, star, map, "Planet " + chunk.getX() + " " + chunk.getY());
     }
 
     @Override

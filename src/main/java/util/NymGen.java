@@ -6,6 +6,7 @@ public class NymGen {
     static final String[] vowels = new String[]{"a", "e", "i", "o", "u", "y", "ie", "ae", "ou", "ea"};
     static final String[] consonants = new String[]{"b", "c", "d", "f", "g", "gh", "h", "j", "k", "ch",
     "l", "m", "n", "p", "r", "s", "t", "v", "w", "z", "sh", "th", "t"};
+    static final char[] greekletters = new char[]{224, 225, 226, 235, 238};
 
     public static String newName(){
         StringBuilder output = new StringBuilder();
@@ -35,5 +36,9 @@ public class NymGen {
         String str = output.toString();
         str = str.substring(0, 1).toUpperCase() + str.substring(1);
         return str;
+    }
+
+    public static char[] greekLetters(){
+        return greekletters;
     }
 }
