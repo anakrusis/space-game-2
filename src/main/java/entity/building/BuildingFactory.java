@@ -10,6 +10,8 @@ public class BuildingFactory extends EntityBuilding {
 
     private int employees;
     private int capacity;
+    private int output;
+    private int outputInterval = 300;
 
     public BuildingFactory(double x, double y, float dir, Map map, EntityPlayer player) {
         super(x, y, dir, map, player);
@@ -36,18 +38,17 @@ public class BuildingFactory extends EntityBuilding {
     @Override
     public void update() {
         super.update();
-        if (this.ticksExisted % 20 == 0 && this.map.getPlayer() != null){
+        if (this.ticksExisted % 20 == 0 && this.map.getPlayer() != null && this.isActive()){
             if (this.map.getPlayer().getChunk() != null){
                 if (this.map.getPlayer().getChunk() == this.getChunk()){
                     this.map.getEntities().add( new ParticleSmoke(this.x, this.y, this.dir, this.map) );
                 }
             }
         }
-        if (this.isGrounded()){
-            if (this.groundedBody.getDir() % Math.PI <= this.groundedBody.getRotSpeed()){
-                if (this.map.getPlayer() != null){
-                    this.map.getPlayer().addMoney(2);
-                }
+        if (this.isActive()){
+            this.output = -(this.employees - (this.capacity * 2)) * (this.employees) / (this.capacity * 2);
+            if (this.ticksExisted % outputInterval == 0 && this.playerPlaced != null){
+                this.playerPlaced.addMoney(output);
             }
         }
     }
@@ -64,4 +65,8 @@ public class BuildingFactory extends EntityBuilding {
         return capacity;
     }
 
+    @Override
+    public boolean isActive() {
+        return super.isActive() && this.employees > 0;
+    }
 }

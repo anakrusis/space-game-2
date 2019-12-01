@@ -27,7 +27,11 @@ public class RenderBuilding{
             glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
             glColor4d(1d,1d,1d,1d);
             if (entity instanceof BuildingFactory) {
-                Textures.factory.bind();
+                if (((BuildingFactory) entity).isActive()){
+                    Textures.factory.bind();
+                }else{
+                    Textures.factory_off.bind();
+                }
             }else if (entity instanceof BuildingApartment) {
                 Textures.apartment.bind();
             }

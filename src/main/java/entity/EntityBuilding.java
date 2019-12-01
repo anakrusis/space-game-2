@@ -122,7 +122,15 @@ public class EntityBuilding extends Entity {
         return playerPlaced;
     }
 
+    public void setPlayerPlaced(EntityPlayer playerPlaced) {
+        this.playerPlaced = playerPlaced;
+    }
+
     public int getPrice() {
         return price;
+    }
+
+    public boolean isActive() {
+        return this.isGrounded();
     }
 }

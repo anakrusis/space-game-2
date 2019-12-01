@@ -3,6 +3,7 @@ package world;
 import entity.*;
 import entity.body.BodyPlanet;
 import entity.body.BodyStar;
+import entity.building.BuildingApartment;
 import entity.building.BuildingFactory;
 import util.CollisionUtil;
 import util.SpawnUtil;
@@ -78,6 +79,9 @@ public class Map {
 
     public void update(){
         if (this.mapTime - this.playerLastDeathTime == RESPAWN_INTERVAL){
+
+            entities.add(new EntityPlayer(0,0,(float)Math.PI, this));
+
             // This is just a first time kind of thing
             if (homePlanet == null){
                 homePlanet = SpawnUtil.newHomePlanet(this);
@@ -85,13 +89,17 @@ public class Map {
 
                 BuildingFactory factory = new BuildingFactory(homePlanet.getX() + homePlanet.getRadius() + 5,
                         homePlanet.getY(), 0, this, this.getPlayer());
+                BuildingApartment apt = new BuildingApartment(homePlanet.getX() + homePlanet.getRadius() + 5,
+                        homePlanet.getY() + 7, 0, this, this.getPlayer());
                 entities.add(factory);
+                entities.add(apt);
             }
 
             // This is for all respawns
             double spawnx = homePlanet.getX() + homePlanet.getRadius();
             double spawny = homePlanet.getY();
-            entities.add(new EntityPlayer(spawnx,spawny,(float)Math.PI, this));
+            this.getPlayer().setX(spawnx);
+            this.getPlayer().setY(spawny);
 
             float height = CollisionUtil.heightFromEntityAngle(this.getPlayer(), homePlanet);
             double radius = homePlanet.getRadius() + height + 2f;

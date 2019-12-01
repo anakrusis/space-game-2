@@ -13,7 +13,7 @@ public class Reference {
     public static final String GAME_NAME = "Space Game";
     public static final String VERSION = "0.0.3pre";
 
-    public static final boolean DEBUG_MODE = true;
+    public static final boolean DEBUG_MODE = false;
     // DeaSTL wanted me to make it hot pink so if you want your build to have a hot pink background, you know what to do
     public static final boolean DEASTL_MODE = false;
 }

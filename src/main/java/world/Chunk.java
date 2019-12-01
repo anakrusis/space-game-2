@@ -5,6 +5,7 @@ import entity.ParticleOrbit;
 import entity.body.BodyPlanet;
 import entity.body.BodyStar;
 import util.GenUtil;
+import util.NymGen;
 import util.RandomUtil;
 import util.Reference;
 
@@ -30,7 +31,8 @@ public class Chunk {
             double geny = Reference.CHUNK_SIZE * (this.y + Math.random());
 
             if (GenUtil.withinPadding(genx, geny, 600)){
-                this.bodies.add(new BodyStar(genx, geny, 0, this, this.map));
+                String name = NymGen.newName();
+                this.bodies.add(new BodyStar(genx, geny, 0, this, this.map, name));
                 break;
             }
         }

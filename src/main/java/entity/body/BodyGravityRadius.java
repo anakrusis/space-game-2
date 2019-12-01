@@ -13,6 +13,7 @@ public class BodyGravityRadius extends Body {
         this.dependentBody = body;
         this.terrain = new float[]{ 0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0 };
         this.rotSpeed = 0f;
+        this.color = new float[]{0.1f, 0.1f, 0.1f};
     }
 
     public Body getDependentBody() {

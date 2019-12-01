@@ -22,12 +22,15 @@ public class Render {
          // Drawing entities
          for (Entity entity : SpaceGame.map.getEntities()){
              if (entity instanceof EntityPlayer) {
-                 RenderPlayer.renderPlayer(entity, camera);
+
              }else if (entity instanceof EntityBuilding){
                  RenderBuilding.renderBuilding(entity,camera);
              }else{
                  RenderParticle.renderParticle(entity, camera);
              }
+         }
+         if (map.getPlayer() != null){
+             RenderPlayer.renderPlayer(map.getPlayer(), camera);
          }
 
          // Drawing chunks
@@ -67,19 +70,11 @@ public class Render {
 
          if (SpaceGame.map.getPlayer() != null){
              EntityPlayer player = SpaceGame.map.getPlayer();
-             if (player.isGrounded()){
-                 RenderText.renderText(player.getGroundedBody().getName(),
-                          10, 5, 0.3f);
-             }
-             if (player.getChunk() != null){
-                 RenderText.renderText(player.getChunk().getX() + "X", 11, 3, 1.0f);
-                 RenderText.renderText(player.getChunk().getY() + "Y", 11, 2, 1.0f);
-             }
-             RenderText.renderText(map.getCursor().getX() + "",
-                     10, 8, 0.5f);
-             RenderText.renderText(map.getCursor().getY() + "",
-                     10, 7.5f, 0.5f);
 
+             if (player.getChunk() != null){
+                 RenderText.renderText(player.getChunk().getX() + "X", 15, -2, 1.0f);
+                 RenderText.renderText(player.getChunk().getY() + "Y", 15, -3, 1.0f);
+             }
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
          }
 

@@ -6,6 +6,7 @@ import entity.ParticleOrbit;
 import entity.body.BodyGravityRadius;
 import entity.body.BodyStar;
 import entity.building.BuildingApartment;
+import entity.building.BuildingFactory;
 import util.MathHelper;
 import util.RandomUtil;
 import world.Chunk;
@@ -72,6 +73,20 @@ public class BodyPlanet extends Body {
             }
         }
         this.population = pop;
+
+        // Calculating the amount of workers per factory from the population
+        for (int i = 0; i < terrainSize; i++){
+            EntityBuilding build = this.buildings[i];
+            if (build instanceof BuildingFactory){
+                BuildingFactory fact = (BuildingFactory)build;
+                fact.setEmployees(0);
+                if (pop > 0){
+                    int subAmt = Math.min(fact.getCapacity(), pop);
+                    fact.setEmployees(subAmt);
+                    pop -= subAmt;
+                }
+            }
+        }
     }
 
     public float getOrbitAngle() {
