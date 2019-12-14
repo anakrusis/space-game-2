@@ -10,15 +10,13 @@ import static org.lwjgl.opengl.GL11.*;
 public class RenderPlayer {
 
     public static void renderPlayer(Entity entity, Camera camera){
+
         double camX = camera.getX();
         double camY = camera.getY();
         double camZoom = camera.getZoom();
 
         double[] abspoints = entity.getAbsolutePoints();
-
-        glBegin(GL_LINE_LOOP);
-        glColor3d(0d,1d,1d);
-
+        float[] vbo_vertices = new float[abspoints.length];
         double cx;
         double cy;
 
@@ -29,11 +27,15 @@ public class RenderPlayer {
                 cx *= 80;
                 cy *= 80;
             }
-            if (entity.ticksExisted % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD){
-                glVertex2d(cx , cy);
-            }
+            vbo_vertices[i] = (float) cx;
+            vbo_vertices[i + 1] = (float) cy;
         }
 
-        glEnd();
+        // Culling when blinking on the map screen
+        if (entity.ticksExisted % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD){
+            Model playerModel = new Model(vbo_vertices, new float[]{});
+            glColor3d(0d,1d,1d);
+            playerModel.render();
+        }
     }
 }

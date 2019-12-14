@@ -1,30 +1,32 @@
 import entity.Body;
-import entity.body.BodyPlanet;
 import entity.Entity;
 import entity.EntityBuilding;
+import entity.body.BodyPlanet;
 import gui.EnumGui;
 import gui.TextBox;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryStack;
 import render.Camera;
 import render.RenderText;
 import render.Texture;
 import render.Textures;
-import util.MathHelper;
 import util.Reference;
 import world.Chunk;
 import world.Map;
 
-import java.nio.*;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 
-import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class SpaceGame {
 
