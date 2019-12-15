@@ -21,7 +21,7 @@ public class BodyPlanet extends Body {
     private float orbitStart;
     private float orbitAngle;
     private EntityBuilding[] buildings;
-    private float[] surfaceColor;
+    private float[] stoneColor;
 
     private int terrainSize = 40;
 
@@ -36,8 +36,8 @@ public class BodyPlanet extends Body {
         this.rotSpeed = 0.0005f;
 
         // the stone color, or whatever
-        this.color = new float[]{0.5f, 0.5f, 0.5f};
-        this.surfaceColor = new float[]{RandomUtil.fromRangeF(0f,1f), RandomUtil.fromRangeF(0f,1f), RandomUtil.fromRangeF(0f,1f)};
+        this.stoneColor = new float[]{0.5f, 0.5f, 0.5f};
+        this.color = new float[]{RandomUtil.fromRangeF(0f,1f), RandomUtil.fromRangeF(0f,1f), RandomUtil.fromRangeF(0f,1f)};
         this.canEntitiesCollide = true;
 
         this.terrain = new float[terrainSize];
@@ -105,8 +105,8 @@ public class BodyPlanet extends Body {
         return buildings;
     }
 
-    public float[] getSurfaceColor() {
-        return surfaceColor;
+    public float[] getStoneColor() {
+        return stoneColor;
     }
 
     public double[] getStonePoints(){

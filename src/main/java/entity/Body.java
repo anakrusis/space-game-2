@@ -10,6 +10,7 @@ package entity;
 
 // examples: star, planet, moon
 
+import render.Model;
 import util.MathHelper;
 import world.Chunk;
 import world.Map;
@@ -27,6 +28,9 @@ public class Body extends Entity {
     // Each item in terrain is a relative coordinate away or toward 0, which is the radius
     protected float[] terrain;
 
+    // The vbo which the body has
+    protected Model model;
+
     public Body (double x, double y, float dir, Chunk chunk, float radius, Map map){
         super(x,y,dir,map);
         this.chunk = chunk;
@@ -37,6 +41,7 @@ public class Body extends Entity {
 
         // Default terrain is 16 long, usually overwritten
         this.terrain = new float[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        this.initModel();
     }
 
     public float[] getTerrain() {
@@ -88,5 +93,13 @@ public class Body extends Entity {
 
     public float getRotSpeed() {
         return rotSpeed;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void initModel() {
+        //this.model = new Model(new float[]{}, new float[]{});
     }
 }

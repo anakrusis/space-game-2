@@ -20,6 +20,9 @@ public class RenderPlayer {
         double cx;
         double cy;
 
+        glBegin(GL_POLYGON);
+        glColor3d(0d,1d,1d);
+
         for (int i = 0; i < abspoints.length; i += 2){
             cx = camZoom * (abspoints[i] - camX);
             cy = camZoom * (abspoints[i + 1] - camY);
@@ -29,13 +32,18 @@ public class RenderPlayer {
             }
             vbo_vertices[i] = (float) cx;
             vbo_vertices[i + 1] = (float) cy;
+
+            if (entity.ticksExisted % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD) {
+                glVertex2d(cx, cy);
+            }
         }
 
+        glEnd();
         // Culling when blinking on the map screen
-        if (entity.ticksExisted % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD){
-            Model playerModel = new Model(vbo_vertices, new float[]{});
-            glColor3d(0d,1d,1d);
-            playerModel.render();
-        }
+        //if (entity.ticksExisted % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD){
+            //Model playerModel = new Model(vbo_vertices, new float[]{});
+
+            //playerModel.render();
+        //}
     }
 }

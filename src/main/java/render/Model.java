@@ -12,21 +12,20 @@ public class Model {
     private int v_id;
     private int t_id;
 
+    private float[] vertices;
+    private float[] tex_coords;
+    private FloatBuffer buffer;
+
     public Model (float[] vertices, float[] tex_coords){
-        length = vertices.length / 2;
-
-        v_id = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, v_id);
-        glBufferData(GL_ARRAY_BUFFER, createBuffer(vertices), GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        t_id = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, t_id);
-        glBufferData(GL_ARRAY_BUFFER, createBuffer(tex_coords), GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        this.length = vertices.length / 2;
+        this.vertices = vertices;
+        this.tex_coords = tex_coords;
     }
 
     public void render() {
+        updateVertexBuffer(vertices);
+        updateTexBuffer(tex_coords);
+
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -47,5 +46,24 @@ public class Model {
         buffer.put(data);
         buffer.flip();
         return buffer;
+    }
+
+    private void updateVertexBuffer(float[] vertices){
+        buffer = createBuffer(vertices);
+        v_id = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, v_id);
+        glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
+    private void updateTexBuffer(float[] tex_coords){
+        t_id = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, t_id);
+        glBufferData(GL_ARRAY_BUFFER, createBuffer(tex_coords), GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
+    public void setVertices(float[] vertices) {
+        this.vertices = vertices;
     }
 }
