@@ -146,7 +146,7 @@ public class SpaceGame {
         guiElements.add(tx);
 
         for (int i = 0; i < 9; i++){
-            TextBoxHotbarItem tbhi = new TextBoxHotbarItem(-5 + i, -8, 1, 1);
+            TextBoxHotbarItem tbhi = new TextBoxHotbarItem(-5 + i, -8, 1, 1, i);
             guiElements.add(tbhi);
         }
 

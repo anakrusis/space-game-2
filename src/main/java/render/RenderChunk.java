@@ -35,11 +35,10 @@ public class RenderChunk {
                     RenderStar.renderStar(body, false, camera);
                 }else if (body instanceof BodyPlanet){
 
-                    for (int j = 0; j < 100; j++){
-                        BodyPlanet planet = (BodyPlanet)body;
-                        BodyOrbit orbit = new BodyOrbit(planet.getStar().getX(), planet.getStar().getY(), 0, chunk, planet.getOrbitDistance(), chunk.getMap());
-                        RenderStar.renderStar(orbit, false, camera);
-                    }
+                    // Yeah maybe don't render the same orbital body 100 times
+                    BodyPlanet planet = (BodyPlanet)body;
+                    BodyOrbit orbit = new BodyOrbit(planet.getStar().getX(), planet.getStar().getY(), 0, chunk, planet.getOrbitDistance(), chunk.getMap());
+                    RenderStar.renderStar(orbit, false, camera);
 
                     RenderPlanet.renderPlanet(body,camera);
                 }
