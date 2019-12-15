@@ -66,7 +66,7 @@ public class Render {
          }
 
          RenderText.renderText(renderstring,-12,8,0.6f);
-         RenderText.renderText("WASD to move - QE to zoom - P to self-destruct \nClick to place factories ($50)",-12,-8.5f,0.45f);
+         //RenderText.renderText("WASD to move - QE to zoom - P to self-destruct \nClick to place factories ($50)",-12,-8.5f,0.45f);
 
          if (SpaceGame.map.getPlayer() != null){
              EntityPlayer player = SpaceGame.map.getPlayer();

@@ -3,6 +3,7 @@ package entity;
 import entity.body.BodyGravityRadius;
 import entity.body.BodyPlanet;
 import entity.body.BodyStar;
+import render.Texture;
 import util.CollisionUtil;
 import util.MathHelper;
 import world.Map;
@@ -132,5 +133,9 @@ public class EntityBuilding extends Entity {
 
     public boolean isActive() {
         return this.isGrounded();
+    }
+
+    public Texture getTexture(){
+        return null;
     }
 }

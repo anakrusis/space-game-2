@@ -3,6 +3,8 @@ package entity.building;
 import entity.EntityBuilding;
 import entity.EntityPlayer;
 import entity.ParticleSmoke;
+import render.Texture;
+import render.Textures;
 import util.MathHelper;
 import world.Map;
 
@@ -68,5 +70,13 @@ public class BuildingFactory extends EntityBuilding {
     @Override
     public boolean isActive() {
         return super.isActive() && this.employees > 0;
+    }
+
+    public int getOutput() {
+        return output;
+    }
+
+    public Texture getTexture(){
+        return isActive() ? Textures.factory : Textures.factory_off;
     }
 }

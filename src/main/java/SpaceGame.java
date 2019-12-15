@@ -4,6 +4,7 @@ import entity.EntityBuilding;
 import entity.body.BodyPlanet;
 import gui.EnumGui;
 import gui.TextBox;
+import gui.TextBoxHotbarItem;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -143,6 +144,12 @@ public class SpaceGame {
 
         TextBox tx = new TextBox(10.77f,-3,7,7,"Test","", EnumGui.GUI_SELECTED_ENTITY);
         guiElements.add(tx);
+
+        for (int i = 0; i < 9; i++){
+            TextBoxHotbarItem tbhi = new TextBoxHotbarItem(-5 + i, -8, 1, 1);
+            guiElements.add(tbhi);
+        }
+
     }
 
     private void loop() {

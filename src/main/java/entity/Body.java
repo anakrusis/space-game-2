@@ -29,7 +29,7 @@ public class Body extends Entity {
     protected float[] terrain;
 
     // The vbo which the body has
-    protected Model model;
+    //protected Model model;
 
     public Body (double x, double y, float dir, Chunk chunk, float radius, Map map){
         super(x,y,dir,map);
@@ -93,10 +93,6 @@ public class Body extends Entity {
 
     public float getRotSpeed() {
         return rotSpeed;
-    }
-
-    public Model getModel() {
-        return model;
     }
 
     public void initModel() {

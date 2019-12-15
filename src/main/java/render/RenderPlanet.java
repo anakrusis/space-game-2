@@ -15,8 +15,27 @@ public class RenderPlanet {
 
         double[] absPoints = planet.getAbsolutePoints();
         double[] stonePoints = planet.getStonePoints();
+        float[] texpoints = new float[]{
+                0, 0,
+                1f, 0,
+                1f, 1f,
+                0, 1f
+        };
 
-        RenderStar.renderStar(body, true, camera);
+        Textures.grass.bind();
+
+        glBegin(GL_POLYGON);
+        glColor3d(body.getColor()[0], body.getColor()[1], body.getColor()[2]);
+
+        for (int i = 0; i < absPoints.length; i += 2){
+
+            double pointx = absPoints[i];
+            double pointy = absPoints[i + 1];
+
+            glVertex2d(camZoom * (pointx - camX), camZoom * (pointy - camY));
+            glTexCoord2f(texpoints[i % texpoints.length], texpoints[ (i + 1) % texpoints.length ]);
+        }
+        glEnd();
 
         glBegin(GL_POLYGON);
         // Stone underneath
@@ -27,6 +46,7 @@ public class RenderPlanet {
             double pointy = stonePoints[i + 1];
 
             glVertex2d(camZoom * (pointx - camX), camZoom * (pointy - camY));
+            glTexCoord2f(texpoints[i % texpoints.length], texpoints[ (i + 1) % texpoints.length ]);
         }
         glEnd();
     }

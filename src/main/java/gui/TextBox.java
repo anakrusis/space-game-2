@@ -23,6 +23,10 @@ public class TextBox {
         this.guiID = guiID;
     }
 
+    public TextBox (float x, float y, float width, float height, EnumGui GUI_ID ){
+        this (x, y, width, height, "", "", GUI_ID);
+    }
+
     public float getX() {
         return x;
     }

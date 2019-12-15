@@ -44,8 +44,11 @@ public class GuiHandler {
                     }else if (e instanceof BuildingFactory) {
                         tx.addTextBody("\nEmployees: " + ((BuildingFactory) e).getEmployees());
                         tx.addTextBody("/" + ((BuildingFactory) e).getCapacity());
+                        tx.addTextBody("\nOutput: $" + ((BuildingFactory) e).getOutput());
                     }
                 }
+            } else if (tx.getGuiID() == EnumGui.GUI_HOTBAR_ITEM) {
+
             }
         }
     }

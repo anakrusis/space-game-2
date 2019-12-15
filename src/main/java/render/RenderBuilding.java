@@ -26,14 +26,9 @@ public class RenderBuilding{
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
             glColor4d(1d,1d,1d,1d);
-            if (entity instanceof BuildingFactory) {
-                if (((BuildingFactory) entity).isActive()){
-                    Textures.factory.bind();
-                }else{
-                    Textures.factory_off.bind();
-                }
-            }else if (entity instanceof BuildingApartment) {
-                Textures.apartment.bind();
+
+            if (entity instanceof EntityBuilding){
+                ((EntityBuilding) entity).getTexture().bind();
             }
 
             glBegin(GL_QUADS);

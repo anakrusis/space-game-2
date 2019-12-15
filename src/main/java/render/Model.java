@@ -30,7 +30,7 @@ public class Model {
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
         glBindBuffer(GL_ARRAY_BUFFER, v_id);
-        glVertexPointer(2, GL_FLOAT, 0, 0);
+        glVertexPointer(2, GL_FLOAT, 0, 0); //poop
         glBindBuffer(GL_ARRAY_BUFFER, t_id);
         glTexCoordPointer(2, GL_FLOAT, 0, 0);
 

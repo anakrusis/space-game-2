@@ -2,6 +2,8 @@ package entity.building;
 
 import entity.EntityBuilding;
 import entity.EntityPlayer;
+import render.Texture;
+import render.Textures;
 import util.MathHelper;
 import util.RandomUtil;
 import world.Map;
@@ -50,5 +52,9 @@ public class BuildingApartment extends EntityBuilding {
         if (this.ticksExisted % 200 == 39 && this.population < capacity && RandomUtil.percentChance(50)){
             this.population++;
         }
+    }
+
+    public Texture getTexture(){
+        return Textures.apartment;
     }
 }

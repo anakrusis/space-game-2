@@ -1,11 +1,16 @@
 package entity;
 
+import item.Item;
+import item.ItemStack;
+import item.Items;
 import util.MathHelper;
 import util.Reference;
 import world.Map;
 
 public class EntityPlayer extends Entity {
     public float money;
+
+    ItemStack[] inventory = new ItemStack[9];
     int currentItemSlot = 2;
 
     public EntityPlayer (double x, double y, float dir, Map map){
@@ -18,6 +23,10 @@ public class EntityPlayer extends Entity {
             this.money = 0;
         }
         this.name = "Player";
+
+        // Testing out inventory slots
+        this.inventory[0] = new ItemStack(Items.ITEM_APARTMENT, 1);
+        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 2);
     }
 
     @Override

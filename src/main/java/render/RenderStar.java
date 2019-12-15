@@ -13,7 +13,7 @@ public class RenderStar {
         double camZoom = camera.getZoom();
 
         double[] abspoints = star.getAbsolutePoints();
-        Model starmodel = star.getModel();
+        //Model starmodel = star.getModel();
 
         if (filled) {
 //            float[] vbo_vertices = new float[abspoints.length * 3];
