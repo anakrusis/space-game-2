@@ -5,7 +5,12 @@ import util.RandomUtil;
 import world.Chunk;
 import world.Map;
 
+import java.util.ArrayList;
+
 public class BodyStar extends Body {
+
+    private ArrayList<BodyPlanet> planets;
+
     public BodyStar(double x, double y, float dir, Chunk chunk, Map map, String name) {
         super(x, y, dir, chunk, 32, map);
 
@@ -19,6 +24,7 @@ public class BodyStar extends Body {
 
         BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
         this.chunk.getBodies().add(bgr);
+        planets = new ArrayList<>();
     }
 
     public BodyStar(double x, double y, float dir, Chunk chunk, Map map){
@@ -28,9 +34,5 @@ public class BodyStar extends Body {
     @Override
     public void update() {
         super.update();
-        for (int i = 0; i < this.terrain.length; i++){
-            //float random = (float)Math.random();
-            //this.terrain[i] = random;
-        }
     }
 }

@@ -37,11 +37,21 @@ public class GuiHandler {
 
                     // Unique single-class properties
                     if (e instanceof BodyPlanet){
+                        if (((BodyPlanet) e).getNation() != null){
+                            tx.addTextBody("\nClaimed by the \n" + ((BodyPlanet) e).getNation().getName());
+                        }else{
+                            tx.addTextBody("\nUnclaimed");
+                        }
+                        tx.addTextBody("\n");
+
                         tx.addTextBody("\nPopulation: " + ((BodyPlanet) e).getPopulation());
                     }else if (e instanceof BuildingApartment) {
+
                         tx.addTextBody("\nPopulation: " + ((BuildingApartment) e).getPopulation());
                         tx.addTextBody("/" + ((BuildingApartment) e).getCapacity());
+
                     }else if (e instanceof BuildingFactory) {
+
                         tx.addTextBody("\nEmployees: " + ((BuildingFactory) e).getEmployees());
                         tx.addTextBody("/" + ((BuildingFactory) e).getCapacity());
                         tx.addTextBody("\nOutput: $" + ((BuildingFactory) e).getOutput());

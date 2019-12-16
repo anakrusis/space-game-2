@@ -7,6 +7,7 @@ import render.Texture;
 import util.CollisionUtil;
 import util.MathHelper;
 import world.Map;
+import world.Nation;
 
 public class EntityBuilding extends Entity {
 
@@ -88,6 +89,11 @@ public class EntityBuilding extends Entity {
                         if (this.planetIndex == -1){
                             planet.getBuildings()[index] = this;
                             this.planetIndex = index;
+
+                            // If the planet is unclaimed, the first player to build on it claims it.
+                            if (planet.getNation() == null){
+                                planet.setNation(map.getPlayer().getNation());
+                            }
                         }
 
                     // If this is the building at that spot, align it with the grid of terrain
@@ -137,5 +143,13 @@ public class EntityBuilding extends Entity {
 
     public Texture getTexture(){
         return null;
+    }
+
+    public Nation getNation() {
+        if (this.groundedBody instanceof BodyPlanet){
+            return ((BodyPlanet) this.groundedBody).getNation();
+        }else{
+            return null;
+        }
     }
 }

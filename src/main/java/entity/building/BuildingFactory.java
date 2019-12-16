@@ -48,9 +48,16 @@ public class BuildingFactory extends EntityBuilding {
             }
         }
         if (this.isActive()){
+            // Quadratic equation for efficiency
+            // Todo make less efficient when overcrowded (Build more factories!!)
             this.output = -(this.employees - (this.capacity * 2)) * (this.employees) / (this.capacity * 2);
-            if (this.ticksExisted % outputInterval == 0 && this.playerPlaced != null){
-                this.playerPlaced.addMoney(output);
+
+            if (this.ticksExisted % outputInterval == 0 && map.getPlayer() != null){
+
+                if (this.map.getPlayer().getNation() == this.getNation()){
+                    map.getPlayer().addMoney(output);
+                }
+
             }
         }
     }

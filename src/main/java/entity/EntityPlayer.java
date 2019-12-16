@@ -6,12 +6,15 @@ import item.Items;
 import util.MathHelper;
 import util.Reference;
 import world.Map;
+import world.Nation;
 
 public class EntityPlayer extends Entity {
-    public float money;
+    private float money;
 
     ItemStack[] inventory = new ItemStack[9];
     int currentItemSlot = 2;
+
+    private Nation nation;
 
     public EntityPlayer (double x, double y, float dir, Map map){
         super(x,y,dir,map);
@@ -23,6 +26,7 @@ public class EntityPlayer extends Entity {
             this.money = 0;
         }
         this.name = "Player";
+        this.nation = null;
 
         // Testing out inventory slots
         this.inventory[0] = new ItemStack(Items.ITEM_APARTMENT, 1);
@@ -77,5 +81,13 @@ public class EntityPlayer extends Entity {
 
     public void setCurrentItemSlot(int currentItemSlot) {
         this.currentItemSlot = currentItemSlot;
+    }
+
+    public void setNation(Nation nation) {
+        this.nation = nation;
+    }
+
+    public Nation getNation() {
+        return nation;
     }
 }

@@ -11,6 +11,7 @@ import util.MathHelper;
 import util.RandomUtil;
 import world.Chunk;
 import world.Map;
+import world.Nation;
 
 public class BodyPlanet extends Body {
 
@@ -26,6 +27,7 @@ public class BodyPlanet extends Body {
     private int terrainSize = 40;
 
     private int population;
+    private Nation nation;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map, String name) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(16,32), map);
@@ -53,6 +55,8 @@ public class BodyPlanet extends Body {
 
         buildings = new EntityBuilding[terrain.length];
         population = 0;
+
+        this.nation = null; // Unclaimed by default
     }
 
     public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map){
@@ -79,6 +83,7 @@ public class BodyPlanet extends Body {
         this.population = pop;
 
         // Calculating the amount of workers per factory from the population
+        // Todo evenly distribute workers among factories
         for (int i = 0; i < terrainSize; i++){
             EntityBuilding build = this.buildings[i];
             if (build instanceof BuildingFactory){
@@ -132,5 +137,13 @@ public class BodyPlanet extends Body {
 
     public float getOrbitDistance() {
         return orbitDistance;
+    }
+
+    public void setNation(Nation nation) {
+        this.nation = nation;
+    }
+
+    public Nation getNation() {
+        return nation;
     }
 }

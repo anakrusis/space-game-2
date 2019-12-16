@@ -6,6 +6,7 @@ import entity.body.BodyStar;
 import entity.building.BuildingApartment;
 import entity.building.BuildingFactory;
 import util.CollisionUtil;
+import util.NymGen;
 import util.SpawnUtil;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Map {
     public int mapTime;
     private BodyPlanet homePlanet = null;
     private BodyStar homeStar = null;
+    private Nation playerNation = null;
 
     EntityCursor cursor;
 
@@ -83,9 +85,14 @@ public class Map {
             entities.add(new EntityPlayer(0,0,(float)Math.PI, this));
 
             // This is just a first time kind of thing
-            if (homePlanet == null){
+            if (playerNation == null){
+
                 homePlanet = SpawnUtil.newHomePlanet(this);
                 homeStar = homePlanet.getStar();
+                String nationName = NymGen.newName() + " Nation";
+
+                playerNation = new Nation(nationName, homeStar, homePlanet);
+                homePlanet.setNation(playerNation);
 
                 BuildingFactory factory = new BuildingFactory(homePlanet.getX() + homePlanet.getRadius() + 5,
                         homePlanet.getY(), 0, this, this.getPlayer());
@@ -100,6 +107,7 @@ public class Map {
             double spawny = homePlanet.getY();
             this.getPlayer().setX(spawnx);
             this.getPlayer().setY(spawny);
+            this.getPlayer().setNation(playerNation);
 
             float height = CollisionUtil.heightFromEntityAngle(this.getPlayer(), homePlanet);
             double radius = homePlanet.getRadius() + height + 2f;
