@@ -1,4 +1,4 @@
-package render;
+package render.entity;
 
 import entity.Entity;
 import render.Camera;

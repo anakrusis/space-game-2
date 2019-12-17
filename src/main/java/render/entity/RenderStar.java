@@ -1,7 +1,9 @@
-package render;
+package render.entity;
 
 import entity.Body;
 import entity.body.BodyStar;
+import render.Camera;
+import render.RenderText;
 import util.Reference;
 
 import static org.lwjgl.opengl.GL11.*;

@@ -1,8 +1,9 @@
 package render;
 
 import entity.Body;
-import entity.ParticleOrbit;
 import entity.body.*;
+import render.entity.RenderPlanet;
+import render.entity.RenderStar;
 import util.Reference;
 import world.Chunk;
 

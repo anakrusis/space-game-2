@@ -11,8 +11,8 @@ import world.Nation;
 public class EntityPlayer extends Entity {
     private float money;
 
-    ItemStack[] inventory = new ItemStack[9];
-    int currentItemSlot = 2;
+    private ItemStack[] inventory = new ItemStack[9];
+    private int currentItemSlot = 2;
 
     private Nation nation;
 
@@ -29,8 +29,8 @@ public class EntityPlayer extends Entity {
         this.nation = null;
 
         // Testing out inventory slots
-        this.inventory[0] = new ItemStack(Items.ITEM_APARTMENT, 1);
-        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 2);
+        this.inventory[0] = new ItemStack(Items.ITEM_APARTMENT, 99);
+        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 99);
     }
 
     @Override
@@ -54,6 +54,15 @@ public class EntityPlayer extends Entity {
             float dir = (float) (this.dir - Math.PI + (Math.random() * 0.5f));
             ParticleSmoke smoke = new ParticleSmoke(this.x, this.y, dir, this.map);
             this.map.getEntities().add(smoke);
+        }
+
+        // The player cleans their own inventory of <=0 qty item stacks
+        for (int i = 0; i < inventory.length; i++){
+            if (inventory[i] != null){
+                if (inventory[i].getAmount() <= 0){
+                    inventory[i] = null;
+                }
+            }
         }
     }
 
@@ -89,5 +98,9 @@ public class EntityPlayer extends Entity {
 
     public Nation getNation() {
         return nation;
+    }
+
+    public ItemStack[] getInventory() {
+        return inventory;
     }
 }

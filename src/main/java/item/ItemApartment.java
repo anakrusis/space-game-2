@@ -2,19 +2,19 @@ package item;
 
 import entity.EntityBuilding;
 import entity.EntityPlayer;
-import entity.building.BuildingFactory;
+import entity.building.BuildingApartment;
 import render.Texture;
 import render.Textures;
 import world.Map;
 
-public class ItemFactory extends ItemBuilding {
+public class ItemApartment extends ItemBuilding {
     @Override
     public Texture getTexture() {
-        return Textures.factory;
+        return Textures.apartment;
     }
 
     @Override
     public EntityBuilding getBuilding(double x, double y, float dir, Map map, EntityPlayer player) {
-        return new BuildingFactory(x, y, dir, map, player);
+        return new BuildingApartment(x, y, dir, map, player);
     }
 }

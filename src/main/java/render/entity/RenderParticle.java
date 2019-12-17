@@ -1,6 +1,7 @@
-package render;
+package render.entity;
 
 import entity.*;
+import render.Camera;
 import util.Reference;
 
 import static org.lwjgl.opengl.GL11.*;

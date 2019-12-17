@@ -1,8 +1,9 @@
-package render;
+package render.entity;
 
 import entity.*;
 import entity.building.BuildingApartment;
 import entity.building.BuildingFactory;
+import render.Camera;
 import util.Reference;
 
 import static org.lwjgl.opengl.GL11.*;

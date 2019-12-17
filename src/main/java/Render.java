@@ -1,9 +1,10 @@
 import entity.Entity;
 import entity.EntityBuilding;
 import entity.EntityPlayer;
-import entity.ParticleOrbit;
 import render.*;
-import util.CollisionUtil;
+import render.entity.RenderBuilding;
+import render.entity.RenderParticle;
+import render.entity.RenderPlayer;
 import util.MathHelper;
 import util.Reference;
 import world.Chunk;

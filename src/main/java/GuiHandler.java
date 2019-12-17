@@ -6,11 +6,17 @@ import entity.building.BuildingApartment;
 import entity.building.BuildingFactory;
 import gui.EnumGui;
 import gui.TextBox;
+import gui.TextBoxHotbarItem;
+import item.ItemStack;
 
 import java.util.ArrayList;
 
 public class GuiHandler {
     static EntityCursor cursor = SpaceGame.map.getCursor();
+
+    // This is how all gui elements are dynamically updated
+    // Todo make this a part of each individual element?
+    // This is hard because it requires information which is not package accessible
 
     public static void update( ArrayList<TextBox> elements){
         for (int i = 0; i < elements.size(); i ++){
@@ -38,7 +44,13 @@ public class GuiHandler {
                     // Unique single-class properties
                     if (e instanceof BodyPlanet){
                         if (((BodyPlanet) e).getNation() != null){
-                            tx.addTextBody("\nClaimed by the \n" + ((BodyPlanet) e).getNation().getName());
+
+                            if (e == SpaceGame.map.getHomePlanet()){
+                                tx.addTextBody("\nHome of the \n" + ((BodyPlanet) e).getNation().getName());
+                            }else{
+                                tx.addTextBody("\nClaimed by the \n" + ((BodyPlanet) e).getNation().getName());
+                            }
+
                         }else{
                             tx.addTextBody("\nUnclaimed");
                         }
@@ -58,6 +70,14 @@ public class GuiHandler {
                     }
                 }
             } else if (tx.getGuiID() == EnumGui.GUI_HOTBAR_ITEM) {
+                TextBoxHotbarItem tbhi = (TextBoxHotbarItem)tx;
+                if (SpaceGame.map.getPlayer() != null){
+                    ItemStack item = SpaceGame.map.getPlayer().getInventory()[tbhi.getInventoryIndex()];
+                    if (item != null){
+                        tx.setHeader(item.getAmount() + "");
+                    }
+                }
+
 
             }
         }

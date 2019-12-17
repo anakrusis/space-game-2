@@ -1,7 +1,9 @@
-package render;
+package render.entity;
 
 import entity.Body;
 import entity.body.BodyPlanet;
+import render.Camera;
+import render.Textures;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;

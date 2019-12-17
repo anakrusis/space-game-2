@@ -42,8 +42,6 @@ public class SpaceGame {
 
     public static ArrayList<TextBox> guiElements = new ArrayList<>();
 
-    public static final int CHUNK_SIZE = 512;
-
     public static Texture test_texture;
 
     public void run() {
@@ -199,11 +197,12 @@ public class SpaceGame {
                     map.getPlayer().explode();
                 }
 
+                // Arrays start at zero, adggfjggfafafafa
                 if (glfwGetKey(window, GLFW_KEY_1) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(1);
+                    map.getPlayer().setCurrentItemSlot(0);
                 }
                 if (glfwGetKey(window, GLFW_KEY_2) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(2);
+                    map.getPlayer().setCurrentItemSlot(1);
                 }
             }
             MouseHandler.update(window);

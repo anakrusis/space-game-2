@@ -3,6 +3,9 @@ import entity.EntityCursor;
 import entity.building.BuildingApartment;
 import entity.building.BuildingFactory;
 import entity.EntityPlayer;
+import item.Item;
+import item.ItemBuilding;
+import item.ItemStack;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MathUtil;
 import render.Camera;
@@ -23,23 +26,27 @@ public class MouseHandler {
     public static void onClick(){
 
         EntityCursor cursor = map.getCursor();
+
         if (map.getPlayer() != null){
             EntityPlayer player = map.getPlayer();
             EntityBuilding building = null;
 
-            if (player.getCurrentItemSlot() == 1){
+            // Checking the player's inventory for ItemBuildings
+            ItemStack itemstack = player.getInventory()[player.getCurrentItemSlot()];
+            if (itemstack != null){
+                Item item = itemstack.getItem();
+                if (item instanceof ItemBuilding){
 
-                building = new BuildingFactory(cursor.getX(), cursor.getY(), map.getPlayer().getDir(), map, map.getPlayer());
-
-            }else if (player.getCurrentItemSlot() == 2){
-
-                building = new BuildingApartment(cursor.getX(), cursor.getY(), map.getPlayer().getDir(), map, map.getPlayer());
-
+                    // Creating a new EntityBuilding
+                    building = ((ItemBuilding) item).getBuilding(cursor.getX(), cursor.getY(), map.getPlayer().getDir(), map, map.getPlayer());
+                }
             }
+
             if (building != null && MathHelper.distance(cursor.getX(), cursor.getY(), player.getX(), player.getY()) < 16){
                 if (map.getPlayer().getMoney() >= building.getPrice()){
                     map.getPlayer().addMoney(-building.getPrice());
                     map.getEntities().add(building);
+                    itemstack.shrink();
                 }
             }
         }
