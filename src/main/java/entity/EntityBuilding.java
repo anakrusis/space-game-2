@@ -3,6 +3,7 @@ package entity;
 import entity.body.BodyGravityRadius;
 import entity.body.BodyPlanet;
 import entity.body.BodyStar;
+import item.ItemStack;
 import render.Texture;
 import util.CollisionUtil;
 import util.MathHelper;
@@ -84,6 +85,7 @@ public class EntityBuilding extends Entity {
                 if (groundedBody instanceof BodyPlanet) {
                     BodyPlanet planet = (BodyPlanet) groundedBody;
                     int index = CollisionUtil.terrainIndexFromEntityAngle(this, planet);
+
                     // Empty slot ready to put a building on!
                     if (planet.getBuildings()[index] == null) {
                         if (this.planetIndex == -1){
@@ -112,6 +114,7 @@ public class EntityBuilding extends Entity {
                         this.dead = true;
                         if (this.playerPlaced != null){
                             this.playerPlaced.addMoney(this.price);
+                            //Todo refund the player their item back to their inventory
                         }
                     }
                 }
@@ -151,5 +154,8 @@ public class EntityBuilding extends Entity {
         }else{
             return null;
         }
+    }
+    public ItemStack getItemDropped(){
+        return null;
     }
 }

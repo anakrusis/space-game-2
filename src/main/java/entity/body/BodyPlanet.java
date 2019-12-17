@@ -72,30 +72,53 @@ public class BodyPlanet extends Body {
         this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.star.getX();
         this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.star.getY();
 
-        // Calculating the planet's population from the sum of individual apt buildings
+        // Calculating the planet's population from the sum of individual apt buildings,
+        // and the number of factories from the sum of individual factories.
         int pop = 0;
+        int factoryCount = 0;
         for (int i = 0; i < terrainSize; i++){
             EntityBuilding build = this.buildings[i];
             if (build instanceof BuildingApartment){
                 pop += ((BuildingApartment) build).getPopulation();
+            }else if (build instanceof BuildingFactory){
+                factoryCount++;
             }
         }
         this.population = pop;
 
-        // Calculating the amount of workers per factory from the population
-        // Todo evenly distribute workers among factories
+        // This stuff calculates the amount of workers per factory from the population.
+
+        // Distributes the quotient among factories
         for (int i = 0; i < terrainSize; i++){
             EntityBuilding build = this.buildings[i];
             if (build instanceof BuildingFactory){
                 BuildingFactory fact = (BuildingFactory)build;
                 fact.setEmployees(0);
-                if (pop > 0){
-                    int subAmt = Math.min(fact.getCapacity(), pop);
-                    fact.setEmployees(subAmt);
+                int subAmt = 0;
+                if (pop > 0) {
+                    subAmt = this.population / factoryCount;
+                    fact.setEmployees(Math.min(fact.getEmployees() + subAmt, fact.getCapacity()));
                     pop -= subAmt;
                 }
             }
         }
+        // Distributes the remainder among factories
+        if (factoryCount > 0){
+            int i = this.population % factoryCount;
+            while (i > 0){
+                for (int j = 0; j < terrainSize; j++){
+                    EntityBuilding build = this.buildings[j];
+                    if (build instanceof BuildingFactory) {
+                        BuildingFactory fact = (BuildingFactory) build;
+                        if (i > 0){
+                            fact.setEmployees(Math.min(fact.getEmployees() + 1,fact.getCapacity()));
+                            i--;
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     public float getOrbitAngle() {

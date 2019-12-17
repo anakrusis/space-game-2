@@ -19,7 +19,7 @@ public class BuildingFactory extends EntityBuilding {
         super(x, y, dir, map, player);
         this.price = 50;
         this.name = "Factory";
-        this.capacity = 56;
+        this.capacity = 45;
     }
     @Override
     public double[] getAbsolutePoints() {
@@ -50,7 +50,7 @@ public class BuildingFactory extends EntityBuilding {
         if (this.isActive()){
             // Quadratic equation for efficiency
             // Todo make less efficient when overcrowded (Build more factories!!)
-            this.output = -(this.employees - (this.capacity * 2)) * (this.employees) / (this.capacity * 2);
+            this.output = -(int)((this.employees - (this.capacity * 1.1)) * (this.employees) / (this.capacity * 1.1));
 
             if (this.ticksExisted % outputInterval == 0 && map.getPlayer() != null){
 
