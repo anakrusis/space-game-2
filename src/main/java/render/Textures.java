@@ -10,6 +10,9 @@ public class Textures {
     public static final Texture apartment = new Texture("src/main/resources/apartment.png");
     public static final Texture factory_off = new Texture("src/main/resources/factory_off.png");
 
+    //items
+    public static final Texture mining_laser = new Texture("src/main/resources/mining_laser.png");
+
     //terrain
     public static final Texture grass = new Texture("src/main/resources/grass.png");
 }

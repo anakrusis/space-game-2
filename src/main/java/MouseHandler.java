@@ -6,10 +6,12 @@ import entity.EntityPlayer;
 import item.Item;
 import item.ItemBuilding;
 import item.ItemStack;
+import item.Items;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MathUtil;
 import render.Camera;
 import util.MathHelper;
+import util.Reference;
 import world.Map;
 
 import java.nio.DoubleBuffer;
@@ -31,25 +33,44 @@ public class MouseHandler {
             EntityPlayer player = map.getPlayer();
             EntityBuilding building = null;
 
-            // Checking the player's inventory for ItemBuildings
-            ItemStack itemstack = player.getInventory()[player.getCurrentItemSlot()];
-            if (itemstack != null){
-                Item item = itemstack.getItem();
-                if (item instanceof ItemBuilding){
+            // 16 units is the arbitrary item use radius
+            if (MathHelper.distance(cursor.getX(), cursor.getY(), player.getX(), player.getY()) < Reference.TOOL_USE_RADIUS){
 
-                    // Creating a new EntityBuilding
-                    building = ((ItemBuilding) item).getBuilding(cursor.getX(), cursor.getY(), map.getPlayer().getDir(), map, map.getPlayer());
-                }
-            }
+                // Checking the player's inventory for ItemBuildings
+                ItemStack itemstack = player.getCurrentItemStack();
+                if (itemstack != null){
+                    Item item = itemstack.getItem();
 
-            if (building != null && MathHelper.distance(cursor.getX(), cursor.getY(), player.getX(), player.getY()) < 16){
-                if (map.getPlayer().getMoney() >= building.getPrice()){
-                    map.getPlayer().addMoney(-building.getPrice());
-                    map.getEntities().add(building);
-                    itemstack.shrink();
+                    // All building type items work the same
+                    if (item instanceof ItemBuilding){
+
+                        // Creating a new EntityBuilding
+                        building = ((ItemBuilding) item).getBuilding(cursor.getX(), cursor.getY(), player.getDir(), map, player);
+
+                        // Deducting the cost and removing the object from inventory
+                        if (player.getMoney() >= building.getPrice()){
+                            player.addMoney(-building.getPrice());
+                            map.getEntities().add(building);
+                            itemstack.shrink();
+                        }
+
+                        // Miscellaneous item types with custom behaviors (Todo onclick behavior within each item)
+                    } else if (item == Items.ITEM_MINING_LASER){
+                        player.setToolActive(true);
+                    }
                 }
             }
         }
+    }
+
+    public static void onRelease(){
+        if (map.getPlayer() != null){
+            map.getPlayer().setToolActive(false);
+        }
+    }
+
+    public static void onScroll(double dx, double dy){
+
     }
 
     public static void update( long window ){

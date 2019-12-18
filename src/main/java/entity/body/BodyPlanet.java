@@ -24,7 +24,7 @@ public class BodyPlanet extends Body {
     private EntityBuilding[] buildings;
     private float[] stoneColor;
 
-    private int terrainSize = 40;
+    private int terrainSize;
 
     private int population;
     private Nation nation;
@@ -42,6 +42,7 @@ public class BodyPlanet extends Body {
         this.color = new float[]{RandomUtil.fromRangeF(0f,1f), RandomUtil.fromRangeF(0f,1f), RandomUtil.fromRangeF(0f,1f)};
         this.canEntitiesCollide = true;
 
+        this.terrainSize = (int)(this.radius * (40/16));
         this.terrain = new float[terrainSize];
         for (int i = 0; i < terrain.length; i++){
             this.terrain[i] = RandomUtil.fromRangeF(-0.5f,1.6f);
@@ -168,5 +169,9 @@ public class BodyPlanet extends Body {
 
     public Nation getNation() {
         return nation;
+    }
+
+    public int getTerrainSize() {
+        return terrainSize;
     }
 }

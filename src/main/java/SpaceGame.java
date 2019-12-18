@@ -5,10 +5,7 @@ import entity.body.BodyPlanet;
 import gui.EnumGui;
 import gui.TextBox;
 import gui.TextBoxHotbarItem;
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.glfw.GLFWWindowSizeCallback;
+import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
@@ -89,7 +86,15 @@ public class SpaceGame {
             public void invoke(long window, int button, int action, int mods) {
                 if (action == GLFW_PRESS){
                     MouseHandler.onClick();
+                }else if (action == GLFW_RELEASE){
+                    MouseHandler.onRelease();
                 }
+            }
+        });
+        glfwSetScrollCallback(window, new GLFWScrollCallback() {
+            @Override
+            public void invoke(long window, double xoffset, double yoffset) {
+                MouseHandler.onScroll(xoffset, yoffset);
             }
         });
 

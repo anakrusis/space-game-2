@@ -57,6 +57,7 @@ public class GuiHandler {
                         tx.addTextBody("\n");
 
                         tx.addTextBody("\nPopulation: " + ((BodyPlanet) e).getPopulation());
+                        tx.addTextBody("\nSize: " + ((BodyPlanet) e).getTerrainSize());
                     }else if (e instanceof BuildingApartment) {
 
                         tx.addTextBody("\nPopulation: " + ((BuildingApartment) e).getPopulation());

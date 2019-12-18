@@ -1,6 +1,9 @@
 package render.entity;
 
 import entity.Entity;
+import entity.EntityPlayer;
+import item.ItemStack;
+import item.Items;
 import render.Camera;
 import util.MathHelper;
 import util.Reference;
@@ -11,15 +14,36 @@ public class RenderPlayer {
 
     public static void renderPlayer(Entity entity, Camera camera){
 
+        EntityPlayer player = (EntityPlayer)entity;
         double camX = camera.getX();
         double camY = camera.getY();
         double camZoom = camera.getZoom();
 
         double[] abspoints = entity.getAbsolutePoints();
-        float[] vbo_vertices = new float[abspoints.length];
         double cx;
         double cy;
 
+        // This renders the laser beam from the mining laser!
+        ItemStack stack = player.getCurrentItemStack();
+        // Todo ActiveToolType method in player
+        if (player.isToolActive() && stack != null){
+            if (stack.getItem() == Items.ITEM_MINING_LASER){
+                glColor3d(1.0f, 0.0f, 0.0f);
+                double cursorX, cursorY;
+                double playerX, playerY;
+                cursorX = camZoom * (player.getMap().getCursor().getX() - camX);
+                cursorY = camZoom * (player.getMap().getCursor().getY() - camY);
+                playerX = camZoom * (player.getX() - camX);
+                playerY = camZoom * (player.getY() - camY);
+
+                glBegin(GL_LINES);
+                glVertex2d(cursorX, cursorY);
+                glVertex2d(playerX, playerY);
+                glEnd();
+            }
+        }
+
+        // This renders the player ship as a filled blue dorito
         glBegin(GL_POLYGON);
         glColor3d(0d,1d,1d);
 
@@ -30,20 +54,11 @@ public class RenderPlayer {
                 cx *= 80;
                 cy *= 80;
             }
-            vbo_vertices[i] = (float) cx;
-            vbo_vertices[i + 1] = (float) cy;
 
             if (entity.ticksExisted % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD) {
                 glVertex2d(cx, cy);
             }
         }
-
         glEnd();
-        // Culling when blinking on the map screen
-        //if (entity.ticksExisted % 20 > 10 || camZoom > Reference.MAP_SCREEN_THRESHOLD){
-            //Model playerModel = new Model(vbo_vertices, new float[]{});
-
-            //playerModel.render();
-        //}
     }
 }

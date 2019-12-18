@@ -15,6 +15,7 @@ public class EntityPlayer extends Entity {
     private int currentItemSlot = 0;
 
     private Nation nation;
+    private boolean isToolActive;
 
     public EntityPlayer (double x, double y, float dir, Map map){
         super(x,y,dir,map);
@@ -29,8 +30,9 @@ public class EntityPlayer extends Entity {
         this.nation = null;
 
         // Testing out inventory slots
-        this.inventory[0] = new ItemStack(Items.ITEM_APARTMENT, 10);
-        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 15);
+        this.inventory[0] = new ItemStack(Items.ITEM_MINING_LASER, 1);
+        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 10);
+        this.inventory[2] = new ItemStack(Items.ITEM_APARTMENT, 15);
     }
 
     @Override
@@ -62,6 +64,23 @@ public class EntityPlayer extends Entity {
                 if (inventory[i].getAmount() <= 0){
                     inventory[i] = null;
                 }
+            }
+        }
+
+        if (isToolActive()){
+            if (MathHelper.distance(map.getCursor().getX(), map.getCursor().getY(), x, y) < Reference.TOOL_USE_RADIUS){
+
+            // The laser is used to destroy buildings and pick them up
+                if (map.getCursor().getSelectedEntity() instanceof EntityBuilding){
+                    EntityBuilding building = (EntityBuilding) map.getCursor().getSelectedEntity();
+
+                    this.addMoney(building.getPrice());
+                    this.addInventory(building.getItemDropped());
+                    building.dead = true;
+                }
+        // The player's laser never works if it's outside of the radius
+            }else{
+                this.setToolActive(false);
             }
         }
     }
@@ -122,5 +141,17 @@ public class EntityPlayer extends Entity {
             }
         }
         // Todo: If no blank spot available, then idk
+    }
+
+    public boolean isToolActive() {
+        return isToolActive;
+    }
+
+    public void setToolActive(boolean toolActive) {
+        isToolActive = toolActive;
+    }
+
+    public ItemStack getCurrentItemStack(){
+        return inventory[currentItemSlot];
     }
 }
