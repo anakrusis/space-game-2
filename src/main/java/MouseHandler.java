@@ -70,7 +70,17 @@ public class MouseHandler {
     }
 
     public static void onScroll(double dx, double dy){
-
+        // Zooming in
+        if (dy > 0){
+            if (camera.getZoom() + (camera.getZoom() / 25) < Reference.MAX_ZOOM){
+                camera.setZoom( camera.getZoom() + ( camera.getZoom() / 25 ) * dy * 5 );
+            }
+        // Zooming out
+        }else{
+            if (camera.getZoom() > Reference.MIN_ZOOM){
+                camera.setZoom( camera.getZoom() + ( camera.getZoom() / 25 ) * dy * 5 );
+            }
+        }
     }
 
     public static void update( long window ){
