@@ -51,7 +51,7 @@ public class BuildingApartment extends EntityBuilding {
     @Override
     public void update() {
         super.update();
-        if (this.ticksExisted % 200 == 39 && this.population < capacity && RandomUtil.percentChance(50)){
+        if (this.ticksExisted % 200 == 39 && this.population < capacity && RandomUtil.percentChance(50) && this.isActive()){
             this.population++;
         }
     }
