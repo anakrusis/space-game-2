@@ -144,7 +144,7 @@ public class SpaceGame {
         guiElements.add(tx);
 
         for (int i = 0; i < 9; i++){
-            TextBoxHotbarItem tbhi = new TextBoxHotbarItem(-5 + i, -8, 1, 1, i);
+            TextBoxHotbarItem tbhi = new TextBoxHotbarItem(-6.5f + (i * 1.5f), -7.5f, 1.5f, 1.5f, i);
             guiElements.add(tbhi);
         }
 
@@ -198,11 +198,34 @@ public class SpaceGame {
                 }
 
                 // Arrays start at zero, adggfjggfafafafa
+                // Also there must be a gooder way to do this, please enlighten me
+
                 if (glfwGetKey(window, GLFW_KEY_1) == GL_TRUE){
                     map.getPlayer().setCurrentItemSlot(0);
                 }
                 if (glfwGetKey(window, GLFW_KEY_2) == GL_TRUE){
                     map.getPlayer().setCurrentItemSlot(1);
+                }
+                if (glfwGetKey(window, GLFW_KEY_3) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(2);
+                }
+                if (glfwGetKey(window, GLFW_KEY_4) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(3);
+                }
+                if (glfwGetKey(window, GLFW_KEY_5) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(4);
+                }
+                if (glfwGetKey(window, GLFW_KEY_6) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(5);
+                }
+                if (glfwGetKey(window, GLFW_KEY_7) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(6);
+                }
+                if (glfwGetKey(window, GLFW_KEY_8) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(7);
+                }
+                if (glfwGetKey(window, GLFW_KEY_9) == GL_TRUE){
+                    map.getPlayer().setCurrentItemSlot(8);
                 }
             }
             MouseHandler.update(window);

@@ -114,7 +114,8 @@ public class EntityBuilding extends Entity {
                         this.dead = true;
                         if (this.playerPlaced != null){
                             this.playerPlaced.addMoney(this.price);
-                            //Todo refund the player their item back to their inventory
+
+                            this.playerPlaced.addInventory(this.getItemDropped());
                         }
                     }
                 }

@@ -22,6 +22,9 @@ public class ItemStack {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+    public void addAmount(int amount){
+        this.amount += amount;
+    }
 
     public void shrink () {
         this.amount --;

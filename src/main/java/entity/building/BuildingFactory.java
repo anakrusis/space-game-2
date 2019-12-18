@@ -3,6 +3,8 @@ package entity.building;
 import entity.EntityBuilding;
 import entity.EntityPlayer;
 import entity.ParticleSmoke;
+import item.ItemStack;
+import item.Items;
 import render.Texture;
 import render.Textures;
 import util.MathHelper;
@@ -49,7 +51,7 @@ public class BuildingFactory extends EntityBuilding {
         }
         if (this.isActive()){
             // Quadratic equation for efficiency
-            // Todo make less efficient when overcrowded (Build more factories!!)
+            // Peak efficiency is a little bit past the middle
             this.output = -(int)((this.employees - (this.capacity * 1.1)) * (this.employees) / (this.capacity * 1.1));
 
             if (this.ticksExisted % outputInterval == 0 && map.getPlayer() != null){
@@ -85,5 +87,10 @@ public class BuildingFactory extends EntityBuilding {
 
     public Texture getTexture(){
         return isActive() ? Textures.factory : Textures.factory_off;
+    }
+
+    @Override
+    public ItemStack getItemDropped() {
+        return new ItemStack (Items.ITEM_FACTORY, 1);
     }
 }

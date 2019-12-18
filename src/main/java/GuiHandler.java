@@ -74,11 +74,16 @@ public class GuiHandler {
                 if (SpaceGame.map.getPlayer() != null){
                     ItemStack item = SpaceGame.map.getPlayer().getInventory()[tbhi.getInventoryIndex()];
                     if (item != null){
-                        tx.setHeader(item.getAmount() + "");
+                        tx.setHeader("\n\n" + item.getAmount());
+                    }
+
+                    // Lights up the hotbar item which is currently selected by the player, if any
+                    if (SpaceGame.map.getPlayer().getCurrentItemSlot() == tbhi.getInventoryIndex()){
+                        tbhi.setBgColor(new float[]{ 0.9f, 0.9f, 1f });
+                    }else{
+                        tbhi.setBgColor(new float[]{ 0.50f, 0.55f, 0.65f });
                     }
                 }
-
-
             }
         }
     }

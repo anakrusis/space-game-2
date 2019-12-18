@@ -1,6 +1,8 @@
 import entity.Entity;
 import entity.EntityBuilding;
 import entity.EntityPlayer;
+import gui.TextBox;
+import gui.TextBoxHotbarItem;
 import render.*;
 import render.entity.RenderBuilding;
 import render.entity.RenderParticle;
@@ -9,6 +11,8 @@ import util.MathHelper;
 import util.Reference;
 import world.Chunk;
 import world.Map;
+
+import javax.xml.soap.Text;
 
 public class Render {
      public static void renderMain(Map map){
@@ -54,7 +58,12 @@ public class Render {
 
          // Drawing textBoxes, gui stuff
          for (int i = 0; i < SpaceGame.guiElements.size(); i++){
-             RenderTextBox.renderTextBox(SpaceGame.guiElements.get(i));
+             TextBox tx = SpaceGame.guiElements.get(i);
+             if (tx instanceof TextBoxHotbarItem && map.getPlayer() != null){
+                RenderHotbarItem.renderHotbarItem(tx, map.getPlayer());
+             }else{
+                 RenderTextBox.renderTextBox(tx);
+             }
          }
 
          // Drawing text

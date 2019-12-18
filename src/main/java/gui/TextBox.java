@@ -55,6 +55,10 @@ public class TextBox {
         return bgColor;
     }
 
+    public void setBgColor(float[] bgColor) {
+        this.bgColor = bgColor;
+    }
+
     public void setTextBody(String textBody) {
         this.textBody = textBody;
     }

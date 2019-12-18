@@ -12,7 +12,7 @@ public class EntityPlayer extends Entity {
     private float money;
 
     private ItemStack[] inventory = new ItemStack[9];
-    private int currentItemSlot = 2;
+    private int currentItemSlot = 0;
 
     private Nation nation;
 
@@ -29,8 +29,8 @@ public class EntityPlayer extends Entity {
         this.nation = null;
 
         // Testing out inventory slots
-        this.inventory[0] = new ItemStack(Items.ITEM_APARTMENT, 99);
-        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 99);
+        this.inventory[0] = new ItemStack(Items.ITEM_APARTMENT, 10);
+        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 15);
     }
 
     @Override
@@ -102,5 +102,25 @@ public class EntityPlayer extends Entity {
 
     public ItemStack[] getInventory() {
         return inventory;
+    }
+
+    public void addInventory(ItemStack item){
+        // First, look for matching itemstacks and add the amount
+        for (int i = 0; i < inventory.length; i++){
+            if (inventory[i] != null){
+                if (inventory[i].getItem() == item.getItem()){
+                    inventory[i].addAmount(item.getAmount());
+                    return;
+                }
+            }
+        }
+        // If no matching itemstacks exist, make a new one at the first blank spot
+        for (int i = 0; i < inventory.length; i++){
+            if (inventory[i] == null){
+                inventory[i] = item;
+                return;
+            }
+        }
+        // Todo: If no blank spot available, then idk
     }
 }

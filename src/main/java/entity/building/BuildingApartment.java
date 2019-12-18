@@ -2,6 +2,8 @@ package entity.building;
 
 import entity.EntityBuilding;
 import entity.EntityPlayer;
+import item.ItemStack;
+import item.Items;
 import render.Texture;
 import render.Textures;
 import util.MathHelper;
@@ -56,5 +58,10 @@ public class BuildingApartment extends EntityBuilding {
 
     public Texture getTexture(){
         return Textures.apartment;
+    }
+
+    @Override
+    public ItemStack getItemDropped() {
+        return new ItemStack (Items.ITEM_APARTMENT, 1);
     }
 }
