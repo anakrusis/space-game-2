@@ -44,10 +44,15 @@ public class Chunk {
             if (body instanceof BodyStar){
                 int planetnum = 120 * RandomUtil.fromRangeI(2, 6) + 120;
                 for (int planetdist = 240; planetdist < planetnum; planetdist += 120){
+
                     float orbitDistance = RandomUtil.fromRangeF(planetdist - 20,planetdist + 20);
+
                     String name = body.getName() + " " + NymGen.greekLetters()[planetcount];
+
                     BodyPlanet planet = new BodyPlanet(body.getX() + orbitDistance, body.getY(), 0, this,
                             orbitDistance, (BodyStar)body, this.map, name );
+
+                    ((BodyStar) body).getPlanets().add(planet);
                     this.bodies.add(planet);
                     planetcount++;
                 }

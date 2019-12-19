@@ -4,6 +4,7 @@ import entity.Body;
 import util.RandomUtil;
 import world.Chunk;
 import world.Map;
+import world.Nation;
 
 import java.util.ArrayList;
 
@@ -34,5 +35,27 @@ public class BodyStar extends Body {
     @Override
     public void update() {
         super.update();
+    }
+
+    public ArrayList<BodyPlanet> getPlanets() {
+        return planets;
+    }
+
+    public int getSystemPopulation() {
+        int pop = 0;
+        for (int i = 0; i < planets.size(); i++){
+            pop += planets.get(i).getPopulation();
+        }
+        return pop;
+    }
+
+    public Nation getNation() {
+        Nation nation = null;
+        for (int i = 0; i < planets.size(); i++){
+            if (planets.get(i).getNation() != null){
+                nation = planets.get(i).getNation();
+            }
+        }
+        return nation;
     }
 }

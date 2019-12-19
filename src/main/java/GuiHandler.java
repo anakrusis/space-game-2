@@ -2,6 +2,7 @@ import entity.Entity;
 import entity.EntityBuilding;
 import entity.EntityCursor;
 import entity.body.BodyPlanet;
+import entity.body.BodyStar;
 import entity.building.BuildingApartment;
 import entity.building.BuildingFactory;
 import gui.EnumGui;
@@ -42,22 +43,38 @@ public class GuiHandler {
                     }
 
                     // Unique single-class properties
-                    if (e instanceof BodyPlanet){
-                        if (((BodyPlanet) e).getNation() != null){
+                    if (e instanceof BodyPlanet) {
+                        if (((BodyPlanet) e).getNation() != null) {
 
-                            if (e == SpaceGame.map.getHomePlanet()){
-                                tx.addTextBody("\nHome of the \n" + ((BodyPlanet) e).getNation().getName());
-                            }else{
+                            if (e == SpaceGame.map.getHomePlanet()) {
+                                tx.addTextBody("\nHome planet of the \n" + ((BodyPlanet) e).getNation().getName());
+                            } else {
                                 tx.addTextBody("\nClaimed by the \n" + ((BodyPlanet) e).getNation().getName());
                             }
 
-                        }else{
+                        } else {
                             tx.addTextBody("\nUnclaimed");
                         }
                         tx.addTextBody("\n");
 
                         tx.addTextBody("\nPopulation: " + ((BodyPlanet) e).getPopulation());
                         tx.addTextBody("\nSize: " + ((BodyPlanet) e).getTerrainSize());
+
+                    }else if (e instanceof BodyStar) {
+                        if (((BodyStar) e).getNation() != null) {
+
+                            if (e == SpaceGame.map.getHomeStar()) {
+                                tx.addTextBody("\nHome system of the \n" + ((BodyStar) e).getNation().getName());
+                            } else {
+                                tx.addTextBody("\nClaimed by the \n" + ((BodyStar) e).getNation().getName());
+                            }
+
+                        } else {
+                            tx.addTextBody("\nUnclaimed");
+                        }
+                        tx.addTextBody("\n");
+                        tx.addTextBody("\nSystem Pop.: " + ((BodyStar) e).getSystemPopulation());
+
                     }else if (e instanceof BuildingApartment) {
 
                         tx.addTextBody("\nPopulation: " + ((BuildingApartment) e).getPopulation());
