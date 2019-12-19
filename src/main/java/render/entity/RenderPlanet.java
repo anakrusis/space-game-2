@@ -26,16 +26,27 @@ public class RenderPlanet {
 
         Textures.grass.bind();
 
-        glBegin(GL_POLYGON);
         glColor3d(body.getColor()[0], body.getColor()[1], body.getColor()[2]);
+        double pointx, pointy;
+        double next_x, next_y;
 
+        glBegin(GL_TRIANGLES);
         for (int i = 0; i < absPoints.length; i += 2){
 
-            double pointx = absPoints[i];
-            double pointy = absPoints[i + 1];
+            pointx = absPoints[i];
+            pointy = absPoints[i + 1];
+            next_x = absPoints[(i + 2) % absPoints.length];
+            next_y = absPoints[(i + 3) % absPoints.length];
 
             glVertex2d(camZoom * (pointx - camX), camZoom * (pointy - camY));
             glTexCoord2f(texpoints[i % texpoints.length], texpoints[ (i + 1) % texpoints.length ]);
+
+            glVertex2d(camZoom * (next_x - camX), camZoom * (next_y - camY));
+            glTexCoord2f(texpoints[i % texpoints.length], texpoints[ (i + 1) % texpoints.length ]);
+
+            glVertex2d(camZoom * (planet.getX() - camX), camZoom * (planet.getY() - camY));
+            glTexCoord2f(texpoints[i % texpoints.length], texpoints[ (i + 1) % texpoints.length ]);
+
         }
         glEnd();
 
@@ -44,8 +55,8 @@ public class RenderPlanet {
         glColor3d(planet.getStoneColor()[0], planet.getStoneColor()[1], planet.getStoneColor()[2]);
         for (int i = 0; i < stonePoints.length; i += 2){
 
-            double pointx = stonePoints[i];
-            double pointy = stonePoints[i + 1];
+            pointx = stonePoints[i];
+            pointy = stonePoints[i + 1];
 
             glVertex2d(camZoom * (pointx - camX), camZoom * (pointy - camY));
             glTexCoord2f(texpoints[i % texpoints.length], texpoints[ (i + 1) % texpoints.length ]);

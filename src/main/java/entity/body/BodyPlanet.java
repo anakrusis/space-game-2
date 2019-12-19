@@ -30,7 +30,7 @@ public class BodyPlanet extends Body {
     private Nation nation;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map, String name) {
-        super(x, y, dir, chunk, RandomUtil.fromRangeF(16,32), map);
+        super(x, y, dir, chunk, RandomUtil.fromRangeF(32,64), map);
         this.star = star;
         this.orbitDistance = orbitDistance;
         this.orbitPeriod = 16000;
