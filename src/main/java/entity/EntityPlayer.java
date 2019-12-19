@@ -31,8 +31,8 @@ public class EntityPlayer extends Entity {
 
         // Testing out inventory slots
         this.inventory[0] = new ItemStack(Items.ITEM_MINING_LASER, 1);
-        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 10);
-        this.inventory[2] = new ItemStack(Items.ITEM_APARTMENT, 15);
+        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 99);
+        this.inventory[2] = new ItemStack(Items.ITEM_APARTMENT, 99);
     }
 
     @Override
@@ -124,10 +124,12 @@ public class EntityPlayer extends Entity {
     }
 
     public void addInventory(ItemStack item){
-        // First, look for matching itemstacks and add the amount
+        // First, look for matching itemstacks and ensuring that the stack size is not too large.
         for (int i = 0; i < inventory.length; i++){
             if (inventory[i] != null){
-                if (inventory[i].getItem() == item.getItem()){
+                if (inventory[i].getItem() == item.getItem() && inventory[i].getAmount() < inventory[i].getItem().getMaxStackSize()){
+
+                    // Adding the item
                     inventory[i].addAmount(item.getAmount());
                     return;
                 }
