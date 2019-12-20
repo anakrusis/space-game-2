@@ -8,6 +8,10 @@ import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.world.Map;
 
 public class ItemApartment extends ItemBuilding {
+    public ItemApartment(String name) {
+        super(name);
+    }
+
     @Override
     public Texture getTexture() {
         return Textures.apartment;

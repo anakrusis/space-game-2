@@ -5,7 +5,8 @@ import com.adnre.spacegame.render.Textures;
 
 public class ItemMiningLaser extends Item {
 
-    public ItemMiningLaser(){
+    public ItemMiningLaser(String name){
+        super(name);
         this.maxStackSize = 1;
     }
 

@@ -7,6 +7,7 @@ import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.gui.EnumGui;
 import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.gui.TextBoxHotbarItem;
+import com.adnre.spacegame.item.Items;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -42,8 +43,6 @@ public class SpaceGame {
     public static Camera camera = new Camera(0,0,1, map);
 
     public static ArrayList<TextBox> guiElements = new ArrayList<>();
-
-    public static Texture test_texture;
 
     public void run() {
         //System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -149,7 +148,9 @@ public class SpaceGame {
 
         RenderText.setFont(Textures.test_texture);
 
-        TextBox tx = new TextBox(10.77f,-3,7,7,"Test","", EnumGui.GUI_SELECTED_ENTITY);
+        // Todo move this to a new GuiElements class and register them
+
+        TextBox tx = new TextBox(10.77f,-3,7,7, EnumGui.GUI_SELECTED_ENTITY);
         guiElements.add(tx);
 
         for (int i = 0; i < 9; i++){
@@ -157,6 +158,10 @@ public class SpaceGame {
             guiElements.add(tbhi);
         }
 
+        TextBox storeBG = new TextBox( -6, 8, 6, 8, "Store", "", EnumGui.GUI_STORE_BACKGROUND, false);
+        guiElements.add(storeBG);
+
+        Items.register();
     }
 
     private void loop() {

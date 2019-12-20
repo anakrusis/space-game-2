@@ -11,8 +11,9 @@ public class TextBox {
 
     protected EnumGui guiID;
 
+    protected boolean isVisible;
 
-    public TextBox (float x, float y, float width, float height, String header, String textBody, EnumGui guiID){
+    public TextBox (float x, float y, float width, float height, String header, String textBody, EnumGui guiID, boolean isVisible){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -21,10 +22,15 @@ public class TextBox {
         this.textBody = textBody;
         this.bgColor = new float[]{ 0.50f, 0.55f, 0.65f };
         this.guiID = guiID;
+        this.isVisible = isVisible;
     }
 
     public TextBox (float x, float y, float width, float height, EnumGui GUI_ID ){
-        this (x, y, width, height, "", "", GUI_ID);
+        this (x, y, width, height, "", "", GUI_ID, true);
+    }
+
+    public TextBox (float x, float y, float width, float height, EnumGui GUI_ID, Boolean isVisible){
+        this (x, y, width, height, "", "", GUI_ID, isVisible);
     }
 
     public float getX() {
@@ -75,5 +81,13 @@ public class TextBox {
 
     public void onClick(){
 
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class GuiHandler {
     static EntityCursor cursor = SpaceGame.map.getCursor();
 
-    static boolean invScreen = false;
+    static boolean storeScreen = false;
 
     // This is how all gui elements are dynamically updated
     // Todo make this a part of each individual element?
@@ -26,10 +26,11 @@ public class GuiHandler {
     public static void update( ArrayList<TextBox> elements){
         for (int i = 0; i < elements.size(); i ++){
             TextBox tx = elements.get(i);
-            tx.setHeader("");
-            tx.setTextBody("");
 
             if (tx.getGuiID() == EnumGui.GUI_SELECTED_ENTITY){
+                tx.setHeader("");
+                tx.setTextBody("");
+
                 Entity e = cursor.getSelectedEntity();
                 if (e != null){
                     tx.setHeader(e.getName() + ":");
