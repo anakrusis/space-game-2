@@ -30,7 +30,7 @@ public class RenderChunk {
         for (Body body : chunk.getBodies()){
 
             // Culled bodies
-            if (camZoom > 0.01){
+            if (camZoom > Reference.MAP_SCREEN_THRESHOLD){
 
                 if (body instanceof BodyGravityRadius){
                     RenderStar.renderStar(body, false, camera);

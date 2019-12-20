@@ -9,9 +9,10 @@ import util.NymGen;
 import util.RandomUtil;
 import util.Reference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Chunk {
+public class Chunk implements Serializable {
     private int x;
     private int y;
     private Map map;
@@ -30,7 +31,7 @@ public class Chunk {
             double genx = Reference.CHUNK_SIZE * (this.x + Math.random());
             double geny = Reference.CHUNK_SIZE * (this.y + Math.random());
 
-            if (GenUtil.withinPadding(genx, geny, 750)){
+            if (GenUtil.withinPadding(genx, geny, 1000)){
                 String name = NymGen.newName();
                 this.bodies.add(new BodyStar(genx, geny, 0, this, this.map, name));
                 break;
@@ -39,13 +40,16 @@ public class Chunk {
 
         // Every star gets potentially up to 4 planets
         int planetcount = 0;
+        int orbitDistanceInterval = 200;
+        int orbitVariance = 40;
+
         for (int i = 0; i < this.bodies.size(); i++){
             Body body = this.bodies.get(i);
             if (body instanceof BodyStar){
-                int planetnum = 120 * RandomUtil.fromRangeI(2, 6) + 120;
-                for (int planetdist = 240; planetdist < planetnum; planetdist += 120){
+                int planetnum = orbitDistanceInterval * RandomUtil.fromRangeI(2, 6) + orbitDistanceInterval;
+                for (int planetdist = 2 * orbitDistanceInterval; planetdist < planetnum; planetdist += orbitDistanceInterval){
 
-                    float orbitDistance = RandomUtil.fromRangeF(planetdist - 20,planetdist + 20);
+                    float orbitDistance = RandomUtil.fromRangeF(planetdist - orbitVariance,planetdist + orbitVariance);
 
                     String name = body.getName() + " " + NymGen.greekLetters()[planetcount];
 

@@ -3,6 +3,8 @@ import entity.EntityCursor;
 import entity.building.BuildingApartment;
 import entity.building.BuildingFactory;
 import entity.EntityPlayer;
+import gui.TextBox;
+import gui.TextBoxHotbarItem;
 import item.Item;
 import item.ItemBuilding;
 import item.ItemStack;
@@ -10,12 +12,14 @@ import item.Items;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MathUtil;
 import render.Camera;
+import util.CollisionUtil;
 import util.MathHelper;
 import util.Reference;
 import world.Map;
 
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
@@ -28,6 +32,23 @@ public class MouseHandler {
     public static void onClick(){
 
         EntityCursor cursor = map.getCursor();
+
+        TextBox cText;
+        for (int i = SpaceGame.guiElements.size() - 1; i >= 0; i--){
+            cText = SpaceGame.guiElements.get(i);
+
+            if (CollisionUtil.isPointCollidingInBox(cursor.getScreenX(), cursor.getScreenY(), cText.getX(),
+                    cText.getY(), cText.getWidth(), cText.getHeight())){
+                cText.onClick();
+
+                if (cText instanceof TextBoxHotbarItem){
+                    if (map.getPlayer() != null){
+                        map.getPlayer().setCurrentItemSlot(((TextBoxHotbarItem) cText).getInventoryIndex());
+                    }
+                }
+                return;
+            }
+        }
 
         if (map.getPlayer() != null){
             EntityPlayer player = map.getPlayer();
@@ -101,5 +122,8 @@ public class MouseHandler {
 
         map.getCursor().setX( MathHelper.screenToWorldX(xpos, windowWidth, camera.getX(), camera.getZoom() ) );
         map.getCursor().setY( MathHelper.screenToWorldY(ypos, windowHeight, camera.getY(), camera.getZoom() ) );
+
+        map.getCursor().setScreenX(MathHelper.screenToGLX(xpos, windowWidth));
+        map.getCursor().setScreenY(MathHelper.screenToGLY(ypos, windowHeight));
     }
 }

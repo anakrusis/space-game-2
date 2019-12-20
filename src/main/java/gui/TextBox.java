@@ -72,4 +72,8 @@ public class TextBox {
     public EnumGui getGuiID() {
         return guiID;
     }
+
+    public void onClick(){
+
+    }
 }

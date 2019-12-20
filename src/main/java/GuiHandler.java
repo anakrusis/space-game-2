@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class GuiHandler {
     static EntityCursor cursor = SpaceGame.map.getCursor();
 
+    static boolean invScreen = false;
+
     // This is how all gui elements are dynamically updated
     // Todo make this a part of each individual element?
     // This is hard because it requires information which is not package accessible

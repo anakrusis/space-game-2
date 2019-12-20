@@ -15,7 +15,7 @@ public class BodyStar extends Body {
     public BodyStar(double x, double y, float dir, Chunk chunk, Map map, String name) {
         super(x, y, dir, chunk, 32, map);
 
-        this.radius = RandomUtil.fromRangeF(64f,80f);
+        this.radius = RandomUtil.fromRangeF(110f,160f);
 
         this.rotSpeed = 0.01f;
         this.terrain = new float[]{ 0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0 };

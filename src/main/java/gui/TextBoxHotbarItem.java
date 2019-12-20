@@ -13,5 +13,4 @@ public class TextBoxHotbarItem extends TextBox {
     public int getInventoryIndex() {
         return inventoryIndex;
     }
-
 }

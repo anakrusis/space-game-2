@@ -6,16 +6,7 @@ import entity.Entity;
 
 public class CollisionUtil {
 
-    /**     Todo: Modify collision as such. Create the second (body) poly from three points:
-     *  The first two are the absolute points of the body at the terrainIndexFromEntityAngle.
-     *  The third point is simply the center of the planet. This creates a triangle,
-     *   which is convex, and collides simply with the player, another triangle.
-      */
-
-    /*
-        Todo also: linearInterpolatedHeightFromAngle (the child of terrainIndexFromEntityAngle)
-        Input an entity position and get the height of the terrain directly below it, I guess
-     */
+    // Todo fix still existing collision issues
 
     public static boolean isEntityCollidingWithEntity(Entity entity, Entity body){
 
@@ -227,5 +218,10 @@ public class CollisionUtil {
 
         interpolatedHeight = (currentHeight * messyDifference) + (nextHeight * (1 - messyDifference));
         return (float)interpolatedHeight;
+    }
+
+    public static boolean isPointCollidingInBox( double pointx, double pointy, double boxX, double boxY, double boxWidth, double boxHeight){
+        return (pointx > boxX && pointx < (boxX + boxWidth) &&
+                pointy < boxY && pointy > (boxY - boxHeight));
     }
 }
