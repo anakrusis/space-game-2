@@ -4,9 +4,8 @@ import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.entity.EntityBuilding;
 import com.adnre.spacegame.entity.body.BodyPlanet;
-import com.adnre.spacegame.gui.EnumGui;
-import com.adnre.spacegame.gui.TextBox;
-import com.adnre.spacegame.gui.TextBoxHotbarItem;
+import com.adnre.spacegame.gui.*;
+import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.item.Items;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
@@ -79,11 +78,6 @@ public class SpaceGame {
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-        });
         glfwSetMouseButtonCallback(window, new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
@@ -148,7 +142,7 @@ public class SpaceGame {
 
         RenderText.setFont(Textures.test_texture);
 
-        // Todo move this to a new GuiElements class and register them
+        // Todo move all this to a new GuiElements class and register them
 
         TextBox tx = new TextBox(10.77f,-3,7,7, EnumGui.GUI_SELECTED_ENTITY);
         guiElements.add(tx);
@@ -158,8 +152,18 @@ public class SpaceGame {
             guiElements.add(tbhi);
         }
 
-        TextBox storeBG = new TextBox( -6, 8, 6, 8, "Store", "", EnumGui.GUI_STORE_BACKGROUND, false);
+        TextBox storeBG = new TextBox( -6, 5, 12, 8, "Store", "", EnumGui.GUI_STORE_BACKGROUND, false);
         guiElements.add(storeBG);
+
+        ButtonStoreBuy buyApt = new ButtonStoreBuy(-5, 4, new ItemStack(Items.ITEM_APARTMENT, 1));
+        guiElements.add(buyApt);
+        ButtonStoreBuy buyFac = new ButtonStoreBuy(-5, 2, new ItemStack(Items.ITEM_FACTORY, 1));
+        guiElements.add(buyFac);
+
+        Button openStoreButton = new Button(-13, -8, 5, 1, "Store", "", EnumGui.GUI_BUTTON_STORE_OPEN, true);
+        guiElements.add(openStoreButton);
+        Button closeStoreButton = new Button(4, 4, 1, 1, "X", "", EnumGui.GUI_BUTTON_STORE_CLOSE, false);
+        guiElements.add(closeStoreButton);
 
         Items.register();
     }
@@ -240,6 +244,10 @@ public class SpaceGame {
                 }
                 if (glfwGetKey(window, GLFW_KEY_9) == GL_TRUE){
                     map.getPlayer().setCurrentItemSlot(8);
+                }
+
+                if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GL_TRUE){
+                    GuiHandler.storeScreen = false;
                 }
             }
             MouseHandler.update(window);

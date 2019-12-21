@@ -10,6 +10,7 @@ import com.adnre.spacegame.world.Map;
 public class ItemFactory extends ItemBuilding {
     public ItemFactory(String name) {
         super(name);
+        this.price = 50;
     }
 
     @Override

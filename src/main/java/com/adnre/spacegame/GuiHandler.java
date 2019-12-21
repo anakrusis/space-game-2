@@ -98,6 +98,8 @@ public class GuiHandler {
                     ItemStack item = SpaceGame.map.getPlayer().getInventory()[tbhi.getInventoryIndex()];
                     if (item != null){
                         tx.setHeader("\n\n" + item.getAmount());
+                    }else{
+                        tx.setHeader("");
                     }
 
                     // Lights up the hotbar item which is currently selected by the player, if any
@@ -107,6 +109,11 @@ public class GuiHandler {
                         tbhi.setBgColor(new float[]{ 0.50f, 0.55f, 0.65f });
                     }
                 }
+
+            // Todo proper screen handling, maybe register different gui elements to different arrayLists and swap them?
+            } else if (tx.getGuiID() == EnumGui.GUI_BUTTON_STORE_BUY || tx.getGuiID() == EnumGui.GUI_STORE_BACKGROUND
+                    || tx.getGuiID() == EnumGui.GUI_BUTTON_STORE_CLOSE){
+                tx.setVisible( storeScreen );
             }
         }
     }

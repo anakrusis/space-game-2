@@ -3,6 +3,7 @@ package com.adnre.spacegame;
 import com.adnre.spacegame.entity.EntityBuilding;
 import com.adnre.spacegame.entity.EntityCursor;
 import com.adnre.spacegame.entity.EntityPlayer;
+import com.adnre.spacegame.gui.EnumGui;
 import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.gui.TextBoxHotbarItem;
 import com.adnre.spacegame.item.Item;
@@ -35,10 +36,19 @@ public class MouseHandler {
         for (int i = SpaceGame.guiElements.size() - 1; i >= 0; i--){
             cText = SpaceGame.guiElements.get(i);
 
-            if (CollisionUtil.isPointCollidingInBox(cursor.getScreenX(), cursor.getScreenY(), cText.getX(),
-                    cText.getY(), cText.getWidth(), cText.getHeight())){
-                cText.onClick();
-                return;
+            if (cText.isVisible()){
+                if (CollisionUtil.isPointCollidingInBox(cursor.getScreenX(), cursor.getScreenY(), cText.getX(),
+                        cText.getY(), cText.getWidth(), cText.getHeight())){
+                    cText.onClick();
+
+                    if (cText.getGuiID() == EnumGui.GUI_BUTTON_STORE_OPEN){
+                        GuiHandler.storeScreen = true;
+                    }else if (cText.getGuiID() == EnumGui.GUI_BUTTON_STORE_CLOSE){
+                        GuiHandler.storeScreen = false;
+                    }
+
+                    return;
+                }
             }
         }
 
@@ -61,11 +71,8 @@ public class MouseHandler {
                         building = ((ItemBuilding) item).getBuilding(cursor.getX(), cursor.getY(), player.getDir(), map, player);
 
                         // Deducting the cost and removing the object from inventory
-                        if (player.getMoney() >= building.getPrice()){
-                            player.addMoney(-building.getPrice());
-                            map.getEntities().add(building);
-                            itemstack.shrink();
-                        }
+                        map.getEntities().add(building);
+                        itemstack.shrink();
 
                         // Miscellaneous item types with custom behaviors (Todo onclick behavior within each item)
                     } else if (item == Items.ITEM_MINING_LASER){

@@ -109,12 +109,10 @@ public class EntityBuilding extends Entity {
                         double angleFromCenter = Math.atan2(this.y - planet.getY(), this.x - planet.getX());
                         this.dir = (float)angleFromCenter;
 
-                    // If there already is another building at that spot, then refund the player
+                    // If there already is another building at that spot, then give the player back their item
                     }else{
                         this.dead = true;
                         if (this.playerPlaced != null){
-                            this.playerPlaced.addMoney(this.price);
-
                             this.playerPlaced.addInventory(this.getItemDropped());
                         }
                     }

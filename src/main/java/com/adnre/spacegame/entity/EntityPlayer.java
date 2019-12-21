@@ -137,7 +137,7 @@ public class EntityPlayer extends Entity {
         // If no matching itemstacks exist, make a new one at the first blank spot
         for (int i = 0; i < inventory.length; i++){
             if (inventory[i] == null){
-                inventory[i] = item;
+                inventory[i] = new ItemStack(item.getItem(), item.getAmount());
                 return;
             }
         }
