@@ -14,7 +14,9 @@ import java.util.ArrayList;
 public class Chunk implements Serializable {
     private int x;
     private int y;
-    private Map map;
+
+    // the map is not serialized because we would all hate to have 8000 copies of the same map in your world file :(
+    transient private Map map;
 
     private ArrayList<Body> bodies;
 
@@ -77,5 +79,9 @@ public class Chunk implements Serializable {
 
     public Map getMap() {
         return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 }

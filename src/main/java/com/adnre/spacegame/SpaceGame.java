@@ -43,6 +43,8 @@ public class SpaceGame {
 
     public static ArrayList<TextBox> guiElements = new ArrayList<>();
 
+    private static boolean paused = false;
+
     public void run() {
         //System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
@@ -78,6 +80,13 @@ public class SpaceGame {
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
+        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+            if ( key == GLFW_KEY_ESCAPE && action == GLFW_PRESS ){
+                GuiHandler.storeScreen = false;
+                SpaceGame.paused = !SpaceGame.paused;
+            }
+        });
+
         glfwSetMouseButtonCallback(window, new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
@@ -91,6 +100,9 @@ public class SpaceGame {
         glfwSetScrollCallback(window, new GLFWScrollCallback() {
             @Override
             public void invoke(long window, double xoffset, double yoffset) {
+
+                // The scroll callback is altered by pressing alt, in which it cycles through player inventory
+
                 if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_TRUE){
                     if (map.getPlayer() != null){
                         int sign = -1 * (int) (yoffset / (Math.abs(yoffset)));
@@ -101,6 +113,8 @@ public class SpaceGame {
 
                         map.getPlayer().setCurrentItemSlot(newItemSlot);
                     }
+
+                // Otherwise it gets handled below
                 }else{
                     MouseHandler.onScroll(xoffset, yoffset);
                 }
@@ -154,29 +168,7 @@ public class SpaceGame {
 
         RenderText.setFont(Textures.test_texture);
 
-        // Todo move all this to a new GuiElements class and register them
-
-        TextBox tx = new TextBox(10.77f,-3,7,7, EnumGui.GUI_SELECTED_ENTITY);
-        guiElements.add(tx);
-
-        for (int i = 0; i < 9; i++){
-            TextBoxHotbarItem tbhi = new TextBoxHotbarItem(-6.5f + (i * 1.5f), -7.5f, 1.5f, 1.5f, i);
-            guiElements.add(tbhi);
-        }
-
-        TextBox storeBG = new TextBox( -6, 5, 12, 8, "Store", "", EnumGui.GUI_STORE_BACKGROUND, false);
-        guiElements.add(storeBG);
-
-        ButtonStoreBuy buyApt = new ButtonStoreBuy(-5, 4, new ItemStack(Items.ITEM_APARTMENT, 1));
-        guiElements.add(buyApt);
-        ButtonStoreBuy buyFac = new ButtonStoreBuy(-5, 2, new ItemStack(Items.ITEM_FACTORY, 1));
-        guiElements.add(buyFac);
-
-        Button openStoreButton = new Button(-13, -8, 5, 1, "Store", "", EnumGui.GUI_BUTTON_STORE_OPEN, true);
-        guiElements.add(openStoreButton);
-        Button closeStoreButton = new Button(4, 4, 1, 1, "X", "", EnumGui.GUI_BUTTON_STORE_CLOSE, false);
-        guiElements.add(closeStoreButton);
-
+        GuiElements.initGui();
         Items.register();
     }
 
@@ -190,117 +182,116 @@ public class SpaceGame {
             // All rendering goes here
             Render.renderMain(map);
 
-            // All key handling here (for now)
-            if (map.getPlayer() != null){
-                double vel = map.getPlayer().getVelocity();
-                float dir = map.getPlayer().getDir();
+            if (!SpaceGame.isPaused()){
+                // All key handling here (for now)
 
-                if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE){
-                    map.getPlayer().setDir(dir - 0.1f);
-                }
-                if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE){
-                    map.getPlayer().setDir(dir + 0.1f);
-                }
+                if (map.getPlayer() != null) {
+                    double vel = map.getPlayer().getVelocity();
+                    float dir = map.getPlayer().getDir();
 
-                if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE) {
-                    map.getPlayer().setVelocity(vel + 0.005f);
-                }else if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE){
-                    if (map.getPlayer().getVelocity() > -0.3f){
-                        map.getPlayer().setVelocity(vel - 0.005f);
+                    if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE) {
+                        map.getPlayer().setDir(dir - 0.1f);
                     }
-                }else{
-                    map.getPlayer().setVelocity( vel / 1.01);
-                }
-
-                if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE){
-                    if (camera.getZoom() + (camera.getZoom() / 25) < Reference.MAX_ZOOM){
-                        camera.setZoom( camera.getZoom() + ( camera.getZoom() / 25 ) );
+                    if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE) {
+                        map.getPlayer().setDir(dir + 0.1f);
                     }
-                }
-                if (glfwGetKey(window, GLFW_KEY_E) == GL_TRUE){
-                    if (camera.getZoom() > Reference.MIN_ZOOM){
-                        camera.setZoom( camera.getZoom() - ( camera.getZoom() / 25 ) );
+
+                    if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE) {
+                        map.getPlayer().setVelocity(vel + 0.005f);
+                    } else if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE) {
+                        if (map.getPlayer().getVelocity() > -0.3f) {
+                            map.getPlayer().setVelocity(vel - 0.005f);
+                        }
+                    } else {
+                        map.getPlayer().setVelocity(vel / 1.01);
+                    }
+
+                    if (glfwGetKey(window, GLFW_KEY_P) == GL_TRUE) {
+                        FileHandler.writeChunkToFile(map.getChunks()[0][0], "world/chunk_0_0.txt");
                     }
                 }
 
-                if (glfwGetKey(window, GLFW_KEY_P) == GL_TRUE){
-                    map.getPlayer().explode();
-                }
+                // Deleting entities marked dead, or if living, updating them
+                for (int i = 0; i < map.getEntities().size(); i++){
+                    Entity currentEntity = map.getEntities().get(i);
+                    if (currentEntity.isDead()){
 
-                // Arrays start at zero, adggfjggfafafafa
-                // Also there must be a gooder way to do this, please enlighten me
+                        // For cleaning up the building pointers when a building is destroyed
+                        if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()){
+                            if (currentEntity.getGroundedBody() instanceof BodyPlanet){
+                                BodyPlanet planet = (BodyPlanet)currentEntity.getGroundedBody();
+                                EntityBuilding building = (EntityBuilding)currentEntity;
 
-                if (glfwGetKey(window, GLFW_KEY_1) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(0);
-                }
-                if (glfwGetKey(window, GLFW_KEY_2) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(1);
-                }
-                if (glfwGetKey(window, GLFW_KEY_3) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(2);
-                }
-                if (glfwGetKey(window, GLFW_KEY_4) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(3);
-                }
-                if (glfwGetKey(window, GLFW_KEY_5) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(4);
-                }
-                if (glfwGetKey(window, GLFW_KEY_6) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(5);
-                }
-                if (glfwGetKey(window, GLFW_KEY_7) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(6);
-                }
-                if (glfwGetKey(window, GLFW_KEY_8) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(7);
-                }
-                if (glfwGetKey(window, GLFW_KEY_9) == GL_TRUE){
-                    map.getPlayer().setCurrentItemSlot(8);
-                }
-
-                if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GL_TRUE){
-                    GuiHandler.storeScreen = false;
-                }
-            }
-            MouseHandler.update(window);
-            GuiHandler.update(guiElements);
-
-            // Deleting entities marked dead, or if living, updating them
-            for (int i = 0; i < map.getEntities().size(); i++){
-                Entity currentEntity = map.getEntities().get(i);
-                if (currentEntity.isDead()){
-
-                    // For cleaning up the building pointers when a building is destroyed
-                    if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()){
-                        if (currentEntity.getGroundedBody() instanceof BodyPlanet){
-                            BodyPlanet planet = (BodyPlanet)currentEntity.getGroundedBody();
-                            EntityBuilding building = (EntityBuilding)currentEntity;
-
-                            // -1 is used for floating buildings
-                            if (building.getPlanetIndex() != -1){
-                                planet.getBuildings()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                                // -1 is used for floating buildings
+                                if (building.getPlanetIndex() != -1){
+                                    planet.getBuildings()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                                }
                             }
                         }
+
+                        map.getEntities().remove(i);
+
+                    }else{
+                        map.getEntities().get(i).update();
                     }
+                }
 
-                    map.getEntities().remove(i);
+                // Updating astronomical bodies per chunk
+                for (Chunk[] chunk_array : map.getChunks()){
+                    for (Chunk chunk : chunk_array){
+                        for (Body body : chunk.getBodies()){
+                            body.update();
+                        }
+                    }
+                }
 
-                }else{
-                    map.getEntities().get(i).update();
+                // The map steps its own time, and also handles player respawning.
+                map.update();
+            }
+
+            // Zoom controls
+            if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE) {
+                if (camera.getZoom() + (camera.getZoom() / 25) < Reference.MAX_ZOOM) {
+                    camera.setZoom(camera.getZoom() + (camera.getZoom() / 25));
+                }
+            }
+            if (glfwGetKey(window, GLFW_KEY_E) == GL_TRUE) {
+                if (camera.getZoom() > Reference.MIN_ZOOM) {
+                    camera.setZoom(camera.getZoom() - (camera.getZoom() / 25));
                 }
             }
 
-            // Updating astronomical bodies per chunk
-            for (Chunk[] chunk_array : map.getChunks()){
-                for (Chunk chunk : chunk_array){
-                    for (Body body : chunk.getBodies()){
-                        body.update();
-                    }
-                }
+            // Hotbar key presses
+            if (glfwGetKey(window, GLFW_KEY_1) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(0);
+            }
+            if (glfwGetKey(window, GLFW_KEY_2) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(1);
+            }
+            if (glfwGetKey(window, GLFW_KEY_3) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(2);
+            }
+            if (glfwGetKey(window, GLFW_KEY_4) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(3);
+            }
+            if (glfwGetKey(window, GLFW_KEY_5) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(4);
+            }
+            if (glfwGetKey(window, GLFW_KEY_6) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(5);
+            }
+            if (glfwGetKey(window, GLFW_KEY_7) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(6);
+            }
+            if (glfwGetKey(window, GLFW_KEY_8) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(7);
+            }
+            if (glfwGetKey(window, GLFW_KEY_9) == GL_TRUE) {
+                map.getPlayer().setCurrentItemSlot(8);
             }
 
-            // The map steps its own time, and also handles player respawning.
-            map.update();
+            MouseHandler.update(window);
+            GuiHandler.update(guiElements);
 
             glfwSwapBuffers(window); // swap the color buffers
 
@@ -316,5 +307,13 @@ public class SpaceGame {
 
     public SpaceGame getSpaceGame(){
         return spaceGame;
+    }
+
+    public static boolean isPaused() {
+        return paused;
+    }
+
+    public static void setPaused(boolean paused) {
+        SpaceGame.paused = paused;
     }
 }

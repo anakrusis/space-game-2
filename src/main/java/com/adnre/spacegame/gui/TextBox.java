@@ -1,5 +1,7 @@
 package com.adnre.spacegame.gui;
 
+import com.adnre.spacegame.SpaceGame;
+
 public class TextBox {
     protected float x;
     protected float y;
@@ -23,6 +25,8 @@ public class TextBox {
         this.bgColor = new float[]{ 0.50f, 0.55f, 0.65f };
         this.guiID = guiID;
         this.isVisible = isVisible;
+
+        SpaceGame.guiElements.add(this);
     }
 
     public TextBox (float x, float y, float width, float height, EnumGui GUI_ID ){

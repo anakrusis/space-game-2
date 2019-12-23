@@ -9,7 +9,9 @@ import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.world.Chunk;
 import com.adnre.spacegame.world.Map;
 
-public class Entity {
+import java.io.Serializable;
+
+public class Entity implements Serializable {
     protected double x;
     protected double y;
     protected float dir; // radians
@@ -22,7 +24,9 @@ public class Entity {
 
     protected String name;
     public int ticksExisted;
-    protected Map map;
+
+    // the map is not serialized because we would all hate to have 8000 copies of the same map in your world file :(
+    transient protected Map map;
 
     protected boolean dead = false;
 
