@@ -91,7 +91,19 @@ public class SpaceGame {
         glfwSetScrollCallback(window, new GLFWScrollCallback() {
             @Override
             public void invoke(long window, double xoffset, double yoffset) {
-                MouseHandler.onScroll(xoffset, yoffset);
+                if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_TRUE){
+                    if (map.getPlayer() != null){
+                        int sign = -1 * (int) (yoffset / (Math.abs(yoffset)));
+                        int newItemSlot = (map.getPlayer().getCurrentItemSlot() + sign) % map.getPlayer().getInventory().length;
+                        if (newItemSlot < 0){
+                            newItemSlot = map.getPlayer().getInventory().length - 1;
+                        }
+
+                        map.getPlayer().setCurrentItemSlot(newItemSlot);
+                    }
+                }else{
+                    MouseHandler.onScroll(xoffset, yoffset);
+                }
             }
         });
 

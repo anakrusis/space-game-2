@@ -30,7 +30,7 @@ public class Chunk implements Serializable {
             double genx = Reference.CHUNK_SIZE * (this.x + Math.random());
             double geny = Reference.CHUNK_SIZE * (this.y + Math.random());
 
-            if (GenUtil.withinPadding(genx, geny, 1000)){
+            if (GenUtil.withinPadding(genx, geny, 1100)){
                 String name = NymGen.newName();
                 this.bodies.add(new BodyStar(genx, geny, 0, this, this.map, name));
                 break;
