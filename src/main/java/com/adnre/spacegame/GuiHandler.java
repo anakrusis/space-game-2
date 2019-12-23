@@ -114,6 +114,9 @@ public class GuiHandler {
             } else if (tx.getGuiID() == EnumGui.GUI_BUTTON_STORE_BUY || tx.getGuiID() == EnumGui.GUI_STORE_BACKGROUND
                     || tx.getGuiID() == EnumGui.GUI_BUTTON_STORE_CLOSE){
                 tx.setVisible( storeScreen );
+            } else if (tx.getGuiID() == EnumGui.GUI_BUTTON_PAUSE_RESUME || tx.getGuiID() == EnumGui.GUI_BUTTON_PAUSE_LOAD
+                    || tx.getGuiID() == EnumGui.GUI_BUTTON_PAUSE_SAVE){
+                tx.setVisible( SpaceGame.isPaused() );
             }
         }
     }

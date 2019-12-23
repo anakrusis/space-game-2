@@ -66,6 +66,12 @@ public class Render {
              }
          }
 
+         // Drawing pause overlay
+         if (SpaceGame.isPaused()){
+             RenderOverlay.renderOverlay();
+             RenderText.renderText("Paused", -6, 4, 2, new float[]{0, 0, 0}, true);
+         }
+
          // Drawing text
          String renderstring = Reference.GAME_NAME + " " + Reference.VERSION;
 

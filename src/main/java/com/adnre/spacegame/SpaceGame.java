@@ -82,8 +82,11 @@ public class SpaceGame {
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_PRESS ){
+                if (!GuiHandler.storeScreen){
+                    SpaceGame.paused = !SpaceGame.paused;
+                }
                 GuiHandler.storeScreen = false;
-                SpaceGame.paused = !SpaceGame.paused;
+
             }
         });
 
@@ -290,6 +293,7 @@ public class SpaceGame {
                 map.getPlayer().setCurrentItemSlot(8);
             }
 
+            map.getCursor().update();
             MouseHandler.update(window);
             GuiHandler.update(guiElements);
 

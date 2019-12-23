@@ -114,8 +114,6 @@ public class Map {
             this.getPlayer().setX(homePlanet.getX() + radius);
             CollisionUtil.resolveCollision(this.getPlayer(), homePlanet);
         }
-
-        this.cursor.update();
         this.mapTime++;
     }
 
