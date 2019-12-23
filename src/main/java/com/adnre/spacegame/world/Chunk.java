@@ -17,6 +17,7 @@ public class Chunk implements Serializable {
 
     // the map is not serialized because we would all hate to have 8000 copies of the same map in your world file :(
     transient private Map map;
+    private static final long serialVersionUID = 239418290893842389L;
 
     private ArrayList<Body> bodies;
 

@@ -45,6 +45,8 @@ public class MouseHandler {
                         GuiHandler.storeScreen = true;
                     }else if (cText.getGuiID() == EnumGui.GUI_BUTTON_STORE_CLOSE){
                         GuiHandler.storeScreen = false;
+                    }else if (cText.getGuiID() == EnumGui.GUI_BUTTON_PAUSE_RESUME){
+                        SpaceGame.setPaused(false);
                     }
 
                     return;

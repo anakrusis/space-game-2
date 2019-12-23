@@ -210,7 +210,7 @@ public class SpaceGame {
                     }
 
                     if (glfwGetKey(window, GLFW_KEY_P) == GL_TRUE) {
-                        FileHandler.writeChunkToFile(map.getChunks()[0][0], "world/chunk_0_0.txt");
+                        map.getPlayer().explode();
                     }
                 }
 

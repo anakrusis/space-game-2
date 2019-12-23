@@ -20,8 +20,8 @@ public class GuiElements {
         Button closeStoreButton = new Button(4, 4, 1, 1, "X", "", EnumGui.GUI_BUTTON_STORE_CLOSE, false);
 
         // pause screen
-        Button resumeButton = new Button(-4, 2, 5, 1, "Resume Game", "", EnumGui.GUI_BUTTON_PAUSE_RESUME, false);
-        Button savebutton = new Button(-4, 0, 5, 1, "Save Game", "", EnumGui.GUI_BUTTON_PAUSE_SAVE, false);
-        Button loadbutton = new Button(-4, -2, 5, 1, "Load Game", "", EnumGui.GUI_BUTTON_PAUSE_LOAD, false);
+        Button resumeButton = new Button(-4, 2, 7, 1, "Resume Game", "", EnumGui.GUI_BUTTON_PAUSE_RESUME, false);
+        Button savebutton = new ButtonPauseSave(-4, 0, "Save Game", "", EnumGui.GUI_BUTTON_PAUSE_SAVE);
+        Button loadbutton = new ButtonPauseLoad(-4, -2, "Load Game", "", EnumGui.GUI_BUTTON_PAUSE_LOAD);
     }
 }

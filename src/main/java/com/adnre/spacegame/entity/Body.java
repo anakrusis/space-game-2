@@ -29,6 +29,7 @@ public class Body extends Entity {
 
     // The vbo which the body has
     //protected Model model;
+    private static final long serialVersionUID = 65296850982672398L;
 
     public Body (double x, double y, float dir, Chunk chunk, float radius, Map map){
         super(x,y,dir,map);

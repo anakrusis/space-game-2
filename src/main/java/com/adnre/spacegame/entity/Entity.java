@@ -27,6 +27,7 @@ public class Entity implements Serializable {
 
     // the map is not serialized because we would all hate to have 8000 copies of the same map in your world file :(
     transient protected Map map;
+    private static final long serialVersionUID = 6529685098267757690L;
 
     protected boolean dead = false;
 
@@ -207,6 +208,10 @@ public class Entity implements Serializable {
 
     public Map getMap() {
         return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     public String getName() {
