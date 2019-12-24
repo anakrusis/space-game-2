@@ -36,10 +36,10 @@ public class SpaceGame {
     public static SpaceGame spaceGame = new SpaceGame();
 
     // The world map, and how many ticks it's existed for
-    public static Map map = new Map(10,10);
+    public static Map map;
 
     // The global viewport to be used everywhere, I guess
-    public static Camera camera = new Camera(0,0,1, map);
+    public static Camera camera;
 
     public static ArrayList<TextBox> guiElements = new ArrayList<>();
 
@@ -61,6 +61,9 @@ public class SpaceGame {
     }
 
     private void init() {
+
+        map = new Map(10,10);
+        camera = new Camera(0,0,1, map);
 
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -242,8 +245,10 @@ public class SpaceGame {
                 // Updating astronomical bodies per chunk
                 for (Chunk[] chunk_array : map.getChunks()){
                     for (Chunk chunk : chunk_array){
-                        for (Body body : chunk.getBodies()){
-                            body.update();
+                        if (chunk != null){
+                            for (Body body : chunk.getBodies()){
+                                body.update();
+                            }
                         }
                     }
                 }

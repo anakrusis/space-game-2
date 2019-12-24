@@ -3,11 +3,15 @@ package com.adnre.spacegame.world;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
 
-public class Nation {
+import java.io.Serializable;
+
+public class Nation implements Serializable {
     private String name;
     private BodyStar homeStar;
     private BodyPlanet homePlanet;
     private float[] color;
+
+    private static final long serialVersionUID = 40958934789238L;
 
     public Nation (String name, BodyStar homestar, BodyPlanet homeplanet){
         this.name = name;

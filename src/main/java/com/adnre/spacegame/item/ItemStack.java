@@ -1,10 +1,14 @@
 package com.adnre.spacegame.item;
 
-public class ItemStack {
+import java.io.Serializable;
+
+public class ItemStack implements Serializable {
 
     private Item item;
 
     private int amount;
+
+    private static final long serialVersionUID = 50983489453L;
 
     public ItemStack (Item item, int amount) {
         this.item = item;

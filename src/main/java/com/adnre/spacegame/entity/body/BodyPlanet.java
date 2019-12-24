@@ -74,6 +74,9 @@ public class BodyPlanet extends Body {
         // and the number of factories from the sum of individual factories.
         int pop = 0;
         int factoryCount = 0;
+        if (this.buildings == null){
+            this.buildings = new EntityBuilding[terrainSize];
+        }
         for (int i = 0; i < terrainSize; i++){
             EntityBuilding build = this.buildings[i];
             if (build instanceof BuildingApartment){
@@ -170,5 +173,9 @@ public class BodyPlanet extends Body {
 
     public int getTerrainSize() {
         return terrainSize;
+    }
+
+    public void setBuildings(EntityBuilding[] buildings) {
+        this.buildings = buildings;
     }
 }

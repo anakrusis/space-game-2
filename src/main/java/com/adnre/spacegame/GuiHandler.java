@@ -15,7 +15,6 @@ import com.adnre.spacegame.item.ItemStack;
 import java.util.ArrayList;
 
 public class GuiHandler {
-    static EntityCursor cursor = SpaceGame.map.getCursor();
 
     static boolean storeScreen = false;
 
@@ -24,6 +23,8 @@ public class GuiHandler {
     // This is hard because it requires information which is not package accessible
 
     public static void update( ArrayList<TextBox> elements){
+        EntityCursor cursor = SpaceGame.map.getCursor();
+
         for (int i = 0; i < elements.size(); i ++){
             TextBox tx = elements.get(i);
 

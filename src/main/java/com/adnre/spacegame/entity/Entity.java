@@ -25,7 +25,6 @@ public class Entity implements Serializable {
     protected String name;
     public int ticksExisted;
 
-    // the map is not serialized because we would all hate to have 8000 copies of the same map in your world file :(
     transient protected Map map;
     private static final long serialVersionUID = 6529685098267757690L;
 
@@ -124,7 +123,7 @@ public class Entity implements Serializable {
                 this.velocity = 0.2;
             }
 
-            // This moves the com.adnre.spacegame.entity along with a planet by anticipating where it will be in the next tick
+            // This moves the entity along with a planet by anticipating where it will be in the next tick
             if (groundedBody instanceof BodyPlanet) {
                 BodyPlanet planet = (BodyPlanet) groundedBody;
                 float angle = planet.getOrbitAngle();
@@ -136,12 +135,12 @@ public class Entity implements Serializable {
             }
             Body body = groundedBody;
 
-            // This moves the com.adnre.spacegame.entity along with any rotating body
+            // This moves the entity along with any rotating body
             this.dir += body.rotSpeed;
             this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
             this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
 
-            // Used if the com.adnre.spacegame.entity is too far in (ie beneath the surface), so it gets teleported to the surface
+            // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
             int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
             double radius = body.getRadius() + body.getTerrain()[index] + 0.5;
@@ -167,23 +166,26 @@ public class Entity implements Serializable {
     public Chunk getChunk(){
         int chunkx = (int)Math.floor( this.x / Reference.CHUNK_SIZE );
         int chunky = (int)Math.floor( this.y / Reference.CHUNK_SIZE );
-        if (chunkx >= 0 && chunky >= 0 && chunkx < map.getChunks().length && chunky < map.getChunks()[0].length){
-            Chunk entityChunk = this.map.getChunks()[chunkx][chunky];
-            return entityChunk;
-        }else{
-            return null;
+        if (map != null){
+            if (chunkx >= 0 && chunky >= 0 && chunkx < map.getChunks().length && chunky < map.getChunks()[0].length){
+                Chunk entityChunk = this.map.getChunks()[chunkx][chunky];
+                return entityChunk;
+            }else{
+                return null;
+            }
         }
+        return null;
     }
 
     // This method is used for collision handling.
-    // The default for an unspecified com.adnre.spacegame.entity is just to return its position (meaning it only collides as a single point).
+    // The default for an unspecified entity is just to return its position (meaning it only collides as a single point).
     // If it has a definite shape then it should override this and use that!
 
     public double[] getAbsolutePoints(){
         return new double[] { this.x , this.y };
     }
 
-    // Is the com.adnre.spacegame.entity grounded on a body?
+    // Is the entity grounded on a body?
     public boolean isGrounded() {
         return grounded;
     }

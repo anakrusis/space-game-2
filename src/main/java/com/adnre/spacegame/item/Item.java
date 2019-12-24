@@ -2,10 +2,14 @@ package com.adnre.spacegame.item;
 
 import com.adnre.spacegame.render.Texture;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     protected int maxStackSize;
     protected String name;
     protected int price;
+
+    private static final long serialVersionUID = 123456798L;
 
     public Item(String name){
         this.name = name;

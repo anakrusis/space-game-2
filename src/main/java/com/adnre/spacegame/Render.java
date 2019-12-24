@@ -43,7 +43,7 @@ public class Render {
 
              for (Chunk chunk : xarray){
 
-                 if (camera.getChunk() != null){
+                 if (camera.getChunk() != null && chunk != null){
                      int cameraChunkX = camera.getChunk().getX();
                      int cameraChunkY = camera.getChunk().getY();
 
@@ -56,6 +56,12 @@ public class Render {
              }
          }
 
+         // Drawing pause overlay
+         if (SpaceGame.isPaused()){
+             RenderOverlay.renderOverlay();
+             RenderText.renderText("Paused", -6, 4, 2, new float[]{0, 0, 0}, true);
+         }
+
          // Drawing textBoxes, gui stuff
          for (int i = 0; i < SpaceGame.guiElements.size(); i++){
              TextBox tx = SpaceGame.guiElements.get(i);
@@ -64,12 +70,6 @@ public class Render {
              }else{
                  RenderTextBox.renderTextBox(tx);
              }
-         }
-
-         // Drawing pause overlay
-         if (SpaceGame.isPaused()){
-             RenderOverlay.renderOverlay();
-             RenderText.renderText("Paused", -6, 4, 2, new float[]{0, 0, 0}, true);
          }
 
          // Drawing text
@@ -92,6 +92,7 @@ public class Render {
                  RenderText.renderText(player.getChunk().getY() + "Y", 15, -3, 1.0f);
              }
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
+             RenderText.renderText(SpaceGame.map.getCursor().getX() + " ", -12, 4, 0.45f);
          }
          //RenderPlayer.renderPlayer(SpaceGame.map.getCursor(), camera);
      }

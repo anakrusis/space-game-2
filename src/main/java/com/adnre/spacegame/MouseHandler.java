@@ -25,11 +25,11 @@ import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
 
 public class MouseHandler {
 
-    static Map map = SpaceGame.map;
     static Camera camera = SpaceGame.camera;
 
     public static void onClick(){
 
+        Map map = SpaceGame.map;
         EntityCursor cursor = map.getCursor();
 
         TextBox cText;
@@ -86,6 +86,7 @@ public class MouseHandler {
     }
 
     public static void onRelease(){
+        Map map = SpaceGame.map;
         if (map.getPlayer() != null){
             map.getPlayer().setToolActive(false);
         }
@@ -106,6 +107,7 @@ public class MouseHandler {
     }
 
     public static void update( long window ){
+        Map map = SpaceGame.map;
         // :(
         DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
         glfwGetCursorPos(window, posX, null);

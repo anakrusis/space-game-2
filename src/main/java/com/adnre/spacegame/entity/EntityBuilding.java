@@ -86,6 +86,9 @@ public class EntityBuilding extends Entity {
                     BodyPlanet planet = (BodyPlanet) groundedBody;
                     int index = CollisionUtil.terrainIndexFromEntityAngle(this, planet);
 
+                    if (planet.getBuildings() == null){
+                        planet.setBuildings(new EntityBuilding[planet.getTerrainSize()]);
+                    }
                     // Empty slot ready to put a building on!
                     if (planet.getBuildings()[index] == null) {
                         if (this.planetIndex == -1){

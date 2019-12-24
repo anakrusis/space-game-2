@@ -2,6 +2,8 @@ package com.adnre.spacegame.gui;
 
 import com.adnre.spacegame.FileHandler;
 import com.adnre.spacegame.SpaceGame;
+import com.adnre.spacegame.entity.EntityCursor;
+import com.adnre.spacegame.world.Chunk;
 
 import java.io.IOException;
 
@@ -13,8 +15,31 @@ public class ButtonPauseLoad extends Button {
     @Override
     public void onClick() {
         super.onClick();
+        String filename;
         try {
-            SpaceGame.map.getChunks()[0][0] = FileHandler.readChunkFromFile("world\\chunk_0_0.txt");
+            SpaceGame.map = null;
+            SpaceGame.map = FileHandler.readMapFromFile("world\\map.txt");
+
+            int width = SpaceGame.map.getWidth();
+            int height = SpaceGame.map.getHeight();
+            Chunk[][] chunks = new Chunk[width][height];
+
+            for (int i = 0; i < width; i++){
+                for (int j = 0; j < height; j++){
+
+                    filename = "world\\chunk_" + i + "_" + j + ".txt";
+                    try {
+                        Chunk chunk = FileHandler.readChunkFromFile(filename);
+                        chunks[i][j] = chunk;
+
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            SpaceGame.map.setChunks(chunks);
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

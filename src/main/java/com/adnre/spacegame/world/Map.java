@@ -9,11 +9,12 @@ import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.NymGen;
 import com.adnre.spacegame.util.SpawnUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Map {
-    private Chunk[][] chunks;
-    private ArrayList<Chunk> loadedChunks;
+public class Map implements Serializable {
+    transient private Chunk[][] chunks;
+    transient private ArrayList<Chunk> loadedChunks;
     private ArrayList<Entity> entities;
 
     // In chunks
@@ -25,12 +26,14 @@ public class Map {
     private BodyStar homeStar = null;
     private Nation playerNation = null;
 
-    EntityCursor cursor;
+    private EntityCursor cursor;
 
     // This is kinda hacky, but it means that the player initially spawns on the second game tick,
     // allowing the planets' positions in orbit to be initialized
     public int playerLastDeathTime = -99;
     private int RESPAWN_INTERVAL = 100;
+
+    private static final long serialVersionUID = 3898234898092L;
 
     public Map (int xSize, int ySize){
         chunks = new Chunk[xSize][ySize];
@@ -127,5 +130,13 @@ public class Map {
 
     public EntityCursor getCursor() {
         return cursor;
+    }
+
+    public void setChunks(Chunk[][] chunks) {
+        this.chunks = chunks;
+    }
+
+    public void setCursor(EntityCursor cursor) {
+        this.cursor = cursor;
     }
 }
