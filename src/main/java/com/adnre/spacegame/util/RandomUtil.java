@@ -3,10 +3,10 @@ package com.adnre.spacegame.util;
 import java.util.Random;
 
 /**
- * Credit to @DeaSTL, this is a com.adnre.spacegame.util from Everything is Bad
+ * Credit to @DeaSTL, this is a util from Everything is Bad
  */
 public class RandomUtil {
-    public static Random random = new Random();
+    public static Random random = new Random(Reference.seed);
 
     /**
      * generates a random number between two integers

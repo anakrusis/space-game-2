@@ -30,8 +30,8 @@ public class Chunk implements Serializable {
         // Makes five attempts to spawn a star within the chunk padding.
         // If all five of these attempts fail then fuggedaboutit, no star in the chunk.
         for (int i = 0; i < 5; i++){
-            double genx = Reference.CHUNK_SIZE * (this.x + Math.random());
-            double geny = Reference.CHUNK_SIZE * (this.y + Math.random());
+            double genx = Reference.CHUNK_SIZE * (this.x + RandomUtil.fromRangeF(0f, 1f));
+            double geny = Reference.CHUNK_SIZE * (this.y + RandomUtil.fromRangeF(0f, 1f));
 
             if (GenUtil.withinPadding(genx, geny, 1100)){
                 String name = NymGen.newName();

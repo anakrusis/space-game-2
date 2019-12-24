@@ -139,4 +139,12 @@ public class Map implements Serializable {
     public void setCursor(EntityCursor cursor) {
         this.cursor = cursor;
     }
+
+    public void setHomeStar(BodyStar homeStar) {
+        this.homeStar = homeStar;
+    }
+
+    public void setHomePlanet(BodyPlanet homePlanet) {
+        this.homePlanet = homePlanet;
+    }
 }
