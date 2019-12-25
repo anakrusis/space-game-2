@@ -7,13 +7,14 @@ import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
+import com.adnre.spacegame.world.ChunkChangeBuildingPlace;
 import com.adnre.spacegame.world.Map;
 import com.adnre.spacegame.world.Nation;
 
 public class EntityBuilding extends Entity {
 
     private int planetIndex = -1;
-    protected EntityPlayer playerPlaced;
+    transient protected EntityPlayer playerPlaced;
     protected int price;
 
     public EntityBuilding(double x, double y, float dir, Map map, EntityPlayer playerPlaced) {
@@ -86,18 +87,16 @@ public class EntityBuilding extends Entity {
                     BodyPlanet planet = (BodyPlanet) groundedBody;
                     int index = CollisionUtil.terrainIndexFromEntityAngle(this, planet);
 
-                    if (planet.getBuildings() == null){
-                        planet.setBuildings(new EntityBuilding[planet.getTerrainSize()]);
-                    }
                     // Empty slot ready to put a building on!
                     if (planet.getBuildings()[index] == null) {
                         if (this.planetIndex == -1){
                             planet.getBuildings()[index] = this;
                             this.planetIndex = index;
+                            this.getChunk().getChunkChangelog().add(new ChunkChangeBuildingPlace(this));
 
                             // If the planet is unclaimed, the first player to build on it claims it.
                             if (planet.getNation() == null){
-                                planet.setNation(map.getPlayer().getNation());
+                                planet.setNation(map.getPlayerNation());
                             }
                         }
 

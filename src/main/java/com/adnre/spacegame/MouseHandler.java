@@ -70,7 +70,7 @@ public class MouseHandler {
                     if (item instanceof ItemBuilding){
 
                         // Creating a new EntityBuilding
-                        building = ((ItemBuilding) item).getBuilding(cursor.getX(), cursor.getY(), player.getDir(), map, player);
+                        building = ((ItemBuilding) item).getBuilding(cursor.getX(), cursor.getY(), player.getDir(), map);
 
                         // Deducting the cost and removing the object from inventory
                         map.getEntities().add(building);

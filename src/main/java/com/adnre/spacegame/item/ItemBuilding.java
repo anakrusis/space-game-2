@@ -9,7 +9,7 @@ public class ItemBuilding extends Item {
         super(name);
     }
 
-    public EntityBuilding getBuilding(double x, double y, float dir, Map map, EntityPlayer player){
+    public EntityBuilding getBuilding(double x, double y, float dir, Map map){
         return null;
     }
 }

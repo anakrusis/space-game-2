@@ -21,11 +21,14 @@ public class Chunk implements Serializable {
 
     private ArrayList<Body> bodies;
 
+    private ChunkChangelog chunkChangelog;
+
     public Chunk (int x, int y, Map map){
         this.x = x;
         this.y = y;
         this.map = map;
         this.bodies = new ArrayList<>();
+        this.chunkChangelog = new ChunkChangelog();
 
         // Makes five attempts to spawn a star within the chunk padding.
         // If all five of these attempts fail then fuggedaboutit, no star in the chunk.
@@ -84,5 +87,9 @@ public class Chunk implements Serializable {
 
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    public ChunkChangelog getChunkChangelog() {
+        return chunkChangelog;
     }
 }

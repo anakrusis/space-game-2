@@ -23,6 +23,10 @@ public class BuildingFactory extends EntityBuilding {
         this.name = "Factory";
         this.capacity = 45;
     }
+    public BuildingFactory(double x, double y, float dir, Map map){
+        this(x, y, dir, map, null);
+    }
+
     @Override
     public double[] getAbsolutePoints() {
         double[] relpoints = new double[]{

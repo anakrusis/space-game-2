@@ -178,4 +178,8 @@ public class BodyPlanet extends Body {
     public void setBuildings(EntityBuilding[] buildings) {
         this.buildings = buildings;
     }
+
+    public float getOrbitStart() {
+        return orbitStart;
+    }
 }

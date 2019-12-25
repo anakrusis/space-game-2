@@ -70,4 +70,12 @@ public class RandomUtil {
     public static boolean percentChance(float probabbility){
         return random.nextFloat() * 100f <= Math.max(probabbility, 0) + 1f;
     }
+
+    public static void setRandom(Random random) {
+        RandomUtil.random = random;
+    }
+
+    public static void setSeed(long seed) {
+        RandomUtil.random = new Random(seed);
+    }
 }

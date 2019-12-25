@@ -92,8 +92,10 @@ public class Render {
                  RenderText.renderText(player.getChunk().getY() + "Y", 15, -3, 1.0f);
              }
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
-             RenderText.renderText(SpaceGame.map.getCursor().getX() + " ", -12, 4, 0.45f);
          }
+
+         RenderText.renderText("Seed: " + Reference.seed, 6, 8, 0.45f);
+         RenderText.renderText("Time: " + SpaceGame.map.mapTime, 6, 6, 0.45f);
          //RenderPlayer.renderPlayer(SpaceGame.map.getCursor(), camera);
      }
 }

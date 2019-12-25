@@ -30,12 +30,12 @@ public class Map implements Serializable {
 
     // This is kinda hacky, but it means that the player initially spawns on the second game tick,
     // allowing the planets' positions in orbit to be initialized
-    public int playerLastDeathTime = -99;
+    public int playerLastDeathTime;
     private int RESPAWN_INTERVAL = 100;
 
     private static final long serialVersionUID = 3898234898092L;
 
-    public Map (int xSize, int ySize){
+    public Map (int xSize, int ySize, int mapTime){
         chunks = new Chunk[xSize][ySize];
         this.width = xSize;
         this.height = ySize;
@@ -49,9 +49,14 @@ public class Map implements Serializable {
             }
         }
 
-        this.mapTime = 0;
+        this.mapTime = mapTime;
         this.cursor = new EntityCursor(0,0,0,this);
+        playerLastDeathTime = mapTime - 99;
     }
+    public Map (int xSize, int ySize){
+        this(xSize, ySize, 0);
+    }
+
 
     public Chunk[][] getChunks(){
         return chunks;
@@ -101,8 +106,8 @@ public class Map implements Serializable {
                         homePlanet.getY(), 0, this, this.getPlayer());
                 BuildingApartment apt = new BuildingApartment(homePlanet.getX() + homePlanet.getRadius() + 5,
                         homePlanet.getY() + 7, 0, this, this.getPlayer());
-                entities.add(factory);
-                entities.add(apt);
+                //entities.add(factory);
+                //entities.add(apt);
             }
 
             // This is for all respawns
@@ -146,5 +151,9 @@ public class Map implements Serializable {
 
     public void setHomePlanet(BodyPlanet homePlanet) {
         this.homePlanet = homePlanet;
+    }
+
+    public Nation getPlayerNation() {
+        return playerNation;
     }
 }

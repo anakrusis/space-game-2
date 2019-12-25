@@ -21,6 +21,14 @@ public class BuildingApartment extends EntityBuilding {
         this.capacity = 100;
         this.name = "Apartment";
     }
+    public BuildingApartment(double x, double y, float dir, Map map){
+        this(x, y, dir, map, null);
+    }
+
+    public BuildingApartment(double x, double y, float dir, Map map, int population){
+        this(x, y, dir, map);
+        this.population = population;
+    }
 
     @Override
     public double[] getAbsolutePoints() {

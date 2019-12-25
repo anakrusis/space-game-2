@@ -1,4 +1,10 @@
 package com.adnre.spacegame.world;
 
-public class ChunkChange {
+import java.io.Serializable;
+
+public class ChunkChange implements Serializable {
+    private static final long serialVersionUID = 29083094809L;
+    public ChunkChange(){
+
+    }
 }

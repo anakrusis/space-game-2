@@ -18,8 +18,8 @@ public class Entity implements Serializable {
 
     protected double velocity;
     protected double acceleration;
-    protected boolean grounded;
-    protected Body groundedBody;
+    transient protected boolean grounded;
+    transient protected Body groundedBody;
     protected float mass;
 
     protected String name;
@@ -197,6 +197,14 @@ public class Entity implements Serializable {
         }else{
             return groundedBody;
         }
+    }
+
+    public void setGrounded(boolean grounded) {
+        this.grounded = grounded;
+    }
+
+    public void setGroundedBody(Body groundedBody) {
+        this.groundedBody = groundedBody;
     }
 
     public void explode(){

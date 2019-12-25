@@ -3,9 +3,11 @@ package com.adnre.spacegame;
 import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.world.Chunk;
+import com.adnre.spacegame.world.ChunkChange;
 import com.adnre.spacegame.world.Map;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class FileHandler {
     public static void writeObjectToFile(Object obj, String filename){
@@ -51,5 +53,15 @@ public class FileHandler {
         }
         map.getCursor().setMap(map);
         return map;
+    }
+
+    public static Object readObject (String filename) throws IOException, ClassNotFoundException {
+        FileInputStream file = new FileInputStream(filename);
+        ObjectInputStream in = new ObjectInputStream(file);
+        Object obj = in.readObject();
+
+        in.close();
+        file.close();
+        return obj;
     }
 }

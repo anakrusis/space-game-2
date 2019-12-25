@@ -19,7 +19,7 @@ public class ItemApartment extends ItemBuilding {
     }
 
     @Override
-    public EntityBuilding getBuilding(double x, double y, float dir, Map map, EntityPlayer player) {
-        return new BuildingApartment(x, y, dir, map, player);
+    public EntityBuilding getBuilding(double x, double y, float dir, Map map) {
+        return new BuildingApartment(x, y, dir, map);
     }
 }

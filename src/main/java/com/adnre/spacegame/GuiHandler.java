@@ -92,6 +92,10 @@ public class GuiHandler {
                         tx.addTextBody("/" + ((BuildingFactory) e).getCapacity());
                         tx.addTextBody("\nOutput: $" + ((BuildingFactory) e).getOutput());
                     }
+
+                    if (e instanceof EntityBuilding && e.isGrounded()) {
+                        tx.addTextBody("\n\nGrounded");
+                    }
                 }
             } else if (tx.getGuiID() == EnumGui.GUI_HOTBAR_ITEM) {
                 TextBoxHotbarItem tbhi = (TextBoxHotbarItem)tx;
