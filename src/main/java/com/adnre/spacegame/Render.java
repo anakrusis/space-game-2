@@ -12,20 +12,20 @@ import com.adnre.spacegame.render.entity.RenderPlayer;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 public class Render {
-     public static void renderMain(Map map){
+     public static void renderMain(World world){
          Camera camera = SpaceGame.camera;
 
          // Camera follows player if it exists
-         if (SpaceGame.map.getPlayer() != null){
-             camera.setX(SpaceGame.map.getPlayer().getX());
-             camera.setY(SpaceGame.map.getPlayer().getY());
+         if (SpaceGame.world.getPlayer() != null){
+             camera.setX(SpaceGame.world.getPlayer().getX());
+             camera.setY(SpaceGame.world.getPlayer().getY());
          }
 
          // Drawing entities
-         for (Entity entity : SpaceGame.map.getEntities()){
+         for (Entity entity : SpaceGame.world.getEntities().values()){
              if (entity instanceof EntityPlayer) {
 
              }else if (entity instanceof EntityBuilding){
@@ -34,12 +34,12 @@ public class Render {
                  RenderParticle.renderParticle(entity, camera);
              }
          }
-         if (map.getPlayer() != null){
-             RenderPlayer.renderPlayer(map.getPlayer(), camera);
+         if (world.getPlayer() != null){
+             RenderPlayer.renderPlayer(world.getPlayer(), camera);
          }
 
          // Drawing chunks
-         for (Chunk[] xarray : SpaceGame.map.getChunks()){
+         for (Chunk[] xarray : SpaceGame.world.getChunks()){
 
              for (Chunk chunk : xarray){
 
@@ -65,8 +65,8 @@ public class Render {
          // Drawing textBoxes, gui stuff
          for (int i = 0; i < SpaceGame.guiElements.size(); i++){
              TextBox tx = SpaceGame.guiElements.get(i);
-             if (tx instanceof TextBoxHotbarItem && map.getPlayer() != null){
-                RenderHotbarItem.renderHotbarItem(tx, map.getPlayer());
+             if (tx instanceof TextBoxHotbarItem && world.getPlayer() != null){
+                RenderHotbarItem.renderHotbarItem(tx, world.getPlayer());
              }else{
                  RenderTextBox.renderTextBox(tx);
              }
@@ -84,8 +84,8 @@ public class Render {
          RenderText.renderText(renderstring,-12,8,0.6f);
          //RenderText.renderText("WASD to move - QE to zoom - P to self-destruct \nClick to place factories ($50)",-12,-8.5f,0.45f);
 
-         if (SpaceGame.map.getPlayer() != null){
-             EntityPlayer player = SpaceGame.map.getPlayer();
+         if (SpaceGame.world.getPlayer() != null){
+             EntityPlayer player = SpaceGame.world.getPlayer();
 
              if (player.getChunk() != null){
                  RenderText.renderText(player.getChunk().getX() + "X", 15, -2, 1.0f);
@@ -95,7 +95,7 @@ public class Render {
          }
 
          RenderText.renderText("Seed: " + Reference.seed, 6, 8, 0.45f);
-         RenderText.renderText("Time: " + SpaceGame.map.mapTime, 6, 6, 0.45f);
+         RenderText.renderText("Time: " + SpaceGame.world.mapTime, 6, 6, 0.45f);
          //RenderPlayer.renderPlayer(SpaceGame.map.getCursor(), camera);
      }
 }

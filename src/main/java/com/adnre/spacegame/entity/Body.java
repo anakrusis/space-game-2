@@ -12,7 +12,7 @@ package com.adnre.spacegame.entity;
 
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 public class Body extends Entity {
 
@@ -31,8 +31,8 @@ public class Body extends Entity {
     //protected Model model;
     private static final long serialVersionUID = 65296850982672398L;
 
-    public Body (double x, double y, float dir, Chunk chunk, float radius, Map map){
-        super(x,y,dir,map);
+    public Body (double x, double y, float dir, Chunk chunk, float radius, World world){
+        super(x,y,dir, world);
         this.chunk = chunk;
         this.radius = radius;
         this.mass = radius * 50;

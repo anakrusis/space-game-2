@@ -17,17 +17,5 @@ public class ButtonPauseSave extends Button {
     public void onClick() {
         super.onClick();
         String filename;
-        FileHandler.writeObjectToFile(Reference.seed, "world\\seed.txt");
-        FileHandler.writeObjectToFile(SpaceGame.map.mapTime, "world\\map.txt");
-
-        for (int i = 0; i < SpaceGame.map.getWidth(); i++){
-            for (int j = 0; j < SpaceGame.map.getHeight(); j++){
-                filename = "world\\chunk_" + i + "_" + j + ".txt";
-                if (SpaceGame.map.getChunks()[i][j].getChunkChangelog().getChanges().size() > 0){
-                    ChunkChangelog changes = SpaceGame.map.getChunks()[i][j].getChunkChangelog();
-                    FileHandler.writeObjectToFile(changes, filename);
-                }
-            }
-        }
     }
 }

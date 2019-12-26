@@ -1,7 +1,6 @@
 package com.adnre.spacegame.gui;
 
 import com.adnre.spacegame.SpaceGame;
-import com.adnre.spacegame.item.ItemBuilding;
 import com.adnre.spacegame.item.ItemStack;
 
 public class ButtonStoreBuy extends Button {
@@ -17,9 +16,9 @@ public class ButtonStoreBuy extends Button {
     public void onClick() {
         super.onClick();
         int price = this.itemStack.getItem().getPrice();
-        if (SpaceGame.map.getPlayer().getMoney() >= price){
-            SpaceGame.map.getPlayer().addMoney(-price);
-            SpaceGame.map.getPlayer().addInventory(itemStack);
+        if (SpaceGame.world.getPlayer().getMoney() >= price){
+            SpaceGame.world.getPlayer().addMoney(-price);
+            SpaceGame.world.getPlayer().addInventory(itemStack);
         }
     }
     public ItemStack getItemStack(){

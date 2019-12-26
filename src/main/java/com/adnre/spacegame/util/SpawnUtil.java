@@ -2,9 +2,8 @@ package com.adnre.spacegame.util;
 
 import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.entity.body.BodyPlanet;
-import com.adnre.spacegame.entity.body.BodyStar;
 import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 import java.util.*;
 
@@ -12,9 +11,9 @@ public class SpawnUtil {
 
     static Random rand = new Random();
     @Deprecated
-    public static double[] playerNewRespawnPos(Map map){
+    public static double[] playerNewRespawnPos(World world){
 
-        Chunk[][] chunks = map.getChunks();
+        Chunk[][] chunks = world.getChunks();
         Chunk[][] shuffled_chunks = new Chunk[chunks.length][chunks[0].length];
         for (int x = 0; x < chunks.length; x++){
             System.arraycopy(chunks[x], 0, shuffled_chunks[x], 0, chunks[0].length);
@@ -25,7 +24,7 @@ public class SpawnUtil {
         ArrayList<Body> shuffledbodies;
 
         // Each of the rows are shuffled diabolically
-        for (int x = 0; x < map.getHeight(); x++){
+        for (int x = 0; x < world.getHeight(); x++){
             shuffledRow = Arrays.asList( shuffled_chunks[x] );
             Collections.shuffle(shuffledRow);
             shuffled_chunks[x] = shuffledRow.toArray(shuffled_chunks[x]);
@@ -42,8 +41,8 @@ public class SpawnUtil {
         // But that we also go through each one at least once, trying to find a spot to
         // plop the player down on.
 
-        for (int x = 0; x < map.getWidth(); x++){
-            for (int y = 0; y < map.getHeight(); y++){
+        for (int x = 0; x < world.getWidth(); x++){
+            for (int y = 0; y < world.getHeight(); y++){
 
                 shuffledbodies = shuffled_chunks[x][y].getBodies();
                 for (int z = 0; z < shuffledbodies.size(); z++){
@@ -61,12 +60,12 @@ public class SpawnUtil {
 
     // This new version of the random planet finder is fully seeded, and way smaller and simpler.
     // The only problem is it keeps going forever if there's no planets on the map.
-    public static BodyPlanet newHomePlanet(Map map){
+    public static BodyPlanet newHomePlanet(World world){
         while (true){
-            int xIndex = RandomUtil.fromRangeI(0, map.getWidth());
-            int yIndex = RandomUtil.fromRangeI(0, map.getHeight());
+            int xIndex = RandomUtil.fromRangeI(0, world.getWidth());
+            int yIndex = RandomUtil.fromRangeI(0, world.getHeight());
 
-            Chunk chunk = map.getChunks()[xIndex][yIndex];
+            Chunk chunk = world.getChunks()[xIndex][yIndex];
             if (chunk != null){
                 for (int i = 0; i < chunk.getBodies().size(); i++){
                     Body body = chunk.getBodies().get(i);

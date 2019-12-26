@@ -4,7 +4,8 @@ import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.item.Items;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.Reference;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.ChunkChangeBuildingDestroy;
+import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
 public class EntityPlayer extends Entity {
@@ -16,8 +17,8 @@ public class EntityPlayer extends Entity {
     private Nation nation;
     private boolean isToolActive;
 
-    public EntityPlayer (double x, double y, float dir, Map map){
-        super(x,y,dir,map);
+    public EntityPlayer (double x, double y, float dir, World world){
+        super(x,y,dir, world);
         if (Reference.DEASTL_MODE){
             this.money = 69000000;
         }else if (Reference.DEBUG_MODE){
@@ -53,8 +54,8 @@ public class EntityPlayer extends Entity {
         super.update();
         if (this.velocity > 0.1 && this.ticksExisted % 10 == 0){
             float dir = (float) (this.dir - Math.PI + (Math.random() * 0.5f));
-            ParticleSmoke smoke = new ParticleSmoke(this.x, this.y, dir, this.map);
-            this.map.getEntities().add(smoke);
+            ParticleSmoke smoke = new ParticleSmoke(this.x, this.y, dir, this.world);
+            this.world.spawnEntity(smoke);
         }
 
         // The player cleans their own inventory of <=0 qty com.adnre.spacegame.item stacks
@@ -67,15 +68,19 @@ public class EntityPlayer extends Entity {
         }
 
         if (isToolActive()){
-            if (MathHelper.distance(map.getCursor().getX(), map.getCursor().getY(), x, y) < Reference.TOOL_USE_RADIUS){
+            if (MathHelper.distance(world.getCursor().getX(), world.getCursor().getY(), x, y) < Reference.TOOL_USE_RADIUS){
 
             // The laser is used to destroy buildings and pick them up
-                if (map.getCursor().getSelectedEntity() instanceof EntityBuilding){
-                    EntityBuilding building = (EntityBuilding) map.getCursor().getSelectedEntity();
+                if (world.getCursor().getSelectedEntity() instanceof EntityBuilding){
+                    EntityBuilding building = (EntityBuilding) world.getCursor().getSelectedEntity();
 
                     this.addMoney(building.getPrice());
                     this.addInventory(building.getItemDropped());
                     building.dead = true;
+
+                    if (this.getChunk() != null){
+                        this.getChunk().getChunkChangelog().add(new ChunkChangeBuildingDestroy(building));
+                    }
                 }
         // The player's laser never works if it's outside of the radius
             }else{
@@ -87,7 +92,7 @@ public class EntityPlayer extends Entity {
     @Override
     public void explode() {
         super.explode();
-        this.map.playerLastDeathTime = this.map.mapTime;
+        this.world.playerLastDeathTime = this.world.mapTime;
     }
 
     public float getMoney() {

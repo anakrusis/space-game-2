@@ -3,7 +3,9 @@ package com.adnre.spacegame.entity;
 import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
+
+import java.util.UUID;
 
 public class EntityCursor extends Entity {
     Entity selectedEntity;
@@ -11,8 +13,8 @@ public class EntityCursor extends Entity {
     private double screenX;
     private double screenY;
 
-    public EntityCursor(double x, double y, float dir, Map map) {
-        super(x, y, dir, map);
+    public EntityCursor(double x, double y, float dir, World world) {
+        super(x, y, dir, world);
     }
 
     @Override
@@ -27,8 +29,8 @@ public class EntityCursor extends Entity {
                 if (CollisionUtil.isEntityCollidingWithEntity(this, body) && body.canEntitiesCollide){
                     this.selectedEntity = body;
                 }
-                for (int j = 0; j < this.getMap().getEntities().size(); j++){
-                    Entity entity = this.getMap().getEntities().get(j);
+                for (java.util.Map.Entry<UUID, Entity> e : this.world.getEntities().entrySet()){
+                    Entity entity = e.getValue();
                     if (entity instanceof EntityBuilding && CollisionUtil.isEntityCollidingWithEntity(this, entity)){
                         this.selectedEntity = entity;
                     }

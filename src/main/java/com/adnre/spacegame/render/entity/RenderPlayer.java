@@ -30,8 +30,8 @@ public class RenderPlayer {
                 glColor3d(1.0f, 0.0f, 0.0f);
                 double cursorX, cursorY;
                 double playerX, playerY;
-                cursorX = camZoom * (player.getMap().getCursor().getX() - camX);
-                cursorY = camZoom * (player.getMap().getCursor().getY() - camY);
+                cursorX = camZoom * (player.getWorld().getCursor().getX() - camX);
+                cursorY = camZoom * (player.getWorld().getCursor().getY() - camY);
                 playerX = camZoom * (player.getX() - camX);
                 playerY = camZoom * (player.getY() - camY);
 

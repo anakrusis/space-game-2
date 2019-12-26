@@ -1,14 +1,14 @@
 package com.adnre.spacegame.entity;
 
 import com.adnre.spacegame.util.MathHelper;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 public class ParticleOrbit extends EntityParticle {
 
     private double size;
 
-    public ParticleOrbit(double x, double y, float dir, Map map) {
-        super(x, y, dir, map);
+    public ParticleOrbit(double x, double y, float dir, World world) {
+        super(x, y, dir, world);
         this.velocity = 0;
         this.size = 0.30;
     }

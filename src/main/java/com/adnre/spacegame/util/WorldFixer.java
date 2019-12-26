@@ -4,19 +4,19 @@ import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
 import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 public class WorldFixer {
-    public static void removeDuplicateEntities(Map map){
-        Body homestar = map.getHomeStar();
-        Body homeplanet = map.getHomePlanet();
-        for (Chunk[] chunklist : map.getChunks()){
+    public static void removeDuplicateEntities(World world){
+        Body homestar = world.getHomeStar();
+        Body homeplanet = world.getHomePlanet();
+        for (Chunk[] chunklist : world.getChunks()){
             for (Chunk chunk : chunklist){
                 for (Body body : chunk.getBodies()){
                     if (body.equals(homestar)){
-                        map.setHomeStar((BodyStar) body);
+                        world.setHomeStar((BodyStar) body);
                     }else if (body.equals(homeplanet)){
-                        map.setHomePlanet((BodyPlanet) body);
+                        world.setHomePlanet((BodyPlanet) body);
                     }
                 }
             }

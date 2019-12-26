@@ -38,7 +38,7 @@ public class RenderChunk {
 
                     // Yeah maybe don't render the same orbital body 100 times
                     BodyPlanet planet = (BodyPlanet)body;
-                    BodyOrbit orbit = new BodyOrbit(planet.getStar().getX(), planet.getStar().getY(), 0, chunk, planet.getOrbitDistance(), chunk.getMap());
+                    BodyOrbit orbit = new BodyOrbit(planet.getStar().getX(), planet.getStar().getY(), 0, chunk, planet.getOrbitDistance(), chunk.getWorld());
                     RenderStar.renderStar(orbit, false, camera);
 
                     RenderPlanet.renderPlanet(body,camera);

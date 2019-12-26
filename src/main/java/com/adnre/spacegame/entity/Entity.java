@@ -7,7 +7,7 @@ import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 import java.io.Serializable;
 
@@ -25,19 +25,19 @@ public class Entity implements Serializable {
     protected String name;
     public int ticksExisted;
 
-    transient protected Map map;
+    transient protected World world;
     private static final long serialVersionUID = 6529685098267757690L;
 
     protected boolean dead = false;
 
-    public Entity (double x, double y, float dir, Map map){
+    public Entity (double x, double y, float dir, World world){
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.velocity = 0;
         this.acceleration = 0;
         this.ticksExisted = 0;
-        this.map = map;
+        this.world = world;
         this.grounded = false;
         this.mass = 1f;
         this.name = "Entity";
@@ -166,9 +166,9 @@ public class Entity implements Serializable {
     public Chunk getChunk(){
         int chunkx = (int)Math.floor( this.x / Reference.CHUNK_SIZE );
         int chunky = (int)Math.floor( this.y / Reference.CHUNK_SIZE );
-        if (map != null){
-            if (chunkx >= 0 && chunky >= 0 && chunkx < map.getChunks().length && chunky < map.getChunks()[0].length){
-                Chunk entityChunk = this.map.getChunks()[chunkx][chunky];
+        if (world != null){
+            if (chunkx >= 0 && chunky >= 0 && chunkx < world.getChunks().length && chunky < world.getChunks()[0].length){
+                Chunk entityChunk = this.world.getChunks()[chunkx][chunky];
                 return entityChunk;
             }else{
                 return null;
@@ -212,19 +212,23 @@ public class Entity implements Serializable {
 
         for (int i = 0; i < 20; i++){
             float randomdir = (float)(2 * Math.PI) * (float)Math.random();
-            this.map.getEntities().add(new ParticleExplosion(this.x, this.y, randomdir, this.map));
+            this.world.spawnEntity(new ParticleExplosion(this.x, this.y, randomdir, this.world));
         }
     }
 
-    public Map getMap() {
-        return map;
+    public World getWorld() {
+        return world;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
+    public void setWorld(World world) {
+        this.world = world;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 }

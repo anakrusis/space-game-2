@@ -3,7 +3,7 @@ package com.adnre.spacegame.entity.body;
 import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ public class BodyStar extends Body {
 
     private ArrayList<BodyPlanet> planets;
 
-    public BodyStar(double x, double y, float dir, Chunk chunk, Map map, String name) {
-        super(x, y, dir, chunk, 32, map);
+    public BodyStar(double x, double y, float dir, Chunk chunk, World world, String name) {
+        super(x, y, dir, chunk, 32, world);
 
         this.radius = RandomUtil.fromRangeF(110f,160f);
 
@@ -23,13 +23,13 @@ public class BodyStar extends Body {
 
         this.name = name;
 
-        BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
+        BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.world, this);
         this.chunk.getBodies().add(bgr);
         planets = new ArrayList<>();
     }
 
-    public BodyStar(double x, double y, float dir, Chunk chunk, Map map){
-        this(x, y, dir, chunk, map, "Star " + chunk.getX() + " " + chunk.getY());
+    public BodyStar(double x, double y, float dir, Chunk chunk, World world){
+        this(x, y, dir, chunk, world, "Star " + chunk.getX() + " " + chunk.getY());
     }
 
     @Override
@@ -57,5 +57,9 @@ public class BodyStar extends Body {
             }
         }
         return nation;
+    }
+
+    public BodyPlanet getPlanet(int index){
+        return this.planets.get(index);
     }
 }

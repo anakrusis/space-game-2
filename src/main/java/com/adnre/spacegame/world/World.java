@@ -11,11 +11,13 @@ import com.adnre.spacegame.util.SpawnUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
-public class Map implements Serializable {
+public class World implements Serializable {
     transient private Chunk[][] chunks;
     transient private ArrayList<Chunk> loadedChunks;
-    private ArrayList<Entity> entities;
+    private HashMap<UUID, Entity> entities;
 
     // In chunks
     private int width;
@@ -35,13 +37,13 @@ public class Map implements Serializable {
 
     private static final long serialVersionUID = 3898234898092L;
 
-    public Map (int xSize, int ySize, int mapTime){
+    public World(int xSize, int ySize, int mapTime, long seed){
         chunks = new Chunk[xSize][ySize];
         this.width = xSize;
         this.height = ySize;
 
         // For non-body entities like spaceships and animals and people...
-        entities = new ArrayList<Entity>();
+        entities = new HashMap<>();
 
         for (int x = 0; x < xSize; x++){
             for (int y = 0; y < ySize; y++){
@@ -53,8 +55,8 @@ public class Map implements Serializable {
         this.cursor = new EntityCursor(0,0,0,this);
         playerLastDeathTime = mapTime - 99;
     }
-    public Map (int xSize, int ySize){
-        this(xSize, ySize, 0);
+    public World(int xSize, int ySize, long seed){
+        this(xSize, ySize, 0, seed);
     }
 
 
@@ -62,12 +64,12 @@ public class Map implements Serializable {
         return chunks;
     }
 
-    public ArrayList<Entity> getEntities(){
+    public HashMap<UUID, Entity> getEntities(){
         return entities;
     }
 
     public EntityPlayer getPlayer(){
-        for (Entity entity : entities){
+        for (Entity entity : entities.values()){
             if (entity instanceof EntityPlayer){
                 return (EntityPlayer)entity;
             }
@@ -88,9 +90,58 @@ public class Map implements Serializable {
     }
 
     public void update(){
+
+        // Deleting entities marked dead, or if living, updating them
+        ArrayList<UUID> markedForDeath = new ArrayList<>();
+        ArrayList<UUID> markedForUpdate = new ArrayList<>();
+
+        for (java.util.Map.Entry<UUID, Entity> e : entities.entrySet()) {
+            Entity currentEntity = e.getValue();
+            UUID currentKey = e.getKey();
+
+            if (currentEntity.isDead()) {
+
+                // For cleaning up the building pointers when a building is destroyed
+                if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()) {
+                    if (currentEntity.getGroundedBody() instanceof BodyPlanet) {
+                        BodyPlanet planet = (BodyPlanet) currentEntity.getGroundedBody();
+                        EntityBuilding building = (EntityBuilding) currentEntity;
+
+                        // -1 is used for floating buildings
+                        if (building.getPlanetIndex() != -1) {
+                            planet.getBuildings()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                        }
+                    }
+                }
+
+                markedForDeath.add(currentKey);
+
+            } else {
+                markedForUpdate.add(currentKey);
+            }
+        }
+
+        for (UUID uuid : markedForDeath){
+            entities.remove(uuid);
+        }
+        for (UUID uuid : markedForUpdate){
+            entities.get(uuid).update();
+        }
+
+        // Updating astronomical bodies per chunk
+        for (Chunk[] chunk_array : this.getChunks()){
+            for (Chunk chunk : chunk_array){
+                if (chunk != null){
+                    for (Body body : chunk.getBodies()){
+                        body.update();
+                    }
+                }
+            }
+        }
+
         if (this.mapTime - this.playerLastDeathTime == RESPAWN_INTERVAL){
 
-            entities.add(new EntityPlayer(0,0,(float)Math.PI, this));
+            this.spawnEntity(new EntityPlayer(0,0,(float)Math.PI, this));
 
             // This is just a first time kind of thing
             if (playerNation == null){
@@ -155,5 +206,9 @@ public class Map implements Serializable {
 
     public Nation getPlayerNation() {
         return playerNation;
+    }
+
+    public void spawnEntity(Entity entity){
+        this.entities.put(UUID.randomUUID(), entity);
     }
 }

@@ -17,8 +17,8 @@ public class TextBoxHotbarItem extends TextBox {
     @Override
     public void onClick() {
         super.onClick();
-        if (SpaceGame.map.getPlayer() != null){
-            SpaceGame.map.getPlayer().setCurrentItemSlot(this.getInventoryIndex());
+        if (SpaceGame.world.getPlayer() != null){
+            SpaceGame.world.getPlayer().setCurrentItemSlot(this.getInventoryIndex());
         }
     }
 }

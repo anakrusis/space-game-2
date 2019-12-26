@@ -1,10 +1,10 @@
 package com.adnre.spacegame.entity.building;
 
 import com.adnre.spacegame.entity.EntityBuilding;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 public class BuildingResearchFacility extends EntityBuilding {
-    public BuildingResearchFacility(double x, double y, float dir, Map map) {
-        super(x, y, dir, map);
+    public BuildingResearchFacility(double x, double y, float dir, World world) {
+        super(x, y, dir, world);
     }
 }

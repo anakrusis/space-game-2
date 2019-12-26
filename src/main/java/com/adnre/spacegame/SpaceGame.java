@@ -1,11 +1,6 @@
 package com.adnre.spacegame;
 
-import com.adnre.spacegame.entity.Body;
-import com.adnre.spacegame.entity.Entity;
-import com.adnre.spacegame.entity.EntityBuilding;
-import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.gui.*;
-import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.item.Items;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
@@ -13,11 +8,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 import com.adnre.spacegame.render.Camera;
 import com.adnre.spacegame.render.RenderText;
-import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.util.Reference;
-import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -36,7 +29,7 @@ public class SpaceGame {
     public static SpaceGame spaceGame = new SpaceGame();
 
     // The world map, and how many ticks it's existed for
-    public static Map map;
+    public static World world;
 
     // The global viewport to be used everywhere, I guess
     public static Camera camera;
@@ -62,8 +55,8 @@ public class SpaceGame {
 
     private void init() {
 
-        map = new Map(10,10);
-        camera = new Camera(0,0,1, map);
+        world = new World(10,10, Reference.seed);
+        camera = new Camera(0,0,1, world);
 
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -110,14 +103,14 @@ public class SpaceGame {
                 // The scroll callback is altered by pressing alt, in which it cycles through player inventory
 
                 if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_TRUE){
-                    if (map.getPlayer() != null){
+                    if (world.getPlayer() != null){
                         int sign = -1 * (int) (yoffset / (Math.abs(yoffset)));
-                        int newItemSlot = (map.getPlayer().getCurrentItemSlot() + sign) % map.getPlayer().getInventory().length;
+                        int newItemSlot = (world.getPlayer().getCurrentItemSlot() + sign) % world.getPlayer().getInventory().length;
                         if (newItemSlot < 0){
-                            newItemSlot = map.getPlayer().getInventory().length - 1;
+                            newItemSlot = world.getPlayer().getInventory().length - 1;
                         }
 
-                        map.getPlayer().setCurrentItemSlot(newItemSlot);
+                        world.getPlayer().setCurrentItemSlot(newItemSlot);
                     }
 
                 // Otherwise it gets handled below
@@ -186,75 +179,39 @@ public class SpaceGame {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             // All rendering goes here
-            Render.renderMain(map);
+            Render.renderMain(world);
 
             if (!SpaceGame.isPaused()){
                 // All key handling here (for now)
 
-                if (map.getPlayer() != null) {
-                    double vel = map.getPlayer().getVelocity();
-                    float dir = map.getPlayer().getDir();
+                if (world.getPlayer() != null) {
+                    double vel = world.getPlayer().getVelocity();
+                    float dir = world.getPlayer().getDir();
 
                     if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE) {
-                        map.getPlayer().setDir(dir - 0.1f);
+                        world.getPlayer().setDir(dir - 0.1f);
                     }
                     if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE) {
-                        map.getPlayer().setDir(dir + 0.1f);
+                        world.getPlayer().setDir(dir + 0.1f);
                     }
 
                     if (glfwGetKey(window, GLFW_KEY_W) == GL_TRUE) {
-                        map.getPlayer().setVelocity(vel + 0.005f);
+                        world.getPlayer().setVelocity(vel + 0.005f);
                     } else if (glfwGetKey(window, GLFW_KEY_S) == GL_TRUE) {
-                        if (map.getPlayer().getVelocity() > -0.3f) {
-                            map.getPlayer().setVelocity(vel - 0.005f);
+                        if (world.getPlayer().getVelocity() > -0.3f) {
+                            world.getPlayer().setVelocity(vel - 0.005f);
                         }
                     } else {
-                        map.getPlayer().setVelocity(vel / 1.01);
+                        world.getPlayer().setVelocity(vel / 1.01);
                     }
 
                     if (glfwGetKey(window, GLFW_KEY_P) == GL_TRUE) {
-                        map.getPlayer().explode();
+                        world.getPlayer().explode();
                     }
                 }
 
-                // Deleting entities marked dead, or if living, updating them
-                for (int i = 0; i < map.getEntities().size(); i++){
-                    Entity currentEntity = map.getEntities().get(i);
-                    if (currentEntity.isDead()){
-
-                        // For cleaning up the building pointers when a building is destroyed
-                        if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()){
-                            if (currentEntity.getGroundedBody() instanceof BodyPlanet){
-                                BodyPlanet planet = (BodyPlanet)currentEntity.getGroundedBody();
-                                EntityBuilding building = (EntityBuilding)currentEntity;
-
-                                // -1 is used for floating buildings
-                                if (building.getPlanetIndex() != -1){
-                                    planet.getBuildings()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
-                                }
-                            }
-                        }
-
-                        map.getEntities().remove(i);
-
-                    }else{
-                        map.getEntities().get(i).update();
-                    }
-                }
-
-                // Updating astronomical bodies per chunk
-                for (Chunk[] chunk_array : map.getChunks()){
-                    for (Chunk chunk : chunk_array){
-                        if (chunk != null){
-                            for (Body body : chunk.getBodies()){
-                                body.update();
-                            }
-                        }
-                    }
-                }
-
-                // The map steps its own time, and also handles player respawning.
-                map.update();
+                // The map steps its time, and also handles player respawning and chunk updates.
+                world.update();
             }
 
             // Zoom controls
@@ -269,36 +226,38 @@ public class SpaceGame {
                 }
             }
 
-            // Hotbar key presses
-            if (glfwGetKey(window, GLFW_KEY_1) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(0);
-            }
-            if (glfwGetKey(window, GLFW_KEY_2) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(1);
-            }
-            if (glfwGetKey(window, GLFW_KEY_3) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(2);
-            }
-            if (glfwGetKey(window, GLFW_KEY_4) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(3);
-            }
-            if (glfwGetKey(window, GLFW_KEY_5) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(4);
-            }
-            if (glfwGetKey(window, GLFW_KEY_6) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(5);
-            }
-            if (glfwGetKey(window, GLFW_KEY_7) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(6);
-            }
-            if (glfwGetKey(window, GLFW_KEY_8) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(7);
-            }
-            if (glfwGetKey(window, GLFW_KEY_9) == GL_TRUE) {
-                map.getPlayer().setCurrentItemSlot(8);
+            if (world.getPlayer() != null){
+                // Hotbar key presses
+                if (glfwGetKey(window, GLFW_KEY_1) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(0);
+                }
+                if (glfwGetKey(window, GLFW_KEY_2) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(1);
+                }
+                if (glfwGetKey(window, GLFW_KEY_3) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(2);
+                }
+                if (glfwGetKey(window, GLFW_KEY_4) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(3);
+                }
+                if (glfwGetKey(window, GLFW_KEY_5) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(4);
+                }
+                if (glfwGetKey(window, GLFW_KEY_6) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(5);
+                }
+                if (glfwGetKey(window, GLFW_KEY_7) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(6);
+                }
+                if (glfwGetKey(window, GLFW_KEY_8) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(7);
+                }
+                if (glfwGetKey(window, GLFW_KEY_9) == GL_TRUE) {
+                    world.getPlayer().setCurrentItemSlot(8);
+                }
             }
 
-            map.getCursor().update();
+            world.getCursor().update();
             MouseHandler.update(window);
             GuiHandler.update(guiElements);
 

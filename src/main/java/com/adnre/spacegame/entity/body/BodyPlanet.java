@@ -7,7 +7,7 @@ import com.adnre.spacegame.entity.building.BuildingFactory;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
 public class BodyPlanet extends Body {
@@ -26,8 +26,8 @@ public class BodyPlanet extends Body {
     private int population;
     private Nation nation;
 
-    public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map, String name) {
-        super(x, y, dir, chunk, RandomUtil.fromRangeF(32,64), map);
+    public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, World world, String name) {
+        super(x, y, dir, chunk, RandomUtil.fromRangeF(32,64), world);
         this.star = star;
         this.orbitDistance = orbitDistance;
         this.orbitPeriod = 16000;
@@ -47,7 +47,7 @@ public class BodyPlanet extends Body {
 
         this.name = name;
 
-        BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.map, this);
+        BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.world, this);
         this.chunk.getBodies().add(bgr);
         this.orbitStart =  RandomUtil.fromRangeF(0f,(float)Math.PI * 2);
 
@@ -57,8 +57,8 @@ public class BodyPlanet extends Body {
         this.nation = null; // Unclaimed by default
     }
 
-    public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, Map map){
-        this(x, y, dir, chunk, orbitDistance, star, map, "Planet " + chunk.getX() + " " + chunk.getY());
+    public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, World world){
+        this(x, y, dir, chunk, orbitDistance, star, world, "Planet " + chunk.getX() + " " + chunk.getY());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class BodyPlanet extends Body {
         super.update();
 
         // This moves the planet around the star in orbit
-        this.orbitAngle = this.orbitStart + (this.map.mapTime * (float)(Math.PI / 2) / this.orbitPeriod);
+        this.orbitAngle = this.orbitStart + (this.world.mapTime * (float)(Math.PI / 2) / this.orbitPeriod);
         this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.star.getX();
         this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.star.getY();
 

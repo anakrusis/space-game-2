@@ -16,17 +16,17 @@ public class Chunk implements Serializable {
     private int y;
 
     // the map is not serialized because we would all hate to have 8000 copies of the same map in your world file :(
-    transient private Map map;
+    transient private World world;
     private static final long serialVersionUID = 239418290893842389L;
 
     private ArrayList<Body> bodies;
 
     private ChunkChangelog chunkChangelog;
 
-    public Chunk (int x, int y, Map map){
+    public Chunk (int x, int y, World world){
         this.x = x;
         this.y = y;
-        this.map = map;
+        this.world = world;
         this.bodies = new ArrayList<>();
         this.chunkChangelog = new ChunkChangelog();
 
@@ -38,7 +38,7 @@ public class Chunk implements Serializable {
 
             if (GenUtil.withinPadding(genx, geny, 1100)){
                 String name = NymGen.newName();
-                this.bodies.add(new BodyStar(genx, geny, 0, this, this.map, name));
+                this.bodies.add(new BodyStar(genx, geny, 0, this, this.world, name));
                 break;
             }
         }
@@ -59,7 +59,7 @@ public class Chunk implements Serializable {
                     String name = body.getName() + " " + NymGen.greekLetters()[planetcount];
 
                     BodyPlanet planet = new BodyPlanet(body.getX() + orbitDistance, body.getY(), 0, this,
-                            orbitDistance, (BodyStar)body, this.map, name );
+                            orbitDistance, (BodyStar)body, this.world, name );
 
                     ((BodyStar) body).getPlanets().add(planet);
                     this.bodies.add(planet);
@@ -81,15 +81,30 @@ public class Chunk implements Serializable {
         return bodies;
     }
 
-    public Map getMap() {
-        return map;
+    public World getWorld() {
+        return world;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
+    public void setWorld(World world) {
+        this.world = world;
     }
 
     public ChunkChangelog getChunkChangelog() {
         return chunkChangelog;
+    }
+
+    // Returns the which star it is in the chunk (usually theres only 1 so anything else would return null)
+    public BodyStar getStar( int index ){
+        int counter = 0; // Counts the number of stars which have been iterated through
+        for (int i = 0; i < this.getBodies().size(); i++){
+            if (this.getBodies().get(i) instanceof BodyStar){
+                if (counter == index){
+                    return (BodyStar)this.getBodies().get(i);
+                }else{
+                    counter++;
+                }
+            }
+        }
+        return null;
     }
 }

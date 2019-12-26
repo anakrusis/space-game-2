@@ -8,7 +8,7 @@ import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.world.ChunkChangeBuildingPlace;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
 public class EntityBuilding extends Entity {
@@ -17,13 +17,13 @@ public class EntityBuilding extends Entity {
     transient protected EntityPlayer playerPlaced;
     protected int price;
 
-    public EntityBuilding(double x, double y, float dir, Map map, EntityPlayer playerPlaced) {
-        super(x, y, dir, map);
+    public EntityBuilding(double x, double y, float dir, World world, EntityPlayer playerPlaced) {
+        super(x, y, dir, world);
         this.playerPlaced = playerPlaced;
         this.name = "Building";
     }
-    public EntityBuilding(double x, double y, float dir, Map map){
-        this(x, y, dir, map,null);
+    public EntityBuilding(double x, double y, float dir, World world){
+        this(x, y, dir, world,null);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class EntityBuilding extends Entity {
 
                             // If the planet is unclaimed, the first player to build on it claims it.
                             if (planet.getNation() == null){
-                                planet.setNation(map.getPlayerNation());
+                                planet.setNation(world.getPlayerNation());
                             }
                         }
 
@@ -159,4 +159,5 @@ public class EntityBuilding extends Entity {
     public ItemStack getItemDropped(){
         return null;
     }
+
 }

@@ -5,7 +5,6 @@ import com.adnre.spacegame.entity.EntityCursor;
 import com.adnre.spacegame.entity.EntityPlayer;
 import com.adnre.spacegame.gui.EnumGui;
 import com.adnre.spacegame.gui.TextBox;
-import com.adnre.spacegame.gui.TextBoxHotbarItem;
 import com.adnre.spacegame.item.Item;
 import com.adnre.spacegame.item.ItemBuilding;
 import com.adnre.spacegame.item.ItemStack;
@@ -15,7 +14,7 @@ import com.adnre.spacegame.render.Camera;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.Reference;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
@@ -29,8 +28,8 @@ public class MouseHandler {
 
     public static void onClick(){
 
-        Map map = SpaceGame.map;
-        EntityCursor cursor = map.getCursor();
+        World world = SpaceGame.world;
+        EntityCursor cursor = world.getCursor();
 
         TextBox cText;
         for (int i = SpaceGame.guiElements.size() - 1; i >= 0; i--){
@@ -54,8 +53,8 @@ public class MouseHandler {
             }
         }
 
-        if (map.getPlayer() != null){
-            EntityPlayer player = map.getPlayer();
+        if (world.getPlayer() != null){
+            EntityPlayer player = world.getPlayer();
             EntityBuilding building = null;
 
             // 16 units is the arbitrary item use radius
@@ -70,10 +69,10 @@ public class MouseHandler {
                     if (item instanceof ItemBuilding){
 
                         // Creating a new EntityBuilding
-                        building = ((ItemBuilding) item).getBuilding(cursor.getX(), cursor.getY(), player.getDir(), map);
+                        building = ((ItemBuilding) item).getBuilding(cursor.getX(), cursor.getY(), player.getDir(), world);
 
                         // Deducting the cost and removing the object from inventory
-                        map.getEntities().add(building);
+                        world.spawnEntity(building);
                         itemstack.shrink();
 
                         // Miscellaneous item types with custom behaviors (Todo onclick behavior within each item)
@@ -86,9 +85,9 @@ public class MouseHandler {
     }
 
     public static void onRelease(){
-        Map map = SpaceGame.map;
-        if (map.getPlayer() != null){
-            map.getPlayer().setToolActive(false);
+        World world = SpaceGame.world;
+        if (world.getPlayer() != null){
+            world.getPlayer().setToolActive(false);
         }
     }
 
@@ -107,7 +106,7 @@ public class MouseHandler {
     }
 
     public static void update( long window ){
-        Map map = SpaceGame.map;
+        World world = SpaceGame.world;
         // :(
         DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
         glfwGetCursorPos(window, posX, null);
@@ -123,10 +122,10 @@ public class MouseHandler {
         int windowWidth = w.get();
         int windowHeight = h.get();
 
-        map.getCursor().setX( MathHelper.screenToWorldX(xpos, windowWidth, camera.getX(), camera.getZoom() ) );
-        map.getCursor().setY( MathHelper.screenToWorldY(ypos, windowHeight, camera.getY(), camera.getZoom() ) );
+        world.getCursor().setX( MathHelper.screenToWorldX(xpos, windowWidth, camera.getX(), camera.getZoom() ) );
+        world.getCursor().setY( MathHelper.screenToWorldY(ypos, windowHeight, camera.getY(), camera.getZoom() ) );
 
-        map.getCursor().setScreenX(MathHelper.screenToGLX(xpos, windowWidth));
-        map.getCursor().setScreenY(MathHelper.screenToGLY(ypos, windowHeight));
+        world.getCursor().setScreenX(MathHelper.screenToGLX(xpos, windowWidth));
+        world.getCursor().setScreenY(MathHelper.screenToGLY(ypos, windowHeight));
     }
 }

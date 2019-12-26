@@ -8,25 +8,25 @@ import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.RandomUtil;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 public class BuildingApartment extends EntityBuilding {
 
     private int population;
     private int capacity;
 
-    public BuildingApartment(double x, double y, float dir, Map map, EntityPlayer player) {
-        super(x, y, dir, map, player);
+    public BuildingApartment(double x, double y, float dir, World world, EntityPlayer player) {
+        super(x, y, dir, world, player);
         this.price = 25;
         this.capacity = 100;
         this.name = "Apartment";
     }
-    public BuildingApartment(double x, double y, float dir, Map map){
-        this(x, y, dir, map, null);
+    public BuildingApartment(double x, double y, float dir, World world){
+        this(x, y, dir, world, null);
     }
 
-    public BuildingApartment(double x, double y, float dir, Map map, int population){
-        this(x, y, dir, map);
+    public BuildingApartment(double x, double y, float dir, World world, int population){
+        this(x, y, dir, world);
         this.population = population;
     }
 

@@ -3,11 +3,9 @@ package com.adnre.spacegame;
 import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.world.Chunk;
-import com.adnre.spacegame.world.ChunkChange;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class FileHandler {
     public static void writeObjectToFile(Object obj, String filename){
@@ -34,25 +32,25 @@ public class FileHandler {
 
         in.close();
         file.close();
-        chunk.setMap(SpaceGame.map);
+        chunk.setWorld(SpaceGame.world);
         for (Body body : chunk.getBodies()){
-            body.setMap(SpaceGame.map);
+            body.setWorld(SpaceGame.world);
         }
         return chunk;
     }
 
-    public static Map readMapFromFile(String filename) throws IOException, ClassNotFoundException {
+    public static World readMapFromFile(String filename) throws IOException, ClassNotFoundException {
         FileInputStream file = new FileInputStream(filename);
         ObjectInputStream in = new ObjectInputStream(file);
-        Map map = (Map) in.readObject();
+        World world = (World) in.readObject();
 
         in.close();
         file.close();
-        for (Entity entity : map.getEntities()){
-            entity.setMap(map);
+        for (Entity entity : world.getEntities().values()){
+            entity.setWorld(world);
         }
-        map.getCursor().setMap(map);
-        return map;
+        world.getCursor().setWorld(world);
+        return world;
     }
 
     public static Object readObject (String filename) throws IOException, ClassNotFoundException {

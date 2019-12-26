@@ -8,7 +8,7 @@ import com.adnre.spacegame.item.Items;
 import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.util.MathHelper;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 public class BuildingFactory extends EntityBuilding {
 
@@ -17,14 +17,14 @@ public class BuildingFactory extends EntityBuilding {
     private int output;
     private int outputInterval = 300;
 
-    public BuildingFactory(double x, double y, float dir, Map map, EntityPlayer player) {
-        super(x, y, dir, map, player);
+    public BuildingFactory(double x, double y, float dir, World world, EntityPlayer player) {
+        super(x, y, dir, world, player);
         this.price = 50;
         this.name = "Factory";
         this.capacity = 45;
     }
-    public BuildingFactory(double x, double y, float dir, Map map){
-        this(x, y, dir, map, null);
+    public BuildingFactory(double x, double y, float dir, World world){
+        this(x, y, dir, world, null);
     }
 
     @Override
@@ -46,10 +46,10 @@ public class BuildingFactory extends EntityBuilding {
     @Override
     public void update() {
         super.update();
-        if (this.ticksExisted % 20 == 0 && this.map.getPlayer() != null && this.isActive()){
-            if (this.map.getPlayer().getChunk() != null){
-                if (this.map.getPlayer().getChunk() == this.getChunk()){
-                    this.map.getEntities().add( new ParticleSmoke(this.x, this.y, this.dir, this.map) );
+        if (this.ticksExisted % 20 == 0 && this.world.getPlayer() != null && this.isActive()){
+            if (this.world.getPlayer().getChunk() != null){
+                if (this.world.getPlayer().getChunk() == this.getChunk()){
+                    this.world.spawnEntity( new ParticleSmoke(this.x, this.y, this.dir, this.world) );
                 }
             }
         }
@@ -58,10 +58,10 @@ public class BuildingFactory extends EntityBuilding {
             // Peak efficiency is a little bit past the middle
             this.output = -(int)((this.employees - (this.capacity * 1.1)) * (this.employees) / (this.capacity * 1.1));
 
-            if (this.ticksExisted % outputInterval == 0 && map.getPlayer() != null){
+            if (this.ticksExisted % outputInterval == 0 && world.getPlayer() != null){
 
-                if (this.map.getPlayer().getNation() == this.getNation()){
-                    map.getPlayer().addMoney(output);
+                if (this.world.getPlayer().getNation() == this.getNation()){
+                    world.getPlayer().addMoney(output);
                 }
 
             }

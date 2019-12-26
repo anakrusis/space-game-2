@@ -1,11 +1,11 @@
 package com.adnre.spacegame.entity;
 
 import com.adnre.spacegame.util.MathHelper;
-import com.adnre.spacegame.world.Map;
+import com.adnre.spacegame.world.World;
 
 public class ParticleExplosion extends EntityParticle {
-    public ParticleExplosion(double x, double y, float dir, Map map) {
-        super(x, y, dir, map);
+    public ParticleExplosion(double x, double y, float dir, World world) {
+        super(x, y, dir, world);
         this.velocity = 1;
     }
 
