@@ -7,6 +7,8 @@ import com.adnre.spacegame.render.entity.RenderStar;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.world.Chunk;
 
+import java.util.UUID;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderChunk {
@@ -27,7 +29,8 @@ public class RenderChunk {
         glEnd();
 
         // Drawing all the bodies inside the chunk
-        for (Body body : chunk.getBodies()){
+        for (java.util.Map.Entry<UUID, Body> e : chunk.getBodies().entrySet()) {
+            Body body = e.getValue();
 
             // Culled bodies
             if (camZoom > Reference.MAP_SCREEN_THRESHOLD){

@@ -1,6 +1,9 @@
 package com.adnre.spacegame.world;
 
+import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.Body;
+import com.adnre.spacegame.entity.Entity;
+import com.adnre.spacegame.entity.body.BodyGravityRadius;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
 import com.adnre.spacegame.util.GenUtil;
@@ -9,7 +12,8 @@ import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.util.Reference;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Chunk implements Serializable {
     private int x;
@@ -19,7 +23,7 @@ public class Chunk implements Serializable {
     transient private World world;
     private static final long serialVersionUID = 239418290893842389L;
 
-    private ArrayList<Body> bodies;
+    private HashMap<UUID, Body> bodies;
 
     private ChunkChangelog chunkChangelog;
 
@@ -27,8 +31,11 @@ public class Chunk implements Serializable {
         this.x = x;
         this.y = y;
         this.world = world;
-        this.bodies = new ArrayList<>();
+        this.bodies = new HashMap<>();
         this.chunkChangelog = new ChunkChangelog();
+
+        // The list of bodies to spawn after iterating through
+        ArrayList<Body> bodiesToSpawn = new ArrayList<>();
 
         // Makes five attempts to spawn a star within the chunk padding.
         // If all five of these attempts fail then fuggedaboutit, no star in the chunk.
@@ -38,8 +45,15 @@ public class Chunk implements Serializable {
 
             if (GenUtil.withinPadding(genx, geny, 1100)){
                 String name = NymGen.newName();
-                this.bodies.add(new BodyStar(genx, geny, 0, this, this.world, name));
+
+                bodiesToSpawn.add(new BodyStar(genx, geny, 0, this, this.world, name));
                 break;
+            }
+        }
+        // spawn the stars
+        for (Body body : bodiesToSpawn){
+            if (body instanceof BodyStar){
+                spawnBody(body);
             }
         }
 
@@ -48,23 +62,31 @@ public class Chunk implements Serializable {
         int orbitDistanceInterval = 200;
         int orbitVariance = 40;
 
-        for (int i = 0; i < this.bodies.size(); i++){
-            Body body = this.bodies.get(i);
-            if (body instanceof BodyStar){
+        for (Body body : bodies.values()) {
+            if (body instanceof BodyStar) {
                 int planetnum = orbitDistanceInterval * RandomUtil.fromRangeI(2, 6) + orbitDistanceInterval;
-                for (int planetdist = 2 * orbitDistanceInterval; planetdist < planetnum; planetdist += orbitDistanceInterval){
+                for (int planetdist = 2 * orbitDistanceInterval; planetdist < planetnum; planetdist += orbitDistanceInterval) {
 
-                    float orbitDistance = RandomUtil.fromRangeF(planetdist - orbitVariance,planetdist + orbitVariance);
+                    float orbitDistance = RandomUtil.fromRangeF(planetdist - orbitVariance, planetdist + orbitVariance);
 
                     String name = body.getName() + " " + NymGen.greekLetters()[planetcount];
 
                     BodyPlanet planet = new BodyPlanet(body.getX() + orbitDistance, body.getY(), 0, this,
-                            orbitDistance, (BodyStar)body, this.world, name );
+                            orbitDistance, body.getUuid(), this.world, name);
 
-                    ((BodyStar) body).getPlanets().add(planet);
-                    this.bodies.add(planet);
+                    bodiesToSpawn.add(planet);
                     planetcount++;
                 }
+            }
+        }
+        // now spawn the planets
+        for (Body body : bodiesToSpawn){
+            if (body instanceof BodyPlanet){
+                spawnBody(body);
+                BodyPlanet planet = (BodyPlanet) body;
+
+                // Tell the star that it has a planet of its own
+                planet.getStar().getPlanetUUIDs().add(planet.getUuid());
             }
         }
     }
@@ -77,7 +99,7 @@ public class Chunk implements Serializable {
         return y;
     }
 
-    public ArrayList<Body> getBodies() {
+    public HashMap<UUID, Body> getBodies() {
         return bodies;
     }
 
@@ -106,5 +128,21 @@ public class Chunk implements Serializable {
             }
         }
         return null;
+    }
+
+    public void spawnBody(Body body){
+        UUID bodyuuid = UUID.randomUUID();
+        UUID gravuuid = UUID.randomUUID();
+
+        bodies.put(bodyuuid, body);
+        body.setUuid(bodyuuid);
+
+        if (body.canEntitiesCollide){
+
+            BodyGravityRadius bgr = new BodyGravityRadius(body.getX(), body.getY(), body.getDir(), body.getChunk(),
+                    body.getRadius() * 2, SpaceGame.world, body);
+            bodies.put(gravuuid, bgr);
+            bgr.setUuid(gravuuid);
+        }
     }
 }

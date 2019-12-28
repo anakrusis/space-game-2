@@ -10,6 +10,7 @@ import com.adnre.spacegame.world.Chunk;
 import com.adnre.spacegame.world.World;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Entity implements Serializable {
     protected double x;
@@ -18,8 +19,8 @@ public class Entity implements Serializable {
 
     protected double velocity;
     protected double acceleration;
-    transient protected boolean grounded;
-    transient protected Body groundedBody;
+    protected boolean grounded;
+    protected UUID groundedBodyUUID;
     protected float mass;
 
     protected String name;
@@ -27,6 +28,7 @@ public class Entity implements Serializable {
 
     transient protected World world;
     private static final long serialVersionUID = 6529685098267757690L;
+    protected UUID uuid;
 
     protected boolean dead = false;
 
@@ -83,7 +85,8 @@ public class Entity implements Serializable {
         // These are physics that don't apply to stationary bodies. Just small entities like ships, asteroids...
         if (this.getChunk() != null) {
             boolean isColliding = false;
-            for (Body body : this.getChunk().getBodies()) {
+            for (java.util.Map.Entry<UUID, Body> e : getChunk().getBodies().entrySet()) {
+                Body body = e.getValue();
                 if (body.canEntitiesCollide){
                     if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
 
@@ -92,7 +95,7 @@ public class Entity implements Serializable {
                             this.explode();
                         } else {
                             this.grounded = true;
-                            this.groundedBody = body;
+                            this.groundedBodyUUID = body.getUuid();
                             isColliding = true;
                             CollisionUtil.resolveCollision(this, body);
                         }
@@ -112,20 +115,20 @@ public class Entity implements Serializable {
 
             // No collisions? Not grounded, okay
             if (!(isColliding)){
-                this.groundedBody = null;
+                this.groundedBodyUUID = null;
                 this.grounded = false;
             }
         }
 
-        if (grounded && groundedBody != null) {
+        if (grounded && getGroundedBody() != null) {
 
             if (this.velocity > 0.2){
                 this.velocity = 0.2;
             }
 
             // This moves the entity along with a planet by anticipating where it will be in the next tick
-            if (groundedBody instanceof BodyPlanet) {
-                BodyPlanet planet = (BodyPlanet) groundedBody;
+            if (getGroundedBody() instanceof BodyPlanet) {
+                BodyPlanet planet = (BodyPlanet) getGroundedBody();
                 float angle = planet.getOrbitAngle();
                 double futurePlanetX = MathHelper.rotX(angle, planet.getOrbitDistance(), 0) + planet.getStar().getX();
                 double futurePlanetY = MathHelper.rotY(angle, planet.getOrbitDistance(), 0) + planet.getStar().getY();
@@ -133,7 +136,7 @@ public class Entity implements Serializable {
                 this.x += (futurePlanetX - planet.getX());
                 this.y += (futurePlanetY - planet.getY());
             }
-            Body body = groundedBody;
+            Body body = getGroundedBody();
 
             // This moves the entity along with any rotating body
             this.dir += body.rotSpeed;
@@ -168,8 +171,7 @@ public class Entity implements Serializable {
         int chunky = (int)Math.floor( this.y / Reference.CHUNK_SIZE );
         if (world != null){
             if (chunkx >= 0 && chunky >= 0 && chunkx < world.getChunks().length && chunky < world.getChunks()[0].length){
-                Chunk entityChunk = this.world.getChunks()[chunkx][chunky];
-                return entityChunk;
+                return this.world.getChunks()[chunkx][chunky];
             }else{
                 return null;
             }
@@ -195,16 +197,16 @@ public class Entity implements Serializable {
         if (!grounded){
             return null;
         }else{
-            return groundedBody;
+            return (Body) this.getChunk().getBodies().get(groundedBodyUUID);
         }
+    }
+
+    public UUID getGroundedBodyUUID() {
+        return groundedBodyUUID;
     }
 
     public void setGrounded(boolean grounded) {
         this.grounded = grounded;
-    }
-
-    public void setGroundedBody(Body groundedBody) {
-        this.groundedBody = groundedBody;
     }
 
     public void explode(){
@@ -230,5 +232,13 @@ public class Entity implements Serializable {
 
     public void setDead(boolean dead) {
         this.dead = dead;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }

@@ -10,53 +10,6 @@ import java.util.*;
 public class SpawnUtil {
 
     static Random rand = new Random();
-    @Deprecated
-    public static double[] playerNewRespawnPos(World world){
-
-        Chunk[][] chunks = world.getChunks();
-        Chunk[][] shuffled_chunks = new Chunk[chunks.length][chunks[0].length];
-        for (int x = 0; x < chunks.length; x++){
-            System.arraycopy(chunks[x], 0, shuffled_chunks[x], 0, chunks[0].length);
-        }
-
-        List<Chunk> shuffledRow;
-        List<Chunk[]> shuffledCols;
-        ArrayList<Body> shuffledbodies;
-
-        // Each of the rows are shuffled diabolically
-        for (int x = 0; x < world.getHeight(); x++){
-            shuffledRow = Arrays.asList( shuffled_chunks[x] );
-            Collections.shuffle(shuffledRow);
-            shuffled_chunks[x] = shuffledRow.toArray(shuffled_chunks[x]);
-        }
-        // Then, later, the columns are shuffled, equally diabolically
-        shuffledCols = Arrays.asList ( shuffled_chunks );
-        Collections.shuffle(shuffledCols);
-        shuffled_chunks = shuffledCols.toArray(shuffled_chunks);
-
-        double spawnx;
-        double spawny;
-
-        // This ensures that the first chunk we randomly pick to spawn in isn't always 0,0
-        // But that we also go through each one at least once, trying to find a spot to
-        // plop the player down on.
-
-        for (int x = 0; x < world.getWidth(); x++){
-            for (int y = 0; y < world.getHeight(); y++){
-
-                shuffledbodies = shuffled_chunks[x][y].getBodies();
-                for (int z = 0; z < shuffledbodies.size(); z++){
-                    if (shuffledbodies.get(z) instanceof BodyPlanet){
-                        BodyPlanet planet = (BodyPlanet)shuffledbodies.get(z);
-                        spawnx = planet.getX() + planet.getRadius();
-                        spawny = planet.getY();
-                        return new double[] {spawnx, spawny};
-                    }
-                }
-            }
-        }
-        return new double[] {64, 64};
-    }
 
     // This new version of the random planet finder is fully seeded, and way smaller and simpler.
     // The only problem is it keeps going forever if there's no planets on the map.
@@ -67,8 +20,7 @@ public class SpawnUtil {
 
             Chunk chunk = world.getChunks()[xIndex][yIndex];
             if (chunk != null){
-                for (int i = 0; i < chunk.getBodies().size(); i++){
-                    Body body = chunk.getBodies().get(i);
+                for (Body body : chunk.getBodies().values()) {
                     if (body instanceof BodyPlanet){
                         return (BodyPlanet) body;
                     }

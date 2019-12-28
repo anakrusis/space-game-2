@@ -132,7 +132,8 @@ public class World implements Serializable {
         for (Chunk[] chunk_array : this.getChunks()){
             for (Chunk chunk : chunk_array){
                 if (chunk != null){
-                    for (Body body : chunk.getBodies()){
+                    for (java.util.Map.Entry<UUID, Body> e : chunk.getBodies().entrySet()) {
+                        Body body = e.getValue();
                         body.update();
                     }
                 }
@@ -153,10 +154,10 @@ public class World implements Serializable {
                 playerNation = new Nation(nationName, homeStar, homePlanet);
                 homePlanet.setNation(playerNation);
 
-                BuildingFactory factory = new BuildingFactory(homePlanet.getX() + homePlanet.getRadius() + 5,
-                        homePlanet.getY(), 0, this, this.getPlayer());
-                BuildingApartment apt = new BuildingApartment(homePlanet.getX() + homePlanet.getRadius() + 5,
-                        homePlanet.getY() + 7, 0, this, this.getPlayer());
+//                BuildingFactory factory = new BuildingFactory(homePlanet.getX() + homePlanet.getRadius() + 5,
+//                        homePlanet.getY(), 0, this, this.getPlayer());
+//                BuildingApartment apt = new BuildingApartment(homePlanet.getX() + homePlanet.getRadius() + 5,
+//                        homePlanet.getY() + 7, 0, this, this.getPlayer());
                 //entities.add(factory);
                 //entities.add(apt);
             }
@@ -209,6 +210,8 @@ public class World implements Serializable {
     }
 
     public void spawnEntity(Entity entity){
-        this.entities.put(UUID.randomUUID(), entity);
+        UUID entityuuid = UUID.randomUUID();
+        this.entities.put(entityuuid, entity);
+        entity.setUuid(entityuuid);
     }
 }

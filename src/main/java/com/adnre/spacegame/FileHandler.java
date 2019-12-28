@@ -33,9 +33,9 @@ public class FileHandler {
         in.close();
         file.close();
         chunk.setWorld(SpaceGame.world);
-        for (Body body : chunk.getBodies()){
-            body.setWorld(SpaceGame.world);
-        }
+        //for (Body body : chunk.getBodies()){
+        //    body.setWorld(SpaceGame.world);
+        //}
         return chunk;
     }
 

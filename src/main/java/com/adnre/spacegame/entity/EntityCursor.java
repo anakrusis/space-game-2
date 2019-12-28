@@ -24,16 +24,16 @@ public class EntityCursor extends Entity {
         // Selects an entity by colliding with it
         this.selectedEntity = null;
         if (this.getChunk() != null){
-            for (int i = 0; i < this.getChunk().getBodies().size(); i++){
-                Body body = this.getChunk().getBodies().get(i);
+            for (java.util.Map.Entry<UUID, Body> e : getChunk().getBodies().entrySet()) {
+                Body body = e.getValue();
                 if (CollisionUtil.isEntityCollidingWithEntity(this, body) && body.canEntitiesCollide){
                     this.selectedEntity = body;
                 }
-                for (java.util.Map.Entry<UUID, Entity> e : this.world.getEntities().entrySet()){
-                    Entity entity = e.getValue();
-                    if (entity instanceof EntityBuilding && CollisionUtil.isEntityCollidingWithEntity(this, entity)){
-                        this.selectedEntity = entity;
-                    }
+            }
+            for (java.util.Map.Entry<UUID, Entity> e : this.world.getEntities().entrySet()){
+                Entity entity = e.getValue();
+                if (entity instanceof EntityBuilding && CollisionUtil.isEntityCollidingWithEntity(this, entity)){
+                    this.selectedEntity = entity;
                 }
             }
         }

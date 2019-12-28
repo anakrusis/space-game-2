@@ -10,10 +10,12 @@ import com.adnre.spacegame.world.Chunk;
 import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
+import java.util.UUID;
+
 public class BodyPlanet extends Body {
 
-    // The star which the planet orbits around, how far away it orbits, and how often
-    BodyStar star;
+    // The id of the star which the planet orbits around, how far away it orbits, and how often
+    UUID starUUID;
     private float orbitDistance;
     private int orbitPeriod;
     private float orbitStart;
@@ -26,9 +28,9 @@ public class BodyPlanet extends Body {
     private int population;
     private Nation nation;
 
-    public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, World world, String name) {
+    public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, UUID starUUID, World world, String name) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(32,64), world);
-        this.star = star;
+        this.starUUID = starUUID;
         this.orbitDistance = orbitDistance;
         this.orbitPeriod = 16000;
         //this.rotSpeed = 0.05f;
@@ -47,8 +49,6 @@ public class BodyPlanet extends Body {
 
         this.name = name;
 
-        BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.world, this);
-        this.chunk.getBodies().add(bgr);
         this.orbitStart =  RandomUtil.fromRangeF(0f,(float)Math.PI * 2);
 
         buildings = new EntityBuilding[terrain.length];
@@ -57,8 +57,8 @@ public class BodyPlanet extends Body {
         this.nation = null; // Unclaimed by default
     }
 
-    public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, BodyStar star, World world){
-        this(x, y, dir, chunk, orbitDistance, star, world, "Planet " + chunk.getX() + " " + chunk.getY());
+    public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, UUID starUUID, World world){
+        this(x, y, dir, chunk, orbitDistance, starUUID, world, "Planet " + chunk.getX() + " " + chunk.getY());
     }
 
     @Override
@@ -67,8 +67,8 @@ public class BodyPlanet extends Body {
 
         // This moves the planet around the star in orbit
         this.orbitAngle = this.orbitStart + (this.world.mapTime * (float)(Math.PI / 2) / this.orbitPeriod);
-        this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.star.getX();
-        this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.star.getY();
+        this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.getStar().getX();
+        this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.getStar().getY();
 
         // Calculating the planet's population from the sum of individual apt buildings,
         // and the number of factories from the sum of individual factories.
@@ -127,7 +127,11 @@ public class BodyPlanet extends Body {
     }
 
     public BodyStar getStar() {
-        return star;
+        return (BodyStar) this.chunk.getBodies().get(starUUID);
+    }
+
+    public UUID getStarUUID() {
+        return starUUID;
     }
 
     public EntityBuilding[] getBuildings() {

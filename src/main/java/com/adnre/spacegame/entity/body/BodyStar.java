@@ -7,10 +7,11 @@ import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class BodyStar extends Body {
 
-    private ArrayList<BodyPlanet> planets;
+    private ArrayList<UUID> planetUUIDs;
 
     public BodyStar(double x, double y, float dir, Chunk chunk, World world, String name) {
         super(x, y, dir, chunk, 32, world);
@@ -24,8 +25,8 @@ public class BodyStar extends Body {
         this.name = name;
 
         BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.world, this);
-        this.chunk.getBodies().add(bgr);
-        planets = new ArrayList<>();
+        this.chunk.spawnBody(bgr);
+        planetUUIDs = new ArrayList<>();
     }
 
     public BodyStar(double x, double y, float dir, Chunk chunk, World world){
@@ -37,29 +38,30 @@ public class BodyStar extends Body {
         super.update();
     }
 
-    public ArrayList<BodyPlanet> getPlanets() {
-        return planets;
+    public ArrayList<UUID> getPlanetUUIDs() {
+        return planetUUIDs;
     }
 
     public int getSystemPopulation() {
         int pop = 0;
-        for (int i = 0; i < planets.size(); i++){
-            pop += planets.get(i).getPopulation();
+        for (int i = 0; i < getPlanetUUIDs().size(); i++){
+            pop += getPlanet(getPlanetUUIDs().get(i)).getPopulation();
         }
         return pop;
     }
 
     public Nation getNation() {
         Nation nation = null;
-        for (int i = 0; i < planets.size(); i++){
-            if (planets.get(i).getNation() != null){
-                nation = planets.get(i).getNation();
+        for (UUID planetUUID : planetUUIDs) {
+            BodyPlanet planet = getPlanet(planetUUID);
+            if (planet.getNation() != null) {
+                nation = planet.getNation();
             }
         }
         return nation;
     }
 
-    public BodyPlanet getPlanet(int index){
-        return this.planets.get(index);
+    public BodyPlanet getPlanet(UUID uuid){
+        return (BodyPlanet) this.chunk.getBodies().get(uuid);
     }
 }

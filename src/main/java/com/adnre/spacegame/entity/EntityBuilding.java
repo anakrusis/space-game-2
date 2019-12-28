@@ -11,6 +11,8 @@ import com.adnre.spacegame.world.ChunkChangeBuildingPlace;
 import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
+import java.util.UUID;
+
 public class EntityBuilding extends Entity {
 
     private int planetIndex = -1;
@@ -44,7 +46,7 @@ public class EntityBuilding extends Entity {
 
     @Override
     public void update() {
-        if (this.ticksExisted > 1000 && this.groundedBody == null) {
+        if (this.ticksExisted > 1000 && this.getGroundedBody() == null) {
             this.dead = true;
         }
 
@@ -54,7 +56,8 @@ public class EntityBuilding extends Entity {
         // These are physics that don't apply to stationary bodies. Just small entities like ships, asteroids...
         if (this.getChunk() != null) {
             boolean isColliding = false;
-            for (Body body : this.getChunk().getBodies()) {
+            for (java.util.Map.Entry<UUID, Body> e : this.getChunk().getBodies().entrySet()) {
+                Body body = e.getValue();
                 if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
 
                     // Setting collision markers
@@ -63,7 +66,7 @@ public class EntityBuilding extends Entity {
                             this.explode();
                         } else {
                             this.grounded = true;
-                            this.groundedBody = body;
+                            this.groundedBodyUUID = body.getUuid();
                             isColliding = true;
                         }
                     }
@@ -82,9 +85,9 @@ public class EntityBuilding extends Entity {
                 // Buildings can't get ungrounded once grounded
             }
 
-            if (grounded && groundedBody != null) {
-                if (groundedBody instanceof BodyPlanet) {
-                    BodyPlanet planet = (BodyPlanet) groundedBody;
+            if (grounded && getGroundedBody() != null) {
+                if (getGroundedBody() instanceof BodyPlanet) {
+                    BodyPlanet planet = (BodyPlanet) getGroundedBody();
                     int index = CollisionUtil.terrainIndexFromEntityAngle(this, planet);
 
                     // Empty slot ready to put a building on!
@@ -150,8 +153,8 @@ public class EntityBuilding extends Entity {
     }
 
     public Nation getNation() {
-        if (this.groundedBody instanceof BodyPlanet){
-            return ((BodyPlanet) this.groundedBody).getNation();
+        if (this.getGroundedBody() instanceof BodyPlanet){
+            return ((BodyPlanet) this.getGroundedBody()).getNation();
         }else{
             return null;
         }
