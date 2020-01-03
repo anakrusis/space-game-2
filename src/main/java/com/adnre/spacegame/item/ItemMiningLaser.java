@@ -8,6 +8,7 @@ public class ItemMiningLaser extends Item {
     public ItemMiningLaser(String name){
         super(name);
         this.maxStackSize = 1;
+        this.id = 3;
     }
 
     @Override

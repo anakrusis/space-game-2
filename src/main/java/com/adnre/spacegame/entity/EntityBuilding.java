@@ -85,8 +85,8 @@ public class EntityBuilding extends Entity {
                     // If there already is another building at that spot, then give the player back their item
                     }else{
                         this.dead = true;
-                        if (this.playerPlaced != null){
-                            this.playerPlaced.addInventory(this.getItemDropped());
+                        if (this.world.getPlayer() != null){
+                            this.world.getPlayer().addInventory(this.getItemDropped());
                         }
                     }
                 }

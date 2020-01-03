@@ -74,13 +74,11 @@ public class EntityPlayer extends Entity {
                 if (world.getCursor().getSelectedEntity() instanceof EntityBuilding){
                     EntityBuilding building = (EntityBuilding) world.getCursor().getSelectedEntity();
 
-                    this.addMoney(building.getPrice());
-                    this.addInventory(building.getItemDropped());
-                    building.dead = true;
-
-                    if (this.getChunk() != null){
-                        this.getChunk().getChunkChangelog().add(new ChunkChangeBuildingDestroy(building));
+                    if (!building.dead){
+                        this.addMoney(building.getPrice());
+                        this.addInventory(building.getItemDropped());
                     }
+                    building.dead = true;
                 }
         // The player's laser never works if it's outside of the radius
             }else{
@@ -131,7 +129,7 @@ public class EntityPlayer extends Entity {
         // First, look for matching itemstacks and ensuring that the stack size is not too large.
         for (int i = 0; i < inventory.length; i++){
             if (inventory[i] != null){
-                if (inventory[i].getItem() == item.getItem() && inventory[i].getAmount() < inventory[i].getItem().getMaxStackSize()){
+                if (inventory[i].getItem().getId() == item.getItem().getId() && inventory[i].getAmount() < inventory[i].getItem().getMaxStackSize()){
 
                     // Adding the item
                     inventory[i].addAmount(item.getAmount());

@@ -76,8 +76,9 @@ public class MouseHandler {
                         itemstack.shrink();
 
                         // Miscellaneous item types with custom behaviors (Todo onclick behavior within each item)
-                    } else if (item == Items.ITEM_MINING_LASER){
-                        player.setToolActive(true);
+
+                    } else if (item.getId() == Items.ITEM_MINING_LASER.getId()){
+                            player.setToolActive(true);
                     }
                 }
             }

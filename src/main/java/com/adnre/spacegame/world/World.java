@@ -19,6 +19,7 @@ public class World implements Serializable {
     transient private Chunk[][] chunks;
     transient private ArrayList<Chunk> loadedChunks;
     private HashMap<UUID, Entity> entities;
+    private EntityCursor cursor;
 
     // In chunks
     private int width;
@@ -26,11 +27,10 @@ public class World implements Serializable {
     private long seed;
 
     public int mapTime;
+
     private BodyPlanet homePlanet = null;
     private BodyStar homeStar = null;
     private Nation playerNation = null;
-
-    private EntityCursor cursor;
 
     // This is kinda hacky, but it means that the player initially spawns on the second game tick,
     // allowing the planets' positions in orbit to be initialized

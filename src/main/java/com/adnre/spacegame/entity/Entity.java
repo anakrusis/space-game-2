@@ -140,8 +140,12 @@ public class Entity implements Serializable {
                             Body dependentBody = bgr.getDependentBody();
                             double distance = MathHelper.distance(this.x, this.y, bgr.getX(), bgr.getY());
 
+                            // This function returns ~0 at the edge of the gravity radius, and ~1 at the surface of the body.
                             double annulusPosition = (-1 / (bgr.getRadius() - dependentBody.getRadius())) * ( distance - dependentBody.getRadius() ) + 1;
                             double forceMagnitude;
+
+                            // It is then mapped to a coefficient representing its "mass"
+                            // which determines how much to pull in the entity every tick
                             if (dependentBody instanceof BodyStar){
                                 forceMagnitude = 0.5d * annulusPosition;
                             }else{

@@ -10,6 +10,7 @@ public class ItemApartment extends ItemBuilding {
     public ItemApartment(String name) {
         super(name);
         this.price = 25;
+        this.id = 2;
     }
 
     @Override

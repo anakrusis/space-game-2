@@ -10,6 +10,7 @@ public class ItemFactory extends ItemBuilding {
     public ItemFactory(String name) {
         super(name);
         this.price = 50;
+        this.id = 1;
     }
 
     @Override

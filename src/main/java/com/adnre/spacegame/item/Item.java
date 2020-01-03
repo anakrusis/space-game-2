@@ -8,6 +8,7 @@ public class Item implements Serializable {
     protected int maxStackSize;
     protected String name;
     protected int price;
+    protected int id;
 
     private static final long serialVersionUID = 123456798L;
 
@@ -33,5 +34,9 @@ public class Item implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getId() {
+        return id;
     }
 }
