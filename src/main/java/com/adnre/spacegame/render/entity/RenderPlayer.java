@@ -1,5 +1,6 @@
 package com.adnre.spacegame.render.entity;
 
+import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.entity.EntityPlayer;
 import com.adnre.spacegame.item.ItemStack;
@@ -26,12 +27,12 @@ public class RenderPlayer {
         ItemStack stack = player.getCurrentItemStack();
         // Todo ActiveToolType method in player
         if (player.isToolActive() && stack != null){
-            if (stack.getItem() == Items.ITEM_MINING_LASER){
+            if (stack.getItem().getId() == Items.ITEM_MINING_LASER.getId()){
                 glColor3d(1.0f, 0.0f, 0.0f);
                 double cursorX, cursorY;
                 double playerX, playerY;
-                cursorX = camZoom * (player.getWorld().getCursor().getX() - camX);
-                cursorY = camZoom * (player.getWorld().getCursor().getY() - camY);
+                cursorX = camZoom * (SpaceGame.world.getCursor().getX() - camX);
+                cursorY = camZoom * (SpaceGame.world.getCursor().getY() - camY);
                 playerX = camZoom * (player.getX() - camX);
                 playerY = camZoom * (player.getY() - camY);
 

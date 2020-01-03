@@ -27,7 +27,7 @@ public class BodyPlanet extends Body {
     private int terrainSize;
 
     private int population;
-    private Nation nation;
+    private UUID nationUUID;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, UUID starUUID, World world, String name) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(32,64), world);
@@ -55,7 +55,7 @@ public class BodyPlanet extends Body {
         buildingUUIDs = new UUID[terrain.length];
         population = 0;
 
-        this.nation = null; // Unclaimed by default
+        this.nationUUID = null; // Unclaimed by default
     }
 
     public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, UUID starUUID, World world){
@@ -175,12 +175,12 @@ public class BodyPlanet extends Body {
         return orbitDistance;
     }
 
-    public void setNation(Nation nation) {
-        this.nation = nation;
+    public void setNationUUID(UUID uuid) {
+        this.nationUUID = uuid;
     }
 
     public Nation getNation() {
-        return nation;
+        return world.getNations().get(nationUUID);
     }
 
     public int getTerrainSize() {

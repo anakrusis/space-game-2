@@ -8,13 +8,15 @@ import com.adnre.spacegame.world.ChunkChangeBuildingDestroy;
 import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
+import java.util.UUID;
+
 public class EntityPlayer extends Entity {
     private float money;
 
     private ItemStack[] inventory = new ItemStack[9];
     private int currentItemSlot = 0;
 
-    private Nation nation;
+    private UUID nationUUID;
     private boolean isToolActive;
 
     public EntityPlayer (double x, double y, float dir, World world){
@@ -27,7 +29,7 @@ public class EntityPlayer extends Entity {
             this.money = 0;
         }
         this.name = "Player";
-        this.nation = null;
+        this.nationUUID = null;
 
         // Testing out inventory slots
         this.inventory[0] = new ItemStack(Items.ITEM_MINING_LASER, 1);
@@ -113,12 +115,12 @@ public class EntityPlayer extends Entity {
         this.currentItemSlot = currentItemSlot;
     }
 
-    public void setNation(Nation nation) {
-        this.nation = nation;
+    public void setNationUUID(UUID uuid) {
+        this.nationUUID = uuid;
     }
 
     public Nation getNation() {
-        return nation;
+        return world.getNations().get(nationUUID);
     }
 
     public ItemStack[] getInventory() {

@@ -19,6 +19,7 @@ public class World implements Serializable {
     transient private Chunk[][] chunks;
     transient private ArrayList<Chunk> loadedChunks;
     private HashMap<UUID, Entity> entities;
+    private HashMap<UUID, Nation> nations;
     private EntityCursor cursor;
 
     // In chunks
@@ -28,9 +29,12 @@ public class World implements Serializable {
 
     public int mapTime;
 
-    private BodyPlanet homePlanet = null;
-    private BodyStar homeStar = null;
-    private Nation playerNation = null;
+    private UUID homePlanetUUID;
+    private UUID homeStarUUID;
+    private UUID playerNationUUID;
+
+    private int homeChunkX;
+    private int homeChunkY;
 
     // This is kinda hacky, but it means that the player initially spawns on the second game tick,
     // allowing the planets' positions in orbit to be initialized
@@ -48,6 +52,7 @@ public class World implements Serializable {
 
         // For non-body entities like spaceships and animals and people...
         entities = new HashMap<>();
+        nations = new HashMap<>();
 
         for (int x = 0; x < xSize; x++){
             for (int y = 0; y < ySize; y++){
@@ -58,6 +63,22 @@ public class World implements Serializable {
         this.mapTime = mapTime;
         this.cursor = new EntityCursor(0,0,0,this);
         playerLastDeathTime = mapTime - 99;
+
+        // Init of player nation stuff
+
+        BodyPlanet homePlanet = SpawnUtil.newHomePlanet(this);
+        BodyStar homeStar = homePlanet.getStar();
+        String nationName = NymGen.newName() + " Nation";
+
+        Nation playerNation = new Nation(nationName, homeStar, homePlanet);
+        homePlanet.setNationUUID(playerNation.getUuid());
+        nations.put(playerNation.getUuid(), playerNation);
+
+        this.playerNationUUID = playerNation.getUuid();
+        this.homePlanetUUID = homePlanet.getUuid();
+        this.homeStarUUID = homeStar.getUuid();
+        this.homeChunkX = homePlanet.getChunk().getX();
+        this.homeChunkY = homePlanet.getChunk().getY();
     }
     public World(int xSize, int ySize, long seed){
         this(xSize, ySize, 0, seed);
@@ -148,45 +169,27 @@ public class World implements Serializable {
 
             this.spawnEntity(new EntityPlayer(0,0,(float)Math.PI, this));
 
-            // This is just a first time kind of thing
-            if (playerNation == null){
-
-                homePlanet = SpawnUtil.newHomePlanet(this);
-                homeStar = homePlanet.getStar();
-                String nationName = NymGen.newName() + " Nation";
-
-                playerNation = new Nation(nationName, homeStar, homePlanet);
-                homePlanet.setNation(playerNation);
-
-//                BuildingFactory factory = new BuildingFactory(homePlanet.getX() + homePlanet.getRadius() + 5,
-//                        homePlanet.getY(), 0, this, this.getPlayer());
-//                BuildingApartment apt = new BuildingApartment(homePlanet.getX() + homePlanet.getRadius() + 5,
-//                        homePlanet.getY() + 7, 0, this, this.getPlayer());
-                //entities.add(factory);
-                //entities.add(apt);
-            }
-
             // This is for all respawns
-            double spawnx = homePlanet.getX() + homePlanet.getRadius();
-            double spawny = homePlanet.getY();
+            double spawnx = getHomePlanet().getX() + getHomePlanet().getRadius();
+            double spawny = getHomePlanet().getY();
             this.getPlayer().setX(spawnx);
             this.getPlayer().setY(spawny);
-            this.getPlayer().setNation(playerNation);
+            this.getPlayer().setNationUUID(getPlayerNation().getUuid());
 
-            float height = CollisionUtil.heightFromEntityAngle(this.getPlayer(), homePlanet);
-            double radius = homePlanet.getRadius() + height + 2f;
-            this.getPlayer().setX(homePlanet.getX() + radius);
-            CollisionUtil.resolveCollision(this.getPlayer(), homePlanet);
+            float height = CollisionUtil.heightFromEntityAngle(this.getPlayer(), getHomePlanet());
+            double radius = getHomePlanet().getRadius() + height + 2f;
+            this.getPlayer().setX(getHomePlanet().getX() + radius);
+            CollisionUtil.resolveCollision(this.getPlayer(), getHomePlanet());
         }
         this.mapTime++;
     }
 
     public BodyStar getHomeStar() {
-        return homeStar;
+        return getHomePlanet().getStar();
     }
 
     public BodyPlanet getHomePlanet() {
-        return homePlanet;
+        return (BodyPlanet) chunks[homeChunkX][homeChunkY].getBodies().get(homePlanetUUID);
     }
 
     public EntityCursor getCursor() {
@@ -201,16 +204,8 @@ public class World implements Serializable {
         this.cursor = cursor;
     }
 
-    public void setHomeStar(BodyStar homeStar) {
-        this.homeStar = homeStar;
-    }
-
-    public void setHomePlanet(BodyPlanet homePlanet) {
-        this.homePlanet = homePlanet;
-    }
-
     public Nation getPlayerNation() {
-        return playerNation;
+        return nations.get(playerNationUUID);
     }
 
     public void spawnEntity(Entity entity){
@@ -221,5 +216,9 @@ public class World implements Serializable {
 
     public long getSeed() {
         return seed;
+    }
+
+    public HashMap<UUID, Nation> getNations() {
+        return nations;
     }
 }

@@ -67,7 +67,7 @@ public class EntityBuilding extends Entity {
 
                             // If the planet is unclaimed, the first player to build on it claims it.
                             if (planet.getNation() == null){
-                                planet.setNation(world.getPlayerNation());
+                                planet.setNationUUID(world.getPlayerNation().getUuid());
                             }
                         }
 

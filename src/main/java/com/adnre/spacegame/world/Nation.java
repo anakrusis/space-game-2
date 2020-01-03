@@ -4,6 +4,7 @@ import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Nation implements Serializable {
     private String name;
@@ -11,6 +12,7 @@ public class Nation implements Serializable {
     private BodyPlanet homePlanet;
     private float[] color;
 
+    private UUID uuid;
     private static final long serialVersionUID = 40958934789238L;
 
     public Nation (String name, BodyStar homestar, BodyPlanet homeplanet){
@@ -18,6 +20,7 @@ public class Nation implements Serializable {
         this.homeStar = homestar;
         this.homePlanet = homeplanet;
         this.color = new float[] {0, 0, 0};
+        this.uuid = UUID.randomUUID();
     }
 
     public String getName() {
@@ -34,5 +37,9 @@ public class Nation implements Serializable {
 
     public BodyStar getHomeStar() {
         return homeStar;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 }
