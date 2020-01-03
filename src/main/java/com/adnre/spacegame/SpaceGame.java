@@ -14,6 +14,7 @@ import com.adnre.spacegame.world.World;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -55,7 +56,7 @@ public class SpaceGame {
 
     private void init() {
 
-        world = new World(10,10, Reference.seed);
+        world = new World(10,10, new Random().nextLong());
         camera = new Camera(0,0,1, world);
 
         // Setup an error callback. The default implementation

@@ -91,9 +91,9 @@ public class EntityBuilding extends Entity {
                     int index = CollisionUtil.terrainIndexFromEntityAngle(this, planet);
 
                     // Empty slot ready to put a building on!
-                    if (planet.getBuildings()[index] == null) {
+                    if (planet.getBuildingUUIDs()[index] == null) {
                         if (this.planetIndex == -1){
-                            planet.getBuildings()[index] = this;
+                            planet.getBuildingUUIDs()[index] = this.uuid;
                             this.planetIndex = index;
                             this.getChunk().getChunkChangelog().add(new ChunkChangeBuildingPlace(this));
 
@@ -104,7 +104,7 @@ public class EntityBuilding extends Entity {
                         }
 
                     // If this is the building at that spot, align it with the grid of terrain
-                    }else if (planet.getBuildings()[index] == this){
+                    }else if (planet.getBuildingUUIDs()[index].equals(this.uuid)){
 
                         float angle = (float) (planet.dir + (2f * Math.PI * ((index + 0.5f) / planet.terrain.length)));
                         double rad = planet.radius + CollisionUtil.heightFromEntityAngle(this, planet) + 0.8;

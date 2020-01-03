@@ -1,12 +1,8 @@
 package com.adnre.spacegame.gui;
 
+
 import com.adnre.spacegame.FileHandler;
 import com.adnre.spacegame.SpaceGame;
-import com.adnre.spacegame.util.Reference;
-import com.adnre.spacegame.world.ChunkChange;
-import com.adnre.spacegame.world.ChunkChangelog;
-
-import java.util.ArrayList;
 
 public class ButtonPauseSave extends Button {
     public ButtonPauseSave(float x, float y, String header, String textBody, EnumGui eg) {
@@ -17,5 +13,16 @@ public class ButtonPauseSave extends Button {
     public void onClick() {
         super.onClick();
         String filename;
+
+        for (int i = 0; i < SpaceGame.world.getWidth(); i++){
+            for (int j = 0; j < SpaceGame.world.getHeight(); j++){
+                filename = "world\\chunk_" + i + "_" + j + ".txt";
+                FileHandler.writeObjectToFile(SpaceGame.world.getChunks()[i][j], filename);
+
+                //if (SpaceGame.map.getPlayer() != null){
+                FileHandler.writeObjectToFile(SpaceGame.world, "world\\map.txt");
+                //}
+            }
+        }
     }
 }

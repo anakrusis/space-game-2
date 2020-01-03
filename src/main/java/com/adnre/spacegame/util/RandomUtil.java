@@ -6,7 +6,7 @@ import java.util.Random;
  * Credit to @DeaSTL, this is a util from Everything is Bad
  */
 public class RandomUtil {
-    public static Random random = new Random(Reference.seed);
+    public static Random random = new Random();
 
     /**
      * generates a random number between two integers

@@ -197,7 +197,7 @@ public class Entity implements Serializable {
         if (!grounded){
             return null;
         }else{
-            return (Body) this.getChunk().getBodies().get(groundedBodyUUID);
+            return this.getChunk().getBodies().get(groundedBodyUUID);
         }
     }
 

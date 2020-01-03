@@ -1,5 +1,6 @@
 package com.adnre.spacegame.entity.body;
 
+import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.entity.EntityBuilding;
 import com.adnre.spacegame.entity.building.BuildingApartment;
@@ -20,7 +21,7 @@ public class BodyPlanet extends Body {
     private int orbitPeriod;
     private float orbitStart;
     private float orbitAngle;
-    private EntityBuilding[] buildings;
+    private UUID[] buildingUUIDs;
     private float[] stoneColor;
 
     private int terrainSize;
@@ -51,7 +52,7 @@ public class BodyPlanet extends Body {
 
         this.orbitStart =  RandomUtil.fromRangeF(0f,(float)Math.PI * 2);
 
-        buildings = new EntityBuilding[terrain.length];
+        buildingUUIDs = new UUID[terrain.length];
         population = 0;
 
         this.nation = null; // Unclaimed by default
@@ -74,11 +75,9 @@ public class BodyPlanet extends Body {
         // and the number of factories from the sum of individual factories.
         int pop = 0;
         int factoryCount = 0;
-        if (this.buildings == null){
-            this.buildings = new EntityBuilding[terrainSize];
-        }
+
         for (int i = 0; i < terrainSize; i++){
-            EntityBuilding build = this.buildings[i];
+            EntityBuilding build = getBuilding(i);
             if (build instanceof BuildingApartment){
                 pop += ((BuildingApartment) build).getPopulation();
             }else if (build instanceof BuildingFactory){
@@ -91,7 +90,7 @@ public class BodyPlanet extends Body {
 
         // Distributes the quotient among factories
         for (int i = 0; i < terrainSize; i++){
-            EntityBuilding build = this.buildings[i];
+            EntityBuilding build = this.getBuilding(i);
             if (build instanceof BuildingFactory){
                 BuildingFactory fact = (BuildingFactory)build;
                 fact.setEmployees(0);
@@ -108,7 +107,7 @@ public class BodyPlanet extends Body {
             int i = this.population % factoryCount;
             while (i > 0){
                 for (int j = 0; j < terrainSize; j++){
-                    EntityBuilding build = this.buildings[j];
+                    EntityBuilding build = this.getBuilding(j);
                     if (build instanceof BuildingFactory) {
                         BuildingFactory fact = (BuildingFactory) build;
                         if (i > 0){
@@ -134,8 +133,17 @@ public class BodyPlanet extends Body {
         return starUUID;
     }
 
-    public EntityBuilding[] getBuildings() {
-        return buildings;
+    //public EntityBuilding[] getBuildings() {
+        //return buildings;
+    //}
+
+    public UUID[] getBuildingUUIDs() {
+        return buildingUUIDs;
+    }
+
+    public EntityBuilding getBuilding (int index){
+        UUID key = this.buildingUUIDs[index];
+        return (EntityBuilding) SpaceGame.world.getEntities().get( key );
     }
 
     public float[] getStoneColor() {
@@ -177,10 +185,6 @@ public class BodyPlanet extends Body {
 
     public int getTerrainSize() {
         return terrainSize;
-    }
-
-    public void setBuildings(EntityBuilding[] buildings) {
-        this.buildings = buildings;
     }
 
     public float getOrbitStart() {

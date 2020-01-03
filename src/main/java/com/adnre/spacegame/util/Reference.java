@@ -2,8 +2,6 @@ package com.adnre.spacegame.util;
 
 public class Reference {
 
-    public static final long seed = 1000;
-
     public static final int CHUNK_SIZE = 4096;
     public static final int RENDER_DISTANCE = 1;
     public static final double MIN_ZOOM = 0.001;

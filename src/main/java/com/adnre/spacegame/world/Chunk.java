@@ -25,6 +25,7 @@ public class Chunk implements Serializable {
 
     private HashMap<UUID, Body> bodies;
 
+    // Todo get rid of this
     private ChunkChangelog chunkChangelog;
 
     public Chunk (int x, int y, World world){

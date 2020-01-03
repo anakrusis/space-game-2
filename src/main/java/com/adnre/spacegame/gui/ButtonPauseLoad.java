@@ -25,6 +25,33 @@ public class ButtonPauseLoad extends Button {
     @Override
     public void onClick() {
         super.onClick();
+        String filename;
+        try {
+            SpaceGame.world = null;
+            SpaceGame.world = FileHandler.readWorldFromFile("world\\map.txt");
 
+            int width = SpaceGame.world.getWidth();
+            int height = SpaceGame.world.getHeight();
+            Chunk[][] chunks = new Chunk[width][height];
+
+            for (int i = 0; i < width; i++){
+                for (int j = 0; j < height; j++){
+
+                    filename = "world\\chunk_" + i + "_" + j + ".txt";
+                    try {
+                        Chunk chunk = FileHandler.readChunkFromFile(filename);
+                        chunks[i][j] = chunk;
+
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            SpaceGame.world.setChunks(chunks);
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

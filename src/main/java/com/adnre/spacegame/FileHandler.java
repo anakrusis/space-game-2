@@ -2,6 +2,8 @@ package com.adnre.spacegame;
 
 import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.entity.Entity;
+import com.adnre.spacegame.entity.EntityBuilding;
+import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.world.Chunk;
 import com.adnre.spacegame.world.World;
 
@@ -33,13 +35,17 @@ public class FileHandler {
         in.close();
         file.close();
         chunk.setWorld(SpaceGame.world);
-        //for (Body body : chunk.getBodies()){
-        //    body.setWorld(SpaceGame.world);
-        //}
+        for (Body body : chunk.getBodies().values()){
+            body.setWorld(SpaceGame.world);
+            if (body instanceof BodyPlanet){
+                BodyPlanet planet = (BodyPlanet)body;
+                //planet.setBuildings( new EntityBuilding[ planet.getTerrainSize() ] );
+            }
+        }
         return chunk;
     }
 
-    public static World readMapFromFile(String filename) throws IOException, ClassNotFoundException {
+    public static World readWorldFromFile(String filename) throws IOException, ClassNotFoundException {
         FileInputStream file = new FileInputStream(filename);
         ObjectInputStream in = new ObjectInputStream(file);
         World world = (World) in.readObject();

@@ -7,6 +7,7 @@ import com.adnre.spacegame.entity.building.BuildingApartment;
 import com.adnre.spacegame.entity.building.BuildingFactory;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.NymGen;
+import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.util.SpawnUtil;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class World implements Serializable {
     // In chunks
     private int width;
     private int height;
+    private long seed;
 
     public int mapTime;
     private BodyPlanet homePlanet = null;
@@ -38,6 +40,8 @@ public class World implements Serializable {
     private static final long serialVersionUID = 3898234898092L;
 
     public World(int xSize, int ySize, int mapTime, long seed){
+        this.seed = seed;
+        RandomUtil.setSeed(seed);
         chunks = new Chunk[xSize][ySize];
         this.width = xSize;
         this.height = ySize;
@@ -109,7 +113,7 @@ public class World implements Serializable {
 
                         // -1 is used for floating buildings
                         if (building.getPlanetIndex() != -1) {
-                            planet.getBuildings()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                            planet.getBuildingUUIDs()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
                         }
                     }
                 }
@@ -213,5 +217,9 @@ public class World implements Serializable {
         UUID entityuuid = UUID.randomUUID();
         this.entities.put(entityuuid, entity);
         entity.setUuid(entityuuid);
+    }
+
+    public long getSeed() {
+        return seed;
     }
 }
