@@ -4,7 +4,6 @@ import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.item.Items;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.Reference;
-import com.adnre.spacegame.world.ChunkChangeBuildingDestroy;
 import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
@@ -77,7 +76,6 @@ public class EntityPlayer extends Entity {
                     EntityBuilding building = (EntityBuilding) world.getCursor().getSelectedEntity();
 
                     if (!building.dead){
-                        this.addMoney(building.getPrice());
                         this.addInventory(building.getItemDropped());
                     }
                     building.dead = true;

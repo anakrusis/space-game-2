@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
 public class Texture {
@@ -36,7 +37,7 @@ public class Texture {
                     pixels.put( (byte)((pixel >> 24) & 0xff ) );
                 }
             }
-            pixels.flip();
+            ((Buffer)pixels).flip();
             id = glGenTextures();
             glBindTexture(GL_TEXTURE_2D, id);
 

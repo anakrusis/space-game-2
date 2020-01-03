@@ -1,17 +1,12 @@
 package com.adnre.spacegame.entity;
 
-import com.adnre.spacegame.entity.body.BodyGravityRadius;
 import com.adnre.spacegame.entity.body.BodyPlanet;
-import com.adnre.spacegame.entity.body.BodyStar;
 import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
-import com.adnre.spacegame.world.ChunkChangeBuildingPlace;
 import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
-
-import java.util.UUID;
 
 public class EntityBuilding extends Entity {
 

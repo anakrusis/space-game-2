@@ -3,7 +3,7 @@ plugins {
     id 'distribution'
 }
 
-group 'net.adnre'
+group 'com.adnre'
 version '0.0.5pre'
 project.ext.lwjglVersion = "3.2.3"
 project.ext.lwjglNatives = "natives-windows"
@@ -43,7 +43,7 @@ dependencies {
 }
 jar {
     manifest {
-        attributes 'Main-Class': 'SpaceGame'
+        attributes 'Main-Class': 'com.adnre.spacegame.SpaceGame'
         attributes 'Class-Path': 'lib/lwjgl.jar lib/lwjgl-glfw.jar' +
                 ' lib/lwjgl-natives-windows.jar lib/lwjgl-glfw-natives-windows.jar' +
                 ' lib/lwjgl-opengl-natives-windows.jar lib/lwjgl-opengl.jar'
