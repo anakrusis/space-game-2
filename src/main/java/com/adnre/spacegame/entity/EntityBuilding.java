@@ -46,45 +46,13 @@ public class EntityBuilding extends Entity {
 
     @Override
     public void update() {
+        super.update();
         if (this.ticksExisted > 1000 && this.getGroundedBody() == null) {
             this.dead = true;
         }
 
-        this.x += this.velocity * Math.cos(this.dir);
-        this.y += this.velocity * Math.sin(this.dir);
-
         // These are physics that don't apply to stationary bodies. Just small entities like ships, asteroids...
         if (this.getChunk() != null) {
-            boolean isColliding = false;
-            for (java.util.Map.Entry<UUID, Body> e : this.getChunk().getBodies().entrySet()) {
-                Body body = e.getValue();
-                if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
-
-                    // Setting collision markers
-                    if (body.canEntitiesCollide) {
-                        if (this.velocity > 1.5) {
-                            this.explode();
-                        } else {
-                            this.grounded = true;
-                            this.groundedBodyUUID = body.getUuid();
-                            isColliding = true;
-                        }
-                    }
-
-                    if (body instanceof BodyStar) {
-                        this.explode();
-
-                    } else if (body instanceof BodyGravityRadius) {
-                        double forceMagnitude = 0.1d;
-                        double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-                        this.x -= forceMagnitude * Math.cos(angleFromCenter);
-                        this.y -= forceMagnitude * Math.sin(angleFromCenter);
-                    }
-
-                }
-                // Buildings can't get ungrounded once grounded
-            }
-
             if (grounded && getGroundedBody() != null) {
                 if (getGroundedBody() instanceof BodyPlanet) {
                     BodyPlanet planet = (BodyPlanet) getGroundedBody();
@@ -123,8 +91,6 @@ public class EntityBuilding extends Entity {
                     }
                 }
             }
-
-            this.ticksExisted++;
         }
     }
 

@@ -32,6 +32,9 @@ public class Entity implements Serializable {
 
     protected boolean dead = false;
 
+    // Accessible for physics testing purposes
+    protected double gravityAttraction;
+
     public Entity (double x, double y, float dir, World world){
         this.x = x;
         this.y = y;
@@ -84,9 +87,38 @@ public class Entity implements Serializable {
 
         // These are physics that don't apply to stationary bodies. Just small entities like ships, asteroids...
         if (this.getChunk() != null) {
+
+            if (grounded && getGroundedBody() != null) {
+
+                if (this.velocity > 0.2){
+                    this.velocity = 0.2;
+                }
+
+                // This moves the entity along with a planet by anticipating where it will be in the next tick
+                if (getGroundedBody() instanceof BodyPlanet) {
+                    BodyPlanet planet = (BodyPlanet) getGroundedBody();
+                    float angle = planet.getOrbitAngle();
+                    double futurePlanetX = MathHelper.rotX(angle, planet.getOrbitDistance(), 0) + planet.getStar().getX();
+                    double futurePlanetY = MathHelper.rotY(angle, planet.getOrbitDistance(), 0) + planet.getStar().getY();
+
+                    this.x += (futurePlanetX - planet.getX());
+                    this.y += (futurePlanetY - planet.getY());
+                }
+                Body body = getGroundedBody();
+
+                // This moves the entity along with any rotating body
+                this.dir += body.rotSpeed;
+                this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
+                this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
+
+                teleportToSurface(body);
+                CollisionUtil.resolveCollision(this, body);
+            }
+
+
             boolean isColliding = false;
-            for (java.util.Map.Entry<UUID, Body> e : getChunk().getBodies().entrySet()) {
-                Body body = e.getValue();
+            for (Body body : this.getChunk().getBodies().values()) {
+
                 if (body.canEntitiesCollide){
                     if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
 
@@ -104,7 +136,19 @@ public class Entity implements Serializable {
                     // Gravitation (simple linear pull towards the body)
                     if (CollisionUtil.isEntityCollidingWithEntity(this, body)){
                         if (body instanceof BodyGravityRadius) {
-                            double forceMagnitude = 0.1d;
+                            BodyGravityRadius bgr = (BodyGravityRadius) body;
+                            Body dependentBody = bgr.getDependentBody();
+                            double distance = MathHelper.distance(this.x, this.y, bgr.getX(), bgr.getY());
+
+                            double annulusPosition = (-1 / (bgr.getRadius() - dependentBody.getRadius())) * ( distance - dependentBody.getRadius() ) + 1;
+                            double forceMagnitude;
+                            if (dependentBody instanceof BodyStar){
+                                forceMagnitude = 0.5d * annulusPosition;
+                            }else{
+                                forceMagnitude = 0.15d * annulusPosition;
+                            }
+                            this.gravityAttraction = forceMagnitude;
+
                             double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
                             this.x -= forceMagnitude * Math.cos(angleFromCenter);
                             this.y -= forceMagnitude * Math.sin(angleFromCenter);
@@ -113,53 +157,27 @@ public class Entity implements Serializable {
                 }
             }
 
-            // No collisions? Not grounded, okay
-            if (!(isColliding)){
+            // Buildings can't unground, but other entities can if they aren't colliding anymore
+            if (!(isColliding) && !(this instanceof EntityBuilding)){
                 this.groundedBodyUUID = null;
                 this.grounded = false;
             }
         }
-
-        if (grounded && getGroundedBody() != null) {
-
-            if (this.velocity > 0.2){
-                this.velocity = 0.2;
-            }
-
-            // This moves the entity along with a planet by anticipating where it will be in the next tick
-            if (getGroundedBody() instanceof BodyPlanet) {
-                BodyPlanet planet = (BodyPlanet) getGroundedBody();
-                float angle = planet.getOrbitAngle();
-                double futurePlanetX = MathHelper.rotX(angle, planet.getOrbitDistance(), 0) + planet.getStar().getX();
-                double futurePlanetY = MathHelper.rotY(angle, planet.getOrbitDistance(), 0) + planet.getStar().getY();
-
-                this.x += (futurePlanetX - planet.getX());
-                this.y += (futurePlanetY - planet.getY());
-            }
-            Body body = getGroundedBody();
-
-            // This moves the entity along with any rotating body
-            this.dir += body.rotSpeed;
-            this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
-            this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
-
-            // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
-            double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-            int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-            double radius = body.getRadius() + body.getTerrain()[index] + 0.5;
-            double innermostradius = body.radius + CollisionUtil.heightFromEntityAngle(this, body) - 4f;
-
-            double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
-            if (distance < innermostradius) {
-                this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
-                this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
-            }
-            CollisionUtil.resolveCollision(this, body);
-
-//            this.velocity /= 1.01;
-        }
-
         this.ticksExisted++;
+    }
+
+    protected void teleportToSurface(Body body){
+        // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
+        double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
+        int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
+        double radius = body.getRadius() + body.getTerrain()[index] + 0.5;
+        double innermostradius = body.radius + CollisionUtil.heightFromEntityAngle(this, body) - 4f;
+
+        double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
+        if (distance < innermostradius) {
+            this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
+            this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
+        }
     }
 
     public boolean isDead(){
@@ -240,5 +258,9 @@ public class Entity implements Serializable {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public double getGravityAttraction() {
+        return gravityAttraction;
     }
 }

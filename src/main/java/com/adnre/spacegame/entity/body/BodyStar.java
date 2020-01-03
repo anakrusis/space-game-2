@@ -24,8 +24,6 @@ public class BodyStar extends Body {
 
         this.name = name;
 
-        BodyGravityRadius bgr = new BodyGravityRadius(this.x, this.y, this.dir, this.chunk, this.radius * 2, this.world, this);
-        this.chunk.spawnBody(bgr);
         planetUUIDs = new ArrayList<>();
     }
 

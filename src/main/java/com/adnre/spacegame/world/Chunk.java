@@ -141,7 +141,7 @@ public class Chunk implements Serializable {
         if (body.canEntitiesCollide){
 
             BodyGravityRadius bgr = new BodyGravityRadius(body.getX(), body.getY(), body.getDir(), body.getChunk(),
-                    body.getRadius() * 2, SpaceGame.world, body);
+                    body.getRadius() * 2, SpaceGame.world, body.getUuid());
             bodies.put(gravuuid, bgr);
             bgr.setUuid(gravuuid);
         }
