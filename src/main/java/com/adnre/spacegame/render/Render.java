@@ -1,5 +1,6 @@
-package com.adnre.spacegame;
+package com.adnre.spacegame.render;
 
+import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.entity.EntityBuilding;
 import com.adnre.spacegame.entity.EntityPlayer;
@@ -48,9 +49,15 @@ public class Render {
                      int cameraChunkY = camera.getChunk().getY();
 
                      int chebyschev = MathHelper.chebyshev(chunk.getX(), chunk.getY(),cameraChunkX,cameraChunkY);
-
-                     if (chebyschev <= Reference.RENDER_DISTANCE){
-                         RenderChunk.renderChunk(chunk, camera);
+                     // On the map screen the render distance is higher
+                     if ( camera.getZoom() < Reference.MAP_SCREEN_THRESHOLD ){
+                         if ((chebyschev <= Reference.RENDER_DISTANCE + 1)){
+                             RenderChunk.renderChunk(chunk, camera);
+                         }
+                     }else{
+                         if ((chebyschev <= Reference.RENDER_DISTANCE)){
+                             RenderChunk.renderChunk(chunk, camera);
+                         }
                      }
                  }
              }

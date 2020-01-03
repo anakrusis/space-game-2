@@ -14,7 +14,9 @@ public class RenderHotbarItem {
     // EntityPlayer is passed in to access the player's inventory...
 
     public static void renderHotbarItem(TextBox tx, EntityPlayer player){
-        RenderTextBox.renderTextBox(tx);
+
+        RenderTextBox.renderTextBox(tx, 0.35f);
+
         float[] abspoints = new float[]{
             tx.getX() + 0.5f,          tx.getY() - 1.0f,
             tx.getX() + 0.5f,          tx.getY() - 1.0f + tx.getHeight(),

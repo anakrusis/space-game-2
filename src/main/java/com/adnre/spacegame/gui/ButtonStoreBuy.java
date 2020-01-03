@@ -6,7 +6,7 @@ import com.adnre.spacegame.item.ItemStack;
 public class ButtonStoreBuy extends Button {
     protected ItemStack itemStack;
     public ButtonStoreBuy(float x, float y, ItemStack itemStack){
-        super(x, y, 6, 1, itemStack.getItem().getName(), "", EnumGui.GUI_BUTTON_STORE_BUY, false);
+        super(x, y, 8, 1, itemStack.getItem().getName(), "", EnumGui.GUI_BUTTON_STORE_BUY, false);
         this.itemStack = itemStack;
 
         this.header = itemStack.getItem().getName() + " ($" + itemStack.getItem().getPrice() + ")";

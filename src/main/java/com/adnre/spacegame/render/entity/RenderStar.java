@@ -70,9 +70,9 @@ public class RenderStar {
             double x = camZoom * (star.getX() - camX);
             double y = camZoom * (star.getY() - camY) + 0.5;
             if (star == star.getWorld().getHomeStar()){
-                RenderText.renderText((char) 0x7f + " " + star.getName(), (float)x, (float)y, 0.25f);
+                RenderText.renderText((char) 0x7f + " " + star.getName(), (float)x, (float)y, 0.28f);
             }else{
-                RenderText.renderText(star.getName(), (float)x, (float)y, 0.25f);
+                RenderText.renderText(star.getName(), (float)x, (float)y, 0.28f);
             }
         }
     }

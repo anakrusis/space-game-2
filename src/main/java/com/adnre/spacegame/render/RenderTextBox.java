@@ -5,9 +5,8 @@ import com.adnre.spacegame.gui.TextBox;
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderTextBox {
-    static float headerSize = 0.35f;
 
-    public static void renderTextBox(TextBox tx){
+    public static void renderTextBox(TextBox tx, float headerSize){
 
         if (tx.isVisible()){
             // Colored background of textbox
@@ -32,5 +31,9 @@ public class RenderTextBox {
             glVertex2d(tx.getX(), tx.getY() - tx.getHeight() );
             glEnd();
         }
+    }
+
+    public static void renderTextBox(TextBox tx){
+        renderTextBox(tx, 0.45f);
     }
 }

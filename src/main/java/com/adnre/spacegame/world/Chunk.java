@@ -25,15 +25,11 @@ public class Chunk implements Serializable {
 
     private HashMap<UUID, Body> bodies;
 
-    // Todo get rid of this
-    private ChunkChangelog chunkChangelog;
-
     public Chunk (int x, int y, World world){
         this.x = x;
         this.y = y;
         this.world = world;
         this.bodies = new HashMap<>();
-        this.chunkChangelog = new ChunkChangelog();
 
         // The list of bodies to spawn after iterating through
         ArrayList<Body> bodiesToSpawn = new ArrayList<>();
@@ -44,7 +40,7 @@ public class Chunk implements Serializable {
             double genx = Reference.CHUNK_SIZE * (this.x + RandomUtil.fromRangeF(0f, 1f));
             double geny = Reference.CHUNK_SIZE * (this.y + RandomUtil.fromRangeF(0f, 1f));
 
-            if (GenUtil.withinPadding(genx, geny, 1100)){
+            if (GenUtil.withinPadding(genx, geny, 1300)){
                 String name = NymGen.newName();
 
                 bodiesToSpawn.add(new BodyStar(genx, geny, 0, this, this.world, name));
@@ -60,8 +56,8 @@ public class Chunk implements Serializable {
 
         // Every star gets potentially up to 4 planets
         int planetcount = 0;
-        int orbitDistanceInterval = 200;
-        int orbitVariance = 40;
+        int orbitDistanceInterval = 240;
+        int orbitVariance = 60;
 
         for (Body body : bodies.values()) {
             if (body instanceof BodyStar) {
@@ -112,10 +108,6 @@ public class Chunk implements Serializable {
         this.world = world;
     }
 
-    public ChunkChangelog getChunkChangelog() {
-        return chunkChangelog;
-    }
-
     // Returns the which star it is in the chunk (usually theres only 1 so anything else would return null)
     public BodyStar getStar( int index ){
         int counter = 0; // Counts the number of stars which have been iterated through
@@ -141,7 +133,7 @@ public class Chunk implements Serializable {
         if (body.canEntitiesCollide){
 
             BodyGravityRadius bgr = new BodyGravityRadius(body.getX(), body.getY(), body.getDir(), body.getChunk(),
-                    body.getRadius() * 2, SpaceGame.world, body.getUuid());
+                    body.getRadius() * 2.5f, SpaceGame.world, body.getUuid());
             bodies.put(gravuuid, bgr);
             bgr.setUuid(gravuuid);
         }

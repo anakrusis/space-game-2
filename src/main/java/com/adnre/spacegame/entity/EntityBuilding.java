@@ -63,7 +63,6 @@ public class EntityBuilding extends Entity {
                         if (this.planetIndex == -1){
                             planet.getBuildingUUIDs()[index] = this.uuid;
                             this.planetIndex = index;
-                            this.getChunk().getChunkChangelog().add(new ChunkChangeBuildingPlace(this));
 
                             // If the planet is unclaimed, the first player to build on it claims it.
                             if (planet.getNation() == null){

@@ -2,6 +2,7 @@ package com.adnre.spacegame;
 
 import com.adnre.spacegame.gui.*;
 import com.adnre.spacegame.item.Items;
+import com.adnre.spacegame.render.Render;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -209,13 +210,16 @@ public class SpaceGame {
                     if (glfwGetKey(window, GLFW_KEY_P) == GL_TRUE) {
                         world.getPlayer().explode();
                     }
+                    if (glfwGetKey(window, GLFW_KEY_I) == GL_TRUE) {
+                        GuiHandler.storeScreen = true;
+                    }
                 }
 
                 // The map steps its time, and also handles player respawning and chunk updates.
                 world.update();
             }
 
-            // Zoom controls
+            // legacy zoom controls (soon to be phased out for just scroll zooming)
             if (glfwGetKey(window, GLFW_KEY_Q) == GL_TRUE) {
                 if (camera.getZoom() + (camera.getZoom() / 25) < Reference.MAX_ZOOM) {
                     camera.setZoom(camera.getZoom() + (camera.getZoom() / 25));
