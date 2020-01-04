@@ -48,14 +48,14 @@ public class Render {
                      int cameraChunkX = camera.getChunk().getX();
                      int cameraChunkY = camera.getChunk().getY();
 
-                     int chebyschev = MathHelper.chebyshev(chunk.getX(), chunk.getY(),cameraChunkX,cameraChunkY);
                      // On the map screen the render distance is higher
                      if ( camera.getZoom() < Reference.MAP_SCREEN_THRESHOLD ){
+                         int chebyschev = MathHelper.chebyshev(chunk.getX(), chunk.getY(),cameraChunkX,cameraChunkY);
                          if ((chebyschev <= Reference.RENDER_DISTANCE + 1)){
                              RenderChunk.renderChunk(chunk, camera);
                          }
                      }else{
-                         if ((chebyschev == 0)){
+                         if ((camera.getChunk().getX() == chunk.getX() && camera.getChunk().getY() == chunk.getY() )){
                              RenderChunk.renderChunk(chunk, camera);
                          }
                      }

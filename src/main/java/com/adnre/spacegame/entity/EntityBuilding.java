@@ -41,7 +41,15 @@ public class EntityBuilding extends Entity {
 
     @Override
     public void update() {
-        super.update();
+
+        // This is a huge optimization and prevents default entity physics from acting on
+        // grounded bodies. They do however still need to step their TicksExisted even when grounded
+        if (!grounded){
+            super.update();
+        }else{
+            this.ticksExisted++;
+        }
+
         if (this.ticksExisted > 1000 && this.getGroundedBody() == null) {
             this.dead = true;
         }
