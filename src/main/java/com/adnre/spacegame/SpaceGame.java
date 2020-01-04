@@ -169,6 +169,7 @@ public class SpaceGame {
 
         RenderText.setFont(Textures.test_texture);
 
+        Textures.init();
         GuiElements.initGui();
         Items.register();
     }

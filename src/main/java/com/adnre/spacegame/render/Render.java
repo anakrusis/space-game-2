@@ -55,7 +55,7 @@ public class Render {
                              RenderChunk.renderChunk(chunk, camera);
                          }
                      }else{
-                         if ((chebyschev <= Reference.RENDER_DISTANCE)){
+                         if ((chebyschev == 0)){
                              RenderChunk.renderChunk(chunk, camera);
                          }
                      }

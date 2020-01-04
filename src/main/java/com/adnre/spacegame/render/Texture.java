@@ -1,12 +1,12 @@
 package com.adnre.spacegame.render;
 
+import com.adnre.spacegame.SpaceGame;
 import org.lwjgl.BufferUtils;
 
 import static org.lwjgl.opengl.GL11.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -16,10 +16,16 @@ public class Texture {
     private int width;
     private int height;
 
+    private String filename;
+
     public Texture(String filename){
+        this.filename = filename;
+    }
+
+    public void init(){
         BufferedImage bi;
         try {
-            bi = ImageIO.read(new File(filename));
+            bi = ImageIO.read( Texture.class.getResource(filename) );
             width = bi.getWidth();
             height = bi.getHeight();
 
@@ -53,5 +59,13 @@ public class Texture {
 
     public void bind(){
         glBindTexture(GL_TEXTURE_2D, id);
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }
