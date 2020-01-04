@@ -180,6 +180,10 @@ public class SpaceGame {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+            // Zoom restriction before rendering so as to not have a frame of over-zoom before bouncing back
+            camera.setZoom( Math.max( camera.getZoom(), Reference.MIN_ZOOM) );
+            camera.setZoom( Math.min( camera.getZoom(), Reference.MAX_ZOOM) );
+
             // All rendering goes here
             Render.renderMain(world);
 
