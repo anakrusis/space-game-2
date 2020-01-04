@@ -1,6 +1,5 @@
 package com.adnre.spacegame.entity.building;
 
-import com.adnre.spacegame.entity.EntityBuilding;
 import com.adnre.spacegame.world.World;
 
 public class BuildingResearchFacility extends EntityBuilding {

@@ -1,10 +1,10 @@
 package com.adnre.spacegame.world;
 
 import com.adnre.spacegame.entity.*;
+import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
-import com.adnre.spacegame.entity.building.BuildingApartment;
-import com.adnre.spacegame.entity.building.BuildingFactory;
+import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.NymGen;
 import com.adnre.spacegame.util.RandomUtil;

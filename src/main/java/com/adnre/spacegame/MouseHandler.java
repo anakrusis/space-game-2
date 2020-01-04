@@ -1,6 +1,7 @@
 package com.adnre.spacegame;
 
-import com.adnre.spacegame.entity.EntityBuilding;
+import com.adnre.spacegame.entity.EntityBomb;
+import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.EntityCursor;
 import com.adnre.spacegame.entity.EntityPlayer;
 import com.adnre.spacegame.gui.EnumGui;
@@ -78,7 +79,12 @@ public class MouseHandler {
                         // Miscellaneous item types with custom behaviors (Todo onclick behavior within each item)
 
                     } else if (item.getId() == Items.ITEM_MINING_LASER.getId()){
-                            player.setToolActive(true);
+                        player.setToolActive(true);
+
+                    } else if (item.getId() == Items.ITEM_BOMB.getId()) {
+                        EntityBomb bomb = new EntityBomb(cursor.getX(), cursor.getY(), player.getDir(), world);
+                        world.spawnEntity( bomb );
+                        itemstack.shrink();
                     }
                 }
             }

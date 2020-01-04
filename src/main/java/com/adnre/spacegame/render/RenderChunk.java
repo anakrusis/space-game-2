@@ -1,6 +1,6 @@
 package com.adnre.spacegame.render;
 
-import com.adnre.spacegame.entity.Body;
+import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.*;
 import com.adnre.spacegame.render.entity.RenderPlanet;
 import com.adnre.spacegame.render.entity.RenderStar;

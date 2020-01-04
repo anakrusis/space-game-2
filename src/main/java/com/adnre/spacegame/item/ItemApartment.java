@@ -1,6 +1,6 @@
 package com.adnre.spacegame.item;
 
-import com.adnre.spacegame.entity.EntityBuilding;
+import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.building.BuildingApartment;
 import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.render.Textures;

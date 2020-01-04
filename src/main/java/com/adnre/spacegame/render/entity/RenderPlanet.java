@@ -1,6 +1,6 @@
 package com.adnre.spacegame.render.entity;
 
-import com.adnre.spacegame.entity.Body;
+import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.render.Camera;
 import com.adnre.spacegame.render.Textures;
@@ -50,17 +50,17 @@ public class RenderPlanet {
         }
         glEnd();
 
-        glBegin(GL_POLYGON);
-        // Stone underneath
-        glColor3d(planet.getStoneColor()[0], planet.getStoneColor()[1], planet.getStoneColor()[2]);
-        for (int i = 0; i < stonePoints.length; i += 2){
-
-            pointx = stonePoints[i];
-            pointy = stonePoints[i + 1];
-
-            glVertex2d(camZoom * (pointx - camX), camZoom * (pointy - camY));
-            glTexCoord2f(texpoints[i % texpoints.length], texpoints[ (i + 1) % texpoints.length ]);
-        }
-        glEnd();
+//        glBegin(GL_POLYGON);
+//        // Stone underneath
+//        glColor3d(planet.getStoneColor()[0], planet.getStoneColor()[1], planet.getStoneColor()[2]);
+//        for (int i = 0; i < stonePoints.length; i += 2){
+//
+//            pointx = stonePoints[i];
+//            pointy = stonePoints[i + 1];
+//
+//            glVertex2d(camZoom * (pointx - camX), camZoom * (pointy - camY));
+//            glTexCoord2f(texpoints[i % texpoints.length], texpoints[ (i + 1) % texpoints.length ]);
+//        }
+//        glEnd();
     }
 }

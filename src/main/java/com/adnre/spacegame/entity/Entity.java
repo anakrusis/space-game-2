@@ -1,8 +1,12 @@
 package com.adnre.spacegame.entity;
 
+import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.BodyGravityRadius;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
+import com.adnre.spacegame.entity.building.EntityBuilding;
+import com.adnre.spacegame.entity.particle.ParticleExplosion;
+import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
@@ -107,11 +111,11 @@ public class Entity implements Serializable {
                 Body body = getGroundedBody();
 
                 // This moves the entity along with any rotating body
-                this.dir += body.rotSpeed;
-                this.x = MathHelper.rotX(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getX();
-                this.y = MathHelper.rotY(body.rotSpeed, this.x - body.getX(), this.y - body.getY()) + body.getY();
+                this.dir += body.getRotSpeed();
+                this.x = MathHelper.rotX(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getX();
+                this.y = MathHelper.rotY(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getY();
 
-                teleportToSurface(body);
+                //teleportToSurface(body);
                 CollisionUtil.resolveCollision(this, body);
             }
 
@@ -175,7 +179,7 @@ public class Entity implements Serializable {
         double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
         int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
         double radius = body.getRadius() + body.getTerrain()[index] + 0.5;
-        double innermostradius = body.radius + CollisionUtil.heightFromEntityAngle(this, body) - 4f;
+        double innermostradius = body.getRadius() + CollisionUtil.heightFromEntityAngle(this, body) - 4f;
 
         double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
         if (distance < innermostradius) {
@@ -266,5 +270,9 @@ public class Entity implements Serializable {
 
     public double getGravityAttraction() {
         return gravityAttraction;
+    }
+
+    public Texture getTexture(){
+        return null;
     }
 }

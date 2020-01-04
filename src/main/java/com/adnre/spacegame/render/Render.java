@@ -2,11 +2,11 @@ package com.adnre.spacegame.render;
 
 import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.Entity;
-import com.adnre.spacegame.entity.EntityBuilding;
+import com.adnre.spacegame.entity.EntityBomb;
+import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.EntityPlayer;
 import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.gui.TextBoxHotbarItem;
-import com.adnre.spacegame.render.*;
 import com.adnre.spacegame.render.entity.RenderBuilding;
 import com.adnre.spacegame.render.entity.RenderParticle;
 import com.adnre.spacegame.render.entity.RenderPlayer;
@@ -29,7 +29,7 @@ public class Render {
          for (Entity entity : SpaceGame.world.getEntities().values()){
              if (entity instanceof EntityPlayer) {
 
-             }else if (entity instanceof EntityBuilding){
+             }else if (entity instanceof EntityBuilding || entity instanceof EntityBomb){
                  RenderBuilding.renderBuilding(entity,camera);
              }else{
                  RenderParticle.renderParticle(entity, camera);

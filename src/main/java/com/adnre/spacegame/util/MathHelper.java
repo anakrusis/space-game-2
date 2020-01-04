@@ -43,4 +43,7 @@ public class MathHelper {
         return screenY;
     }
 
+    public static int loopyMod(int x, int m) {
+        return (x % m + m) % m;
+    }
 }

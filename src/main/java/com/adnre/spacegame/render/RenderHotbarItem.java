@@ -1,10 +1,13 @@
 package com.adnre.spacegame.render;
 
+import com.adnre.spacegame.entity.EntityBomb;
 import com.adnre.spacegame.entity.EntityPlayer;
 import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.gui.TextBoxHotbarItem;
 import com.adnre.spacegame.item.Item;
 import com.adnre.spacegame.item.ItemStack;
+import com.adnre.spacegame.item.Items;
+import com.adnre.spacegame.util.RandomUtil;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glColor4d;
@@ -38,7 +41,11 @@ public class RenderHotbarItem {
                     item.getTexture().bind();
                     glEnable(GL_BLEND);
                     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-                    glColor4d(1d,1d,1d,1d);
+                    if (item.getId() == Items.ITEM_BOMB.getId()){
+                        glColor4d(RandomUtil.fromRangeF(0, 1),RandomUtil.fromRangeF(0, 1),RandomUtil.fromRangeF(0, 1),1d);
+                    }else{
+                        glColor4d(1d,1d,1d,1d);
+                    }
 
                     glBegin(GL_QUADS);
                     for (int i = 0; i < abspoints.length; i += 2){

@@ -1,7 +1,7 @@
 package com.adnre.spacegame;
 
 import com.adnre.spacegame.entity.Entity;
-import com.adnre.spacegame.entity.EntityBuilding;
+import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.EntityCursor;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;

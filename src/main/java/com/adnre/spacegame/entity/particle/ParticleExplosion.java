@@ -1,4 +1,4 @@
-package com.adnre.spacegame.entity;
+package com.adnre.spacegame.entity.particle;
 
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.world.World;

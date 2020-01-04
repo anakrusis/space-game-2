@@ -1,6 +1,6 @@
 package com.adnre.spacegame.util;
 
-import com.adnre.spacegame.entity.Body;
+import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.Entity;
 
 public class CollisionUtil {

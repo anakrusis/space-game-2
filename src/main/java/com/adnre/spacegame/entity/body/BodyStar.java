@@ -1,6 +1,5 @@
 package com.adnre.spacegame.entity.body;
 
-import com.adnre.spacegame.entity.Body;
 import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.Chunk;
 import com.adnre.spacegame.world.World;

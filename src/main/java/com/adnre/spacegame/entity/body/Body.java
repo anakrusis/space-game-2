@@ -1,4 +1,4 @@
-package com.adnre.spacegame.entity;
+package com.adnre.spacegame.entity.body;
 
 // Bodies are big entities that are attached to a chunk
 // generally slow moving or even stationary... at least expected to stay within their chunk,
@@ -10,6 +10,7 @@ package com.adnre.spacegame.entity;
 
 // examples: star, planet, moon
 
+import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.world.Chunk;
 import com.adnre.spacegame.world.World;

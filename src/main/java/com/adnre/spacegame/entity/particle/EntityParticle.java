@@ -1,5 +1,6 @@
-package com.adnre.spacegame.entity;
+package com.adnre.spacegame.entity.particle;
 
+import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.world.World;
 
 public class EntityParticle extends Entity {

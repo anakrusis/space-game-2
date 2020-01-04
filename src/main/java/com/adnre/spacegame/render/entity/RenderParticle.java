@@ -1,6 +1,9 @@
 package com.adnre.spacegame.render.entity;
 
 import com.adnre.spacegame.entity.*;
+import com.adnre.spacegame.entity.particle.ParticleExplosion;
+import com.adnre.spacegame.entity.particle.ParticleOrbit;
+import com.adnre.spacegame.entity.particle.ParticleSmoke;
 import com.adnre.spacegame.render.Camera;
 import com.adnre.spacegame.util.Reference;
 

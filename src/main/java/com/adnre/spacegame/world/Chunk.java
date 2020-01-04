@@ -1,8 +1,7 @@
 package com.adnre.spacegame.world;
 
 import com.adnre.spacegame.SpaceGame;
-import com.adnre.spacegame.entity.Body;
-import com.adnre.spacegame.entity.Entity;
+import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.BodyGravityRadius;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
@@ -12,7 +11,6 @@ import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.util.Reference;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Chunk implements Serializable {

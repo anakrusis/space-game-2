@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Textures {
 
-    public static ArrayList<Texture> textures;
+    public static ArrayList<Texture> textures = new ArrayList<>();
     //text
     public static final Texture test_texture = new Texture("font3.png");
     public static final Texture bold_font = new Texture ("font2.png");
@@ -16,20 +16,12 @@ public class Textures {
 
     //items
     public static final Texture mining_laser = new Texture("mining_laser_2.png");
+    public static final Texture bomb = new Texture("bomb.png");
 
     //terrain
     public static final Texture grass = new Texture("grass.png");
 
     public static void init(){
-        textures = new ArrayList<>();
-        textures.add(test_texture);
-        textures.add(bold_font);
-        textures.add(factory);
-        textures.add(apartment);
-        textures.add(factory_off);
-        textures.add(mining_laser);
-        textures.add(grass);
-
         for (Texture tex : textures){
             tex.setFilename("/" + tex.getFilename());
             tex.init();

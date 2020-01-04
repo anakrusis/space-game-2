@@ -1,7 +1,9 @@
 package com.adnre.spacegame.render.entity;
 
 import com.adnre.spacegame.entity.*;
+import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.render.Camera;
+import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.util.Reference;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -24,11 +26,14 @@ public class RenderBuilding{
 
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-            glColor4d(1d,1d,1d,1d);
 
-            if (entity instanceof EntityBuilding){
-                ((EntityBuilding) entity).getTexture().bind();
+            if (entity instanceof EntityBomb){
+                glColor4d(RandomUtil.fromRangeF(0, 1),RandomUtil.fromRangeF(0, 1),RandomUtil.fromRangeF(0, 1),1d);
+            }else{
+                glColor4d(1d,1d,1d,1d);
             }
+
+            entity.getTexture().bind();
 
             glBegin(GL_QUADS);
 

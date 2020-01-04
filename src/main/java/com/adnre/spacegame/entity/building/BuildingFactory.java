@@ -1,8 +1,7 @@
 package com.adnre.spacegame.entity.building;
 
-import com.adnre.spacegame.entity.EntityBuilding;
 import com.adnre.spacegame.entity.EntityPlayer;
-import com.adnre.spacegame.entity.ParticleSmoke;
+import com.adnre.spacegame.entity.particle.ParticleSmoke;
 import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.item.Items;
 import com.adnre.spacegame.render.Texture;

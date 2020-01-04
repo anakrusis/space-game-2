@@ -1,5 +1,7 @@
 package com.adnre.spacegame.entity;
 
+import com.adnre.spacegame.entity.building.EntityBuilding;
+import com.adnre.spacegame.entity.particle.ParticleSmoke;
 import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.item.Items;
 import com.adnre.spacegame.util.MathHelper;
@@ -34,6 +36,8 @@ public class EntityPlayer extends Entity {
         this.inventory[0] = new ItemStack(Items.ITEM_MINING_LASER, 1);
         this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 99);
         this.inventory[2] = new ItemStack(Items.ITEM_APARTMENT, 99);
+
+        this.addInventory( new ItemStack (Items.ITEM_BOMB, 99) );
     }
 
     @Override

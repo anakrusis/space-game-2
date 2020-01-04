@@ -17,6 +17,7 @@ public class GuiElements {
         TextBox storeBG = new TextBox( -6, 5, 12, 8, "Store", "", EnumGui.GUI_STORE_BACKGROUND, false);
         ButtonStoreBuy buyApt = new ButtonStoreBuy(-5, 4, new ItemStack(Items.ITEM_APARTMENT, 1));
         ButtonStoreBuy buyFac = new ButtonStoreBuy(-5, 2.5f, new ItemStack(Items.ITEM_FACTORY, 1));
+        ButtonStoreBuy buyBom = new ButtonStoreBuy(-5, 1f, new ItemStack(Items.ITEM_BOMB, 1));
         Button closeStoreButton = new Button(5, 4.75f, 0.75f, 0.75f, "X", "", EnumGui.GUI_BUTTON_STORE_CLOSE, false);
 
         // pause screen

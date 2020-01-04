@@ -1,5 +1,7 @@
 package com.adnre.spacegame.entity;
 
+import com.adnre.spacegame.entity.body.Body;
+import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;

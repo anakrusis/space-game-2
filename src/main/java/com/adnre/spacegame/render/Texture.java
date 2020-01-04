@@ -20,6 +20,7 @@ public class Texture {
 
     public Texture(String filename){
         this.filename = filename;
+        Textures.textures.add(this);
     }
 
     public void init(){
