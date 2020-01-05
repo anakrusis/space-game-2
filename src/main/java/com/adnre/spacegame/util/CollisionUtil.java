@@ -2,13 +2,13 @@ package com.adnre.spacegame.util;
 
 import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.Entity;
+import com.sun.javafx.geom.Vec3d;
 
 public class CollisionUtil {
 
     // Todo fix still existing collision issues
 
     public static boolean isEntityCollidingWithEntity(Entity entity, Entity body){
-
         boolean isColliding;
 
         double[] abspoints = body.getAbsolutePoints();
@@ -54,37 +54,6 @@ public class CollisionUtil {
         }
 
         return false;
-    }
-
-    // Based off of where an com.adnre.spacegame.entity is on the body, returns the index of the body's terrain point.
-    // Maybe usable for collision, since it can get the particular heightmap index accessible from the com.adnre.spacegame.entity's position
-
-    public static int terrainIndexFromEntityAngle(Entity entity, Body body){
-        float[] terrain = body.getTerrain();
-        int length = terrain.length;
-        double index;
-        double angle = Math.atan2(entity.getY() - body.getY(), entity.getX() - body.getX());
-        float bodydir = body.getDir();
-
-        // This maps the value to between -pi and pi
-        bodydir += Math.PI;
-        bodydir %= 2 * Math.PI;
-        bodydir -= Math.PI;
-
-        angle -= bodydir;
-
-        // I was just being safe here in fear of the dreaded IndexOutOfBoundsException
-        angle += Math.PI;
-        angle %= 2 * Math.PI;
-        angle -= Math.PI;
-
-        if (angle < 0){
-            index = angle * ((0.5 * length) / Math.PI) + terrain.length;
-        }else{
-            index = angle * ((0.5 * length) / Math.PI);
-        }
-
-        return (int)Math.floor(index);
     }
 
     public static void resolveCollision(Entity entity1, Entity entity2){
@@ -151,12 +120,62 @@ public class CollisionUtil {
                     e1.setY( e1.getY() + displaceY * coefficient);
                 }
             }
-
         }
     }
 
-    // Don't worry about negative indices; this method can handle them.
+    // These two methods are an implementation of this point in triangle test:
+    // https://blackpawn.com/texts/pointinpoly/default.html
+
+    static boolean sameSide (Vec3d p1, Vec3d p2, Vec3d a, Vec3d b){
+        Vec3d product1 = new Vec3d();
+        Vec3d product2 = new Vec3d();
+        b.sub(a);
+        p1.sub(a);
+        p2.sub(a);
+        product1.cross( b, p1 );
+        product2.cross( b, p2 );
+        return ( product1.dot( product2 ) >= 0 );
+    }
+    public static boolean isPointInTriangle(Vec3d point, Vec3d tri1, Vec3d tri2, Vec3d tri3){
+        return
+            sameSide(point, tri1, tri2, tri3) &&
+            sameSide(point, tri2, tri1, tri3) &&
+            sameSide(point, tri3, tri1, tri2);
+    }
+
+    // Based off of where an entity is on the body, returns the index of the body's terrain point.
+    // Maybe usable for collision, since it can get the particular heightmap index accessible from the entity's position
+
+    public static int terrainIndexFromEntityAngle(Entity entity, Body body){
+        float[] terrain = body.getTerrain();
+        int length = terrain.length;
+        double index;
+        double angle = Math.atan2(entity.getY() - body.getY(), entity.getX() - body.getX());
+        float bodydir = body.getDir();
+
+        // This maps the value to between -pi and pi
+        bodydir += Math.PI;
+        bodydir %= 2 * Math.PI;
+        bodydir -= Math.PI;
+
+        angle -= bodydir;
+
+        // I was just being safe here in fear of the dreaded IndexOutOfBoundsException
+        angle += Math.PI;
+        angle %= 2 * Math.PI;
+        angle -= Math.PI;
+
+        if (angle < 0){
+            index = angle * ((0.5 * length) / Math.PI) + terrain.length;
+        }else{
+            index = angle * ((0.5 * length) / Math.PI);
+        }
+
+        return (int)Math.floor(index);
+    }
+
     // Returns 3 points, the first being the center of the body and two being surface points.
+    // (Negative indices are fine)
     public static double[] getTriFromIndex(Body body, int terrainindex){
         terrainindex = loopyMod(terrainindex, body.getTerrain().length);
 

@@ -1,9 +1,11 @@
 package com.adnre.spacegame.render;
 
+import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.*;
 import com.adnre.spacegame.render.entity.RenderPlanet;
 import com.adnre.spacegame.render.entity.RenderStar;
+import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.world.Chunk;
 
@@ -51,6 +53,18 @@ public class RenderChunk {
             // Non-culled bodies (just the stars for now)
             if (body instanceof BodyStar){
                 RenderStar.renderStar(body, true, camera);
+            }
+
+            if (SpaceGame.world.getPlayer() != null && Reference.DEBUG_MODE){
+                int index = CollisionUtil.terrainIndexFromEntityAngle(SpaceGame.world.getPlayer(), body);
+                double[] tri = CollisionUtil.getTriFromIndex(body, index);
+                glColor3d(1.0,0.0,0.0);
+                glBegin(GL_LINE_LOOP);
+                glVertex2d( camera.getZoom() * (tri[0] - camera.getX()),  camera.getZoom() * (tri[1] - camera.getY()));
+                glVertex2d( camera.getZoom() * (tri[2] - camera.getX()),  camera.getZoom() * (tri[3] - camera.getY()));
+                glVertex2d( camera.getZoom() * (tri[4] - camera.getX()),  camera.getZoom() * (tri[5] - camera.getY()));
+                glEnd();
+
             }
         }
     }

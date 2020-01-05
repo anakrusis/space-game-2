@@ -32,7 +32,7 @@ public class BodyPlanet extends Body {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(32,64), world);
         this.starUUID = starUUID;
         this.orbitDistance = orbitDistance;
-        this.orbitPeriod = 16000;
+        this.orbitPeriod = RandomUtil.fromRangeI(90000, 200000);
         //this.rotSpeed = 0.05f;
         this.rotSpeed = 0.0005f;
 

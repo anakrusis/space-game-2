@@ -5,7 +5,9 @@ import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.EntityCursor;
 import com.adnre.spacegame.entity.EntityPlayer;
 import com.adnre.spacegame.gui.EnumGui;
+import com.adnre.spacegame.gui.GuiElements;
 import com.adnre.spacegame.gui.TextBox;
+import com.adnre.spacegame.gui.TextBoxHotbarItem;
 import com.adnre.spacegame.item.Item;
 import com.adnre.spacegame.item.ItemBuilding;
 import com.adnre.spacegame.item.ItemStack;
@@ -36,7 +38,7 @@ public class MouseHandler {
         for (int i = SpaceGame.guiElements.size() - 1; i >= 0; i--){
             cText = SpaceGame.guiElements.get(i);
 
-            if (cText.isVisible()){
+            if (cText.isVisible() && cText.isClickable()){
                 if (CollisionUtil.isPointCollidingInBox(cursor.getScreenX(), cursor.getScreenY(), cText.getX(),
                         cText.getY(), cText.getWidth(), cText.getHeight())){
                     cText.onClick();
@@ -112,9 +114,9 @@ public class MouseHandler {
         }
     }
 
-    public static void update( long window ){
+    public static void update( long window ) {
         World world = SpaceGame.world;
-        // :(
+        // Buffering to get the x and y position of the mouse on the screen is a must
         DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
         glfwGetCursorPos(window, posX, null);
         double xpos = posX.get(0);
@@ -129,10 +131,56 @@ public class MouseHandler {
         int windowWidth = w.get();
         int windowHeight = h.get();
 
-        world.getCursor().setX( MathHelper.screenToWorldX(xpos, windowWidth, camera.getX(), camera.getZoom() ) );
-        world.getCursor().setY( MathHelper.screenToWorldY(ypos, windowHeight, camera.getY(), camera.getZoom() ) );
+        // then these values are translated into on-screen coordinates, also known as the
+        // the "GLX and GLY" used to represent the GL ortho
+
+        world.getCursor().setX(MathHelper.screenToWorldX(xpos, windowWidth, camera.getX(), camera.getZoom()));
+        world.getCursor().setY(MathHelper.screenToWorldY(ypos, windowHeight, camera.getY(), camera.getZoom()));
 
         world.getCursor().setScreenX(MathHelper.screenToGLX(xpos, windowWidth));
         world.getCursor().setScreenY(MathHelper.screenToGLY(ypos, windowHeight));
+
+        if (!SpaceGame.isPaused()) {
+
+            // Searches for the tooltip item (needs to be easierly findable in the future ig)
+            for (int j = SpaceGame.guiElements.size() - 1; j >= 0; j--) {
+                TextBox tooltip = SpaceGame.guiElements.get(j);
+
+                if (tooltip.getGuiID() == EnumGui.GUI_TOOLTIP_ITEM) {
+
+                    // Now searches for the hotbar item, and sees if it touches the cursor
+                    for (int i = SpaceGame.guiElements.size() - 1; i >= 0; i--) {
+                        TextBox hotbaritem = SpaceGame.guiElements.get(i);
+                        if (hotbaritem instanceof TextBoxHotbarItem &&
+                                CollisionUtil.isPointCollidingInBox(world.getCursor().getScreenX(),
+                                world.getCursor().getScreenY(), hotbaritem.getX(),
+                                hotbaritem.getY(), hotbaritem.getWidth(), hotbaritem.getHeight())){
+
+                            // Now searches for items in inventory
+                            if (world.getPlayer() != null){
+                                ItemStack[] inventory = world.getPlayer().getInventory();
+                                ItemStack item = inventory[ ((TextBoxHotbarItem) hotbaritem).getInventoryIndex() ];
+
+                                // And gives the tooltip the item name
+                                // as well as positioning it dynamically with the cursor
+                                // and changing its length to match the length of the string
+                                if (item != null){
+                                    tooltip.setVisible(true);
+                                    tooltip.setX((float) world.getCursor().getScreenX());
+                                    tooltip.setY((float) world.getCursor().getScreenY());
+                                    tooltip.setHeader( item.getItem().getName() );
+
+                                    int len = item.getItem().getName().length();
+                                    tooltip.setWidth( len / 2f );
+
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    tooltip.setVisible(false);
+                }
+            }
+        }
     }
 }

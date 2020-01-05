@@ -51,13 +51,13 @@ public class EntityBomb extends Entity {
 
                 BodyPlanet planet = (BodyPlanet) body;
                 if (planet.getBuilding(index) != null){
-                    planet.getBuilding(index).dead = true;
+                    planet.getBuilding(index).explode();
                 }
                 if (planet.getBuilding(indexBefore) != null){
-                    planet.getBuilding(indexBefore).dead = true;
+                    planet.getBuilding(indexBefore).explode();
                 }
                 if (planet.getBuilding(indexAfter) != null){
-                    planet.getBuilding(indexAfter).dead = true;
+                    planet.getBuilding(indexAfter).explode();
                 }
 
                 body.getTerrain()[indexBefore] -= 1.5;

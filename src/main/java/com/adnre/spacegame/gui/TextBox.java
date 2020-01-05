@@ -13,9 +13,13 @@ public class TextBox {
 
     protected EnumGui guiID;
 
+    // Will it render?
     protected boolean isVisible;
 
-    public TextBox (float x, float y, float width, float height, String header, String textBody, EnumGui guiID, boolean isVisible){
+    // Will it be handled by the onclick event?
+    protected boolean isClickable;
+
+    public TextBox (float x, float y, float width, float height, String header, String textBody, EnumGui guiID, boolean isVisible, boolean isClickable){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -25,16 +29,21 @@ public class TextBox {
         this.bgColor = new float[]{ 0.50f, 0.55f, 0.65f };
         this.guiID = guiID;
         this.isVisible = isVisible;
+        this.isClickable = isClickable;
 
         SpaceGame.guiElements.add(this);
     }
 
     public TextBox (float x, float y, float width, float height, EnumGui GUI_ID ){
-        this (x, y, width, height, "", "", GUI_ID, true);
+        this (x, y, width, height, "", "", GUI_ID, true, true);
     }
 
-    public TextBox (float x, float y, float width, float height, EnumGui GUI_ID, Boolean isVisible){
-        this (x, y, width, height, "", "", GUI_ID, isVisible);
+    public TextBox (float x, float y, float width, float height, EnumGui GUI_ID, boolean isVisible){
+        this (x, y, width, height, "", "", GUI_ID, isVisible, true);
+    }
+
+    public TextBox (float x, float y, float width, float height, EnumGui GUI_ID, boolean isVisible, boolean isClickable){
+        this (x, y, width, height, "", "", GUI_ID, isVisible, isClickable);
     }
 
     public float getX() {
@@ -93,5 +102,25 @@ public class TextBox {
 
     public void setVisible(boolean visible) {
         isVisible = visible;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public boolean isClickable() {
+        return isClickable;
     }
 }

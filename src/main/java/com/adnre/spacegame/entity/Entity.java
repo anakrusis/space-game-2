@@ -92,34 +92,6 @@ public class Entity implements Serializable {
         // These are physics that don't apply to stationary bodies. Just small entities like ships, asteroids...
         if (this.getChunk() != null) {
 
-            if (grounded && getGroundedBody() != null) {
-
-                if (this.velocity > 0.2){
-                    this.velocity = 0.2;
-                }
-
-                // This moves the entity along with a planet by anticipating where it will be in the next tick
-                if (getGroundedBody() instanceof BodyPlanet) {
-                    BodyPlanet planet = (BodyPlanet) getGroundedBody();
-                    float angle = planet.getOrbitAngle();
-                    double futurePlanetX = MathHelper.rotX(angle, planet.getOrbitDistance(), 0) + planet.getStar().getX();
-                    double futurePlanetY = MathHelper.rotY(angle, planet.getOrbitDistance(), 0) + planet.getStar().getY();
-
-                    this.x += (futurePlanetX - planet.getX());
-                    this.y += (futurePlanetY - planet.getY());
-                }
-                Body body = getGroundedBody();
-
-                // This moves the entity along with any rotating body
-                this.dir += body.getRotSpeed();
-                this.x = MathHelper.rotX(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getX();
-                this.y = MathHelper.rotY(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getY();
-
-                //teleportToSurface(body);
-                CollisionUtil.resolveCollision(this, body);
-            }
-
-
             boolean isColliding = false;
             for (Body body : this.getChunk().getBodies().values()) {
 
@@ -170,6 +142,35 @@ public class Entity implements Serializable {
                 this.groundedBodyUUID = null;
                 this.grounded = false;
             }
+
+            if (grounded && getGroundedBody() != null) {
+
+                if (this.velocity > 0.2){
+                    this.velocity = 0.2;
+                }
+
+                // This moves the entity along with a planet by anticipating where it will be in the next tick
+                if (getGroundedBody() instanceof BodyPlanet) {
+                    BodyPlanet planet = (BodyPlanet) getGroundedBody();
+                    float angle = planet.getOrbitAngle();
+                    double futurePlanetX = MathHelper.rotX(angle, planet.getOrbitDistance(), 0) + planet.getStar().getX();
+                    double futurePlanetY = MathHelper.rotY(angle, planet.getOrbitDistance(), 0) + planet.getStar().getY();
+
+                    this.x += (futurePlanetX - planet.getX());
+                    this.y += (futurePlanetY - planet.getY());
+                }
+                Body body = getGroundedBody();
+
+                // This moves the entity along with any rotating body
+                this.dir += body.getRotSpeed();
+                this.x = MathHelper.rotX(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getX();
+                this.y = MathHelper.rotY(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getY();
+
+                teleportToSurface(body);
+                CollisionUtil.resolveCollision(this, body);
+            }
+
+
         }
         this.ticksExisted++;
     }
@@ -179,10 +180,10 @@ public class Entity implements Serializable {
         double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
         int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
         double radius = body.getRadius() + body.getTerrain()[index] + 0.5;
-        double innermostradius = body.getRadius() + CollisionUtil.heightFromEntityAngle(this, body) - 4f;
+//        double innermostradius = body.getRadius() + CollisionUtil.heightFromEntityAngle(this, body) - 4f;
 
         double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
-        if (distance < innermostradius) {
+        if (distance < 1f) {
             this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
             this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
         }
