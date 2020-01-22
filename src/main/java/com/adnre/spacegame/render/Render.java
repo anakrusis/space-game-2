@@ -96,13 +96,12 @@ public class Render {
              EntityPlayer player = SpaceGame.world.getPlayer();
 
              if (player.getChunk() != null){
-                 RenderText.renderText(player.getChunk().getX() + "X", 15, -2, 1.0f);
-                 RenderText.renderText(player.getChunk().getY() + "Y", 15, -3, 1.0f);
+                 //RenderText.renderText(player.getChunk().getX() + "X", 15, -2, 1.0f);
+                 //RenderText.renderText(player.getChunk().getY() + "Y", 15, -3, 1.0f);
              }
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
 
-             RenderText.renderText("Grav: " + player.getGravityAttraction(), 6, 6, 0.45f);
-             RenderText.renderText("ExpH: " + CollisionUtil.heightFromEntityAngle(player, player.getNearestBody()), 6, 5, 0.45f);
+             //RenderText.renderText("Grav: " + player.getGravityAttraction(), 6, 6, 0.45f);
          }
 
          RenderText.renderText("Seed: " + world.getSeed(), 6, 8, 0.45f);
