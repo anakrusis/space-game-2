@@ -28,7 +28,7 @@ public class EntityCursor extends Entity {
         if (this.getChunk() != null){
             for (java.util.Map.Entry<UUID, Body> e : getChunk().getBodies().entrySet()) {
                 Body body = e.getValue();
-                if (CollisionUtil.isEntityCollidingWithEntity(this, body) && body.canEntitiesCollide){
+                if (CollisionUtil.isColliding(this, body) && body.canEntitiesCollide){
                     this.selectedEntity = body;
                 }
             }

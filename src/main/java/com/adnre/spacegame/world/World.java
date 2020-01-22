@@ -179,7 +179,6 @@ public class World implements Serializable {
             float height = CollisionUtil.heightFromEntityAngle(this.getPlayer(), getHomePlanet());
             double radius = getHomePlanet().getRadius() + height + 2f;
             this.getPlayer().setX(getHomePlanet().getX() + radius);
-            CollisionUtil.resolveCollision(this.getPlayer(), getHomePlanet());
         }
         this.mapTime++;
     }

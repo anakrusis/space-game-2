@@ -10,6 +10,7 @@ import com.adnre.spacegame.gui.TextBoxHotbarItem;
 import com.adnre.spacegame.render.entity.RenderBuilding;
 import com.adnre.spacegame.render.entity.RenderParticle;
 import com.adnre.spacegame.render.entity.RenderPlayer;
+import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.world.Chunk;
@@ -101,6 +102,7 @@ public class Render {
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
 
              RenderText.renderText("Grav: " + player.getGravityAttraction(), 6, 6, 0.45f);
+             RenderText.renderText("ExpH: " + CollisionUtil.heightFromEntityAngle(player, player.getNearestBody()), 6, 5, 0.45f);
          }
 
          RenderText.renderText("Seed: " + world.getSeed(), 6, 8, 0.45f);

@@ -6,141 +6,40 @@ import com.sun.javafx.geom.Vec3d;
 
 public class CollisionUtil {
 
-    // Todo fix still existing collision issues
-
-    public static boolean isEntityCollidingWithEntity(Entity entity, Entity body){
-        boolean isColliding;
-
-        double[] abspoints = body.getAbsolutePoints();
+    public static boolean isColliding(Entity entity, Body body){
         double[] entityAbsPoints = entity.getAbsolutePoints();
+        double nearestDist = 100000000;
+        double cd;
 
-        double bodyX, bodyY;
-        double bodyXNext, bodyYNext;
-        double entityX, entityY;
+        double nearestEntityX, nearestEntityY;
+        double cx, cy;
 
-        boolean between;
-        boolean intersecting;
-
-        for (int j = 0; j < entityAbsPoints.length; j += 2){
-
-            isColliding = false;
-
-            entityX = entityAbsPoints[j];
-            entityY = entityAbsPoints[j + 1];
-
-            for (int i = 0; i < abspoints.length; i += 2){
-                bodyX = abspoints[i];
-                bodyY = abspoints[i+1];
-
-                if ((i + 3) > abspoints.length){
-                    bodyXNext = abspoints[0];
-                    bodyYNext = abspoints[1];
-                }else {
-                    bodyXNext = abspoints[i + 2];
-                    bodyYNext = abspoints[i + 3];
-                }
-                between = (bodyY > entityY) != (bodyYNext > entityY);
-                intersecting = entityX < (bodyXNext - bodyX) * (entityY - bodyY) / (bodyYNext - bodyY) + bodyX;
-
-                if (between && intersecting){
-                    isColliding = !isColliding;
-                }
-            }
-
-            // If any of the points on Entity are colliding, then yes it is colliding.
-            if (isColliding){
-                return isColliding;
+        // Step 1: get the point on the entity nearest to the center of the body
+        for (int i = 0; i < entityAbsPoints.length; i += 2){
+            cx = entityAbsPoints[i];
+            cy = entityAbsPoints[i + 1];
+            cd = MathHelper.distance(cx, cy, body.getX(), body.getY());
+            if (cd < nearestDist){
+                nearestDist = cd;
+                nearestEntityX = cx;
+                nearestEntityY = cy;
             }
         }
-
-        return false;
+        double expectedDist = body.getRadius() + heightFromEntityAngle(entity, body);
+        return nearestDist < expectedDist;
     }
+    public static void resolveCollision(Entity entity, Body body){
+        double newx = entity.getX(), newy = entity.getY();
+        // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
+        double angleFromCenter = Math.atan2(entity.getY() - body.getY(), entity.getX() - body.getX());
 
-    public static void resolveCollision(Entity entity1, Entity entity2){
-        Entity e1 = entity1;
-        Entity e2 = entity2;
-        double[] e1AbsPoints, e2AbsPoints;
-        // Start and end points of diagonal
-        double diagSX, diagSY;
-        double diagEX, diagEY;
-
-        // Start and end points of edge
-        double edgeSX, edgeSY;
-        double edgeEX, edgeEY;
-
-        int terrainindex;
-
-        double displaceX, displaceY;
-
-        for (int currentpoly = 0; currentpoly < 2; currentpoly++){
-            if (currentpoly == 1){
-                e1 = entity2;
-                e2 = entity1;
-            }
-            if (e1 instanceof Body){
-                e1AbsPoints = CollisionUtil.getTriFromIndex((Body)e1, CollisionUtil.terrainIndexFromEntityAngle(e2, (Body)e1));
-            }
-            e1AbsPoints = e1.getAbsolutePoints();
-
-            // I tried doing a single triangle "pizza slice" of the body, but it seems
-            // to yield glitchier results than the full poly. Regardless, it is more optimized
-            if (e2 instanceof Body){
-                e2AbsPoints = CollisionUtil.getTriFromIndex((Body)e2, CollisionUtil.terrainIndexFromEntityAngle(e1, (Body)e2));
-            }
-            e2AbsPoints = e2.getAbsolutePoints();
-
-
-            for (int p = 0; p < e1AbsPoints.length; p += 2){
-                diagSX = e1.getX();
-                diagSY = e1.getY();
-                diagEX = e1AbsPoints[p];
-                diagEY = e1AbsPoints[p + 1];
-                displaceX = 0;
-                displaceY = 0;
-
-                for (int q = 0; q < e2AbsPoints.length; q += 2){
-                    edgeSX = e2AbsPoints[q];
-                    edgeSY = e2AbsPoints[q + 1];
-                    edgeEX = e2AbsPoints[ (q+2) % e2AbsPoints.length ];
-                    edgeEY = e2AbsPoints[ (q+3) % e2AbsPoints.length ];
-
-                    double h = (edgeEX - edgeSX) * (diagSY - diagEY) - (diagSX - diagEX) * (edgeEY - edgeSY);
-                    double t1 = ((edgeSY - edgeEY) * (diagSX - edgeSX) + (edgeEX - edgeSX) * (diagSY - edgeSY)) / h;
-                    double t2 = ((diagSY - diagEY) * (diagSX - edgeSX) + (diagEX - diagSX) * (diagSY - edgeSY)) / h;
-                    if (t1 >= 0.0f && t1 < 1.0f && t2 >= 0.0f && t2 < 1.0f)
-                    {
-                        displaceX += (1.0f - t1) * (diagEX - diagSX);
-                        displaceY += (1.0f - t1) * (diagEY - diagSY);
-                    }
-                }
-                double coefficient = (currentpoly == 0 ? -1f : 1f);
-
-                if (!(e1 instanceof Body)){
-                    e1.setX( e1.getX() + displaceX * coefficient);
-                    e1.setY( e1.getY() + displaceY * coefficient);
-                }
-            }
+        double expectedDist = body.getRadius() + heightFromEntityAngle(entity, body);
+        double distance = MathHelper.distance(entity.getX(), entity.getY(), body.getX(), body.getY());
+        if (distance < expectedDist) {
+            newx = (Math.cos(angleFromCenter) * expectedDist) + body.getX();
+            newy = (Math.sin(angleFromCenter) * expectedDist) + body.getY();
         }
-    }
-
-    // These two methods are an implementation of this point in triangle test:
-    // https://blackpawn.com/texts/pointinpoly/default.html
-
-    static boolean sameSide (Vec3d p1, Vec3d p2, Vec3d a, Vec3d b){
-        Vec3d product1 = new Vec3d();
-        Vec3d product2 = new Vec3d();
-        b.sub(a);
-        p1.sub(a);
-        p2.sub(a);
-        product1.cross( b, p1 );
-        product2.cross( b, p2 );
-        return ( product1.dot( product2 ) >= 0 );
-    }
-    public static boolean isPointInTriangle(Vec3d point, Vec3d tri1, Vec3d tri2, Vec3d tri3){
-        return
-            sameSide(point, tri1, tri2, tri3) &&
-            sameSide(point, tri2, tri1, tri3) &&
-            sameSide(point, tri3, tri1, tri2);
+        entity.setX(newx); entity.setY(newy);
     }
 
     // Based off of where an entity is on the body, returns the index of the body's terrain point.
@@ -234,12 +133,60 @@ public class CollisionUtil {
         currentHeight = terrain[cleanIndex];
         nextHeight = terrain[(cleanIndex + 1) % terrain.length];
 
-        interpolatedHeight = (currentHeight * messyDifference) + (nextHeight * (1 - messyDifference));
+        interpolatedHeight = (nextHeight * messyDifference) + (currentHeight * (1 - messyDifference));
         return (float)interpolatedHeight;
     }
 
     public static boolean isPointCollidingInBox( double pointx, double pointy, double boxX, double boxY, double boxWidth, double boxHeight){
         return (pointx > boxX && pointx < (boxX + boxWidth) &&
                 pointy < boxY && pointy > (boxY - boxHeight));
+    }
+
+    public static boolean isEntityCollidingWithEntity(Entity entity, Entity body){
+        boolean isColliding;
+
+        double[] abspoints = body.getAbsolutePoints();
+        double[] entityAbsPoints = entity.getAbsolutePoints();
+
+        double bodyX, bodyY;
+        double bodyXNext, bodyYNext;
+        double entityX, entityY;
+
+        boolean between;
+        boolean intersecting;
+
+        for (int j = 0; j < entityAbsPoints.length; j += 2){
+
+            isColliding = false;
+
+            entityX = entityAbsPoints[j];
+            entityY = entityAbsPoints[j + 1];
+
+            for (int i = 0; i < abspoints.length; i += 2){
+                bodyX = abspoints[i];
+                bodyY = abspoints[i+1];
+
+                if ((i + 3) > abspoints.length){
+                    bodyXNext = abspoints[0];
+                    bodyYNext = abspoints[1];
+                }else {
+                    bodyXNext = abspoints[i + 2];
+                    bodyYNext = abspoints[i + 3];
+                }
+                between = (bodyY > entityY) != (bodyYNext > entityY);
+                intersecting = entityX < (bodyXNext - bodyX) * (entityY - bodyY) / (bodyYNext - bodyY) + bodyX;
+
+                if (between && intersecting){
+                    isColliding = !isColliding;
+                }
+            }
+
+            // If any of the points on Entity are colliding, then yes it is colliding.
+            if (isColliding){
+                return isColliding;
+            }
+        }
+
+        return false;
     }
 }

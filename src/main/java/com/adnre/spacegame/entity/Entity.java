@@ -21,23 +21,24 @@ public class Entity implements Serializable {
     protected double y;
     protected float dir; // radians
 
+    // Physics stuff
     protected double velocity;
     protected double acceleration;
     protected boolean grounded;
     protected UUID groundedBodyUUID;
     protected float mass;
+    protected double elevation;
+    // Accessible for physics testing purposes
+    protected double gravityAttraction;
 
+    // Other stats and id stuff
     protected String name;
     public int ticksExisted;
+    protected boolean dead = false;
 
     transient protected World world;
     private static final long serialVersionUID = 6529685098267757690L;
     protected UUID uuid;
-
-    protected boolean dead = false;
-
-    // Accessible for physics testing purposes
-    protected double gravityAttraction;
 
     public Entity (double x, double y, float dir, World world){
         this.x = x;
@@ -96,7 +97,7 @@ public class Entity implements Serializable {
             for (Body body : this.getChunk().getBodies().values()) {
 
                 if (body.canEntitiesCollide){
-                    if (CollisionUtil.isEntityCollidingWithEntity(this, body)) {
+                    if (CollisionUtil.isColliding(this, body)) {
 
                         // Setting collision markers
                         if (this.velocity > 1.0 || body instanceof BodyStar) {
@@ -109,8 +110,8 @@ public class Entity implements Serializable {
                         }
                     }
                 } else {
-                    // Gravitation (simple linear pull towards the body)
-                    if (CollisionUtil.isEntityCollidingWithEntity(this, body)){
+                    // Gravitation (simple increasing pull towards the body)
+                    if (CollisionUtil.isColliding(this, body)){
                         if (body instanceof BodyGravityRadius) {
                             BodyGravityRadius bgr = (BodyGravityRadius) body;
                             Body dependentBody = bgr.getDependentBody();
@@ -226,6 +227,22 @@ public class Entity implements Serializable {
         }else{
             return this.getChunk().getBodies().get(groundedBodyUUID);
         }
+    }
+
+    public Body getNearestBody(){
+        double distance = 1000000000;
+        Body nearestbody = null;
+        if (this.getChunk() != null){
+            for (Body body: this.getChunk().getBodies().values()){
+                double cd = MathHelper.distance(body.getX(), body.getY(), this.x, this.y);
+                if (cd < distance){
+                    distance = cd;
+                     nearestbody = body;
+                }
+            }
+            return nearestbody;
+        }
+        return null;
     }
 
     public UUID getGroundedBodyUUID() {
