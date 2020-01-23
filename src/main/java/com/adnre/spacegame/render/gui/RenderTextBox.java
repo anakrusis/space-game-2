@@ -1,6 +1,7 @@
-package com.adnre.spacegame.render;
+package com.adnre.spacegame.render.gui;
 
 import com.adnre.spacegame.gui.TextBox;
+import com.adnre.spacegame.render.gui.RenderText;
 
 import static org.lwjgl.opengl.GL11.*;
 

@@ -129,4 +129,16 @@ public class EntityBuilding extends Entity {
         return null;
     }
 
+    @Override
+    public float[] getColor() {
+        if (getNation() != null) {
+            return getNation().getColor();
+        }else{
+            return new float[]{1f, 1f, 1f};
+        }
+    }
+
+    public Texture getWindowTexture(){
+        return null;
+    }
 }

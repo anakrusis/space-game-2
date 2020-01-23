@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 import com.adnre.spacegame.render.Camera;
-import com.adnre.spacegame.render.RenderText;
+import com.adnre.spacegame.render.gui.RenderText;
 import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.world.World;

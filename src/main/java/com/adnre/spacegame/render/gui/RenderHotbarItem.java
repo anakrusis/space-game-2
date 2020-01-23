@@ -1,6 +1,5 @@
-package com.adnre.spacegame.render;
+package com.adnre.spacegame.render.gui;
 
-import com.adnre.spacegame.entity.EntityBomb;
 import com.adnre.spacegame.entity.EntityPlayer;
 import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.gui.TextBoxHotbarItem;

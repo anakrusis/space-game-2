@@ -168,4 +168,9 @@ public class EntityPlayer extends Entity {
     public ItemStack getCurrentItemStack(){
         return inventory[currentItemSlot];
     }
+
+    @Override
+    public float[] getColor() {
+        return this.getNation().getColor();
+    }
 }

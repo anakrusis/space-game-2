@@ -3,7 +3,7 @@ package com.adnre.spacegame.render.entity;
 import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.BodyStar;
 import com.adnre.spacegame.render.Camera;
-import com.adnre.spacegame.render.RenderText;
+import com.adnre.spacegame.render.gui.RenderText;
 import com.adnre.spacegame.util.Reference;
 
 import static org.lwjgl.opengl.GL11.*;

@@ -1,4 +1,7 @@
-package com.adnre.spacegame.render;
+package com.adnre.spacegame.render.gui;
+
+import com.adnre.spacegame.render.Texture;
+import com.adnre.spacegame.render.Textures;
 
 import static org.lwjgl.opengl.GL11.*;
 

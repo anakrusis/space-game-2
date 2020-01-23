@@ -73,7 +73,12 @@ public class BuildingFactory extends EntityBuilding {
     }
 
     public Texture getTexture(){
-        return isActive() ? Textures.factory : Textures.factory_off;
+        return Textures.factory;
+    }
+
+    @Override
+    public Texture getWindowTexture() {
+        return Textures.factory_windows;
     }
 
     @Override

@@ -45,7 +45,7 @@ public class RenderPlayer {
 
         // This renders the player ship as a filled blue dorito
         glBegin(GL_POLYGON);
-        glColor3d(0d,1d,1d);
+        glColor3d(player.getColor()[0], player.getColor()[1], player.getColor()[2]);
 
         for (int i = 0; i < abspoints.length; i += 2){
             cx = camZoom * (abspoints[i] - camX);

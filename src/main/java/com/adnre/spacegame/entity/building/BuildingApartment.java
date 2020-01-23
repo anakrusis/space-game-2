@@ -50,6 +50,11 @@ public class BuildingApartment extends EntityBuilding {
     }
 
     @Override
+    public Texture getWindowTexture() {
+        return Textures.apartment_windows;
+    }
+
+    @Override
     public ItemStack getItemDropped() {
         return new ItemStack (Items.ITEM_APARTMENT, 1);
     }

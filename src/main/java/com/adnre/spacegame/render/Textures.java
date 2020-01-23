@@ -10,9 +10,11 @@ public class Textures {
     public static final Texture bold_font = new Texture ("font2.png");
 
     //buildings
-    public static final Texture factory = new Texture("factory.png");
-    public static final Texture apartment = new Texture("apartment.png");
-    public static final Texture factory_off = new Texture("factory_off.png");
+    public static final Texture factory = new Texture("factory_new.png");
+    public static final Texture factory_off = new Texture("factory_off_new.png");
+    public static final Texture factory_windows = new Texture("factory_windows.png");
+    public static final Texture apartment = new Texture("apartment_new.png");
+    public static final Texture apartment_windows = new Texture("apartment_windows.png");
     public static final Texture spaceport = new Texture("spaceport.png");
 
     //items

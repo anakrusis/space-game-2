@@ -19,7 +19,7 @@ public class Nation implements Serializable {
         this.name = name;
         this.homeStar = homestar;
         this.homePlanet = homeplanet;
-        this.color = new float[] {0, 0, 0};
+        this.color = new float[] {0.4f, 0.95f, 0.95f};
         this.uuid = UUID.randomUUID();
     }
 

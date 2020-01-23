@@ -23,8 +23,6 @@ public class Body extends Entity {
 
     public boolean canEntitiesCollide = false;
 
-    protected float[] color;
-
     // Each com.adnre.spacegame.item in terrain is a relative coordinate away or toward 0, which is the radius
     protected float[] terrain;
 
@@ -82,10 +80,6 @@ public class Body extends Entity {
         }
 
         return absPoints;
-    }
-
-    public float[] getColor() {
-        return color;
     }
 
     public String getName() {

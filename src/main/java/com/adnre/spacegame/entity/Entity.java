@@ -20,6 +20,7 @@ public class Entity implements Serializable {
     protected double x;
     protected double y;
     protected float dir; // radians
+    protected float[] color;
 
     // Physics stuff
     protected double velocity;
@@ -51,6 +52,7 @@ public class Entity implements Serializable {
         this.grounded = false;
         this.mass = 1f;
         this.name = "Entity";
+        this.color = new float[]{1f, 1f, 1f};
     }
 
     public double getX() {
@@ -292,5 +294,9 @@ public class Entity implements Serializable {
 
     public Texture getTexture(){
         return null;
+    }
+
+    public float[] getColor() {
+        return color;
     }
 }
