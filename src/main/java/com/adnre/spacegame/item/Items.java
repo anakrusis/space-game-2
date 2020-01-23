@@ -11,11 +11,8 @@ public class Items {
 
     public static final Item ITEM_MINING_LASER = new ItemMiningLaser("Mining Laser");
     public static final Item ITEM_BOMB = new ItemBomb("Plasma Bomb");
+    public static final Item ITEM_SPACEPORT = new ItemSpaceport("Spaceport");
 
     public static void register(){
-        Items.add(ITEM_FACTORY);
-        Items.add(ITEM_APARTMENT);
-        Items.add(ITEM_MINING_LASER);
-        Items.add(ITEM_BOMB);
     }
 }

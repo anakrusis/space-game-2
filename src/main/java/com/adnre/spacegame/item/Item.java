@@ -15,6 +15,7 @@ public class Item implements Serializable {
     public Item(String name){
         this.name = name;
         this.maxStackSize = 99;
+        Items.Items.add(this);
     }
     public Texture getTexture(){
         return null;

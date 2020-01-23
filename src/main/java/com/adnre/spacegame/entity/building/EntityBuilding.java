@@ -28,10 +28,10 @@ public class EntityBuilding extends Entity {
     @Override
     public double[] getAbsolutePoints() {
         double[] relpoints = new double[]{
-            -0.5, -0.5,
-            0.5, -0.5,
-            0.5, 0.5,
-            -0.5, 0.5
+                -1, -1,
+                1.5, -1,
+                1.5, 1,
+                -1, 1
         };
         double[] abspoints = new double[relpoints.length];
         for (int i = 0; i < abspoints.length; i += 2){

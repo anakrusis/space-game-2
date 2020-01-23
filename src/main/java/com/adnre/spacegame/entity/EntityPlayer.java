@@ -13,6 +13,8 @@ import java.util.UUID;
 
 public class EntityPlayer extends Entity {
     private float money;
+    private float fuel;
+    private float fuelCapacity;
 
     private ItemStack[] inventory = new ItemStack[9];
     private int currentItemSlot = 0;
@@ -29,6 +31,9 @@ public class EntityPlayer extends Entity {
         }else{
             this.money = 0;
         }
+        this.fuel = 100;
+        this.fuelCapacity = 100;
+
         this.name = "Player";
         this.nationUUID = null;
 
@@ -38,6 +43,7 @@ public class EntityPlayer extends Entity {
         this.inventory[2] = new ItemStack(Items.ITEM_APARTMENT, 99);
 
         this.addInventory( new ItemStack (Items.ITEM_BOMB, 99) );
+        this.addInventory( new ItemStack (Items.ITEM_SPACEPORT, 99));
     }
 
     @Override
