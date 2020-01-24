@@ -82,9 +82,11 @@ public class EntityBuilding extends Entity {
 
                     // If there already is another building at that spot, then give the player back their item
                     }else{
-                        this.dead = true;
-                        if (this.world.getPlayer() != null){
-                            this.world.getPlayer().addInventory(this.getItemDropped());
+                        if (this.planetIndex == -1){
+                            this.dead = true;
+                            if (this.world.getPlayer() != null){
+                                this.world.getPlayer().addInventory(this.getItemDropped());
+                            }
                         }
                     }
                 }
@@ -147,7 +149,7 @@ public class EntityBuilding extends Entity {
 
     public void moveToIndexOnPlanet(int index, BodyPlanet planet){
         float angle = (float) (planet.getDir() + (2f * Math.PI * ((index + 0.5f) / planet.getTerrainSize())));
-        double rad = planet.getRadius() + CollisionUtil.heightFromEntityAngle(this, planet) + 0.8;
+        double rad = planet.getRadius() + CollisionUtil.heightFromEntityAngle(this, planet) + 1;
         this.x = MathHelper.rotX(angle, rad, 0) + planet.getX();
         this.y = MathHelper.rotY(angle, rad, 0) + planet.getY();
 
