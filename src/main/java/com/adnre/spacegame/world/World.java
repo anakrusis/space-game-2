@@ -4,11 +4,11 @@ import com.adnre.spacegame.entity.*;
 import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
+import com.adnre.spacegame.entity.building.BuildingApartment;
+import com.adnre.spacegame.entity.building.BuildingFactory;
+import com.adnre.spacegame.entity.building.BuildingSpaceport;
 import com.adnre.spacegame.entity.building.EntityBuilding;
-import com.adnre.spacegame.util.CollisionUtil;
-import com.adnre.spacegame.util.NymGen;
-import com.adnre.spacegame.util.RandomUtil;
-import com.adnre.spacegame.util.SpawnUtil;
+import com.adnre.spacegame.util.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -73,6 +73,24 @@ public class World implements Serializable {
         Nation playerNation = new Nation(nationName, homeStar, homePlanet);
         homePlanet.setNationUUID(playerNation.getUuid());
         nations.put(playerNation.getUuid(), playerNation);
+
+        // Spawns a city centered around the index 0 of the planet.
+        homePlanet.spawnBuilding(new BuildingSpaceport(0, 0, 0, this), 0);
+        for (int i = -5; i < 5; i++){
+            int index = MathHelper.loopyMod( i, homePlanet.getTerrainSize() );
+            EntityBuilding building;
+
+            // Apartments are randomly filled between half and full capacity.
+            if (RandomUtil.fromRangeI(0, 100) > 76){
+                building = new BuildingApartment(0, 0, 0, this);
+                BuildingApartment apt = ((BuildingApartment) building);
+                int pop = RandomUtil.fromRangeI( apt.getCapacity()/2, apt.getCapacity() );
+                apt.setPopulation( pop );
+            }else{
+                building = new BuildingFactory(0, 0, 0, this);
+            }
+            homePlanet.spawnBuilding(building, index);
+        }
 
         this.playerNationUUID = playerNation.getUuid();
         this.homePlanetUUID = homePlanet.getUuid();

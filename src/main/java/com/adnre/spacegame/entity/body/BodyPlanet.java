@@ -4,6 +4,7 @@ import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.building.BuildingApartment;
 import com.adnre.spacegame.entity.building.BuildingFactory;
+import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.Chunk;
@@ -33,7 +34,6 @@ public class BodyPlanet extends Body {
         this.starUUID = starUUID;
         this.orbitDistance = orbitDistance;
         this.orbitPeriod = RandomUtil.fromRangeI(90000, 200000);
-        //this.rotSpeed = 0.05f;
         this.rotSpeed = 0.0005f;
 
         // the stone color, or whatever
@@ -132,38 +132,17 @@ public class BodyPlanet extends Body {
         return starUUID;
     }
 
-    //public EntityBuilding[] getBuildings() {
-        //return buildings;
-    //}
-
     public UUID[] getBuildingUUIDs() {
         return buildingUUIDs;
     }
 
     public EntityBuilding getBuilding (int index){
         UUID key = this.buildingUUIDs[index];
-        return (EntityBuilding) SpaceGame.world.getEntities().get( key );
-    }
-
-    public float[] getStoneColor() {
-        return stoneColor;
-    }
-
-    public double[] getStonePoints(){
-        double[] stonePoints = new double[terrain.length * 2];
-
-        for (int i = 0; i < terrain.length; i++){
-            double angle = this.dir + (i * (2 * Math.PI) / terrain.length);
-
-            double terrane = Math.min(0, terrain[i]);
-            double pointx = MathHelper.rotX((float) angle, this.radius + terrane, 0.0d) + this.x;
-            double pointy = MathHelper.rotY((float) angle, this.radius + terrane, 0.0d) + this.y;
-
-            stonePoints[2 * i] = pointx;
-            stonePoints[(2 * i) + 1] = pointy;
+        if (key != null){
+            return (EntityBuilding) SpaceGame.world.getEntities().get( key );
+        }else{
+            return null;
         }
-
-        return stonePoints;
     }
 
     public int getPopulation() {
@@ -188,5 +167,18 @@ public class BodyPlanet extends Body {
 
     public float getOrbitStart() {
         return orbitStart;
+    }
+
+    public void spawnBuilding(EntityBuilding building, int index){
+        if (this.buildingUUIDs[index] == null){
+            world.spawnEntity(building);
+
+            buildingUUIDs[index] = building.getUuid();
+            building.setPlanetIndex(index);
+            building.setGrounded(true);
+            building.setGroundedBodyUUID(this.uuid);
+
+            building.moveToIndexOnPlanet(index, this);
+        }
     }
 }

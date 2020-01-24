@@ -20,4 +20,5 @@ public class Reference {
     public static final boolean DEBUG_MODE = true;
     // DeaSTL wanted me to make it hot pink so if you want your build to have a hot pink background, you know what to do
     public static final boolean DEASTL_MODE = false;
+    public static final boolean COLLISION_DEBUG_LINES = false;
 }

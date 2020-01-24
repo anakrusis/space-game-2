@@ -16,7 +16,6 @@ public class RenderPlanet {
         double camZoom = camera.getZoom();
 
         double[] absPoints = planet.getAbsolutePoints();
-        double[] stonePoints = planet.getStonePoints();
         float[] texpoints = new float[]{
                 0, 0,
                 1f, 0,

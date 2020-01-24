@@ -1,6 +1,5 @@
 package com.adnre.spacegame.render;
 
-import com.adnre.spacegame.SpaceGame;
 import org.lwjgl.BufferUtils;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -15,6 +14,7 @@ public class Texture {
     private int id;
     private int width;
     private int height;
+    private ByteBuffer pixels;
 
     private String filename;
 
@@ -45,6 +45,7 @@ public class Texture {
                 }
             }
             ((Buffer)pixels).flip();
+            this.pixels = pixels;
             id = glGenTextures();
             glBindTexture(GL_TEXTURE_2D, id);
 
@@ -68,5 +69,9 @@ public class Texture {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public ByteBuffer getPixels() {
+        return pixels;
     }
 }

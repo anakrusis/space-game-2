@@ -3,6 +3,7 @@ package com.adnre.spacegame;
 import com.adnre.spacegame.gui.*;
 import com.adnre.spacegame.item.Items;
 import com.adnre.spacegame.render.Render;
+import com.adnre.spacegame.render.Texture;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -13,6 +14,7 @@ import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.world.World;
 
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Random;
@@ -166,6 +168,13 @@ public class SpaceGame {
                 GL11.glViewport(0, 0, width, height);
             }
         });
+//        Texture icon = Textures.apartment;
+//        GLFWImage iconImage = GLFWImage.malloc();
+//        GLFWImage.Buffer iconBuffer = GLFWImage.malloc(1);
+//        iconImage.set(16, 24, icon.getPixels());
+//        iconBuffer.put(0, iconImage);
+//
+//        glfwSetWindowIcon(window, iconBuffer);
 
         RenderText.setFont(Textures.test_texture);
 

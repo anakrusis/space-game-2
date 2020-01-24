@@ -251,6 +251,10 @@ public class Entity implements Serializable {
         return groundedBodyUUID;
     }
 
+    public void setGroundedBodyUUID(UUID groundedBodyUUID) {
+        this.groundedBodyUUID = groundedBodyUUID;
+    }
+
     public void setGrounded(boolean grounded) {
         this.grounded = grounded;
     }

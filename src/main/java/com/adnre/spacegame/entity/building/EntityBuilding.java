@@ -78,13 +78,7 @@ public class EntityBuilding extends Entity {
                     // If this is the building at that spot, align it with the grid of terrain
                     }else if (planet.getBuildingUUIDs()[index].equals(this.uuid)){
 
-                        float angle = (float) (planet.getDir() + (2f * Math.PI * ((index + 0.5f) / planet.getTerrainSize())));
-                        double rad = planet.getRadius() + CollisionUtil.heightFromEntityAngle(this, planet) + 0.8;
-                        this.x = MathHelper.rotX(angle, rad, 0) + planet.getX();
-                        this.y = MathHelper.rotY(angle, rad, 0) + planet.getY();
-
-                        double angleFromCenter = Math.atan2(this.y - planet.getY(), this.x - planet.getX());
-                        this.dir = (float)angleFromCenter;
+                        moveToIndexOnPlanet(index, planet);
 
                     // If there already is another building at that spot, then give the player back their item
                     }else{
@@ -96,10 +90,19 @@ public class EntityBuilding extends Entity {
                 }
             }
         }
+
+        // I don't know why but you need both this and the above code (which does the same thing?)
+        if (planetIndex > -1 && this.getGroundedBody() != null){
+            moveToIndexOnPlanet(planetIndex, (BodyPlanet) this.getGroundedBody());
+        }
     }
 
     public int getPlanetIndex() {
         return planetIndex;
+    }
+
+    public void setPlanetIndex(int planetIndex) {
+        this.planetIndex = planetIndex;
     }
 
     public EntityPlayer getPlayerPlaced() {
@@ -140,5 +143,15 @@ public class EntityBuilding extends Entity {
 
     public Texture getWindowTexture(){
         return null;
+    }
+
+    public void moveToIndexOnPlanet(int index, BodyPlanet planet){
+        float angle = (float) (planet.getDir() + (2f * Math.PI * ((index + 0.5f) / planet.getTerrainSize())));
+        double rad = planet.getRadius() + CollisionUtil.heightFromEntityAngle(this, planet) + 0.8;
+        this.x = MathHelper.rotX(angle, rad, 0) + planet.getX();
+        this.y = MathHelper.rotY(angle, rad, 0) + planet.getY();
+
+        double angleFromCenter = Math.atan2(this.y - planet.getY(), this.x - planet.getX());
+        this.dir = (float)angleFromCenter;
     }
 }

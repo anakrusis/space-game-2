@@ -55,7 +55,7 @@ public class RenderChunk {
                 RenderStar.renderStar(body, true, camera);
             }
 
-            if (SpaceGame.world.getPlayer() != null && Reference.DEBUG_MODE){
+            if (SpaceGame.world.getPlayer() != null && Reference.COLLISION_DEBUG_LINES){
                 int index = CollisionUtil.terrainIndexFromEntityAngle(SpaceGame.world.getPlayer(), body);
                 double[] tri = CollisionUtil.getTriFromIndex(body, index);
                 glColor3d(1.0,0.0,0.0);

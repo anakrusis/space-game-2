@@ -33,6 +33,10 @@ public class BuildingApartment extends EntityBuilding {
         return population;
     }
 
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
     public int getCapacity() {
         return capacity;
     }

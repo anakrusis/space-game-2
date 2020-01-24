@@ -106,21 +106,6 @@ public class Chunk implements Serializable {
         this.world = world;
     }
 
-    // Returns the which star it is in the chunk (usually theres only 1 so anything else would return null)
-    public BodyStar getStar( int index ){
-        int counter = 0; // Counts the number of stars which have been iterated through
-        for (int i = 0; i < this.getBodies().size(); i++){
-            if (this.getBodies().get(i) instanceof BodyStar){
-                if (counter == index){
-                    return (BodyStar)this.getBodies().get(i);
-                }else{
-                    counter++;
-                }
-            }
-        }
-        return null;
-    }
-
     public void spawnBody(Body body){
         UUID bodyuuid = UUID.randomUUID();
         UUID gravuuid = UUID.randomUUID();
