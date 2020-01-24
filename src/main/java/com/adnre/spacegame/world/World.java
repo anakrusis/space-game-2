@@ -74,29 +74,18 @@ public class World implements Serializable {
         homePlanet.setNationUUID(playerNation.getUuid());
         nations.put(playerNation.getUuid(), playerNation);
 
-        // Spawns a city centered around the index 0 of the planet.
-        homePlanet.spawnBuilding(new BuildingSpaceport(0, 0, 0, this), 0);
-        for (int i = -5; i < 5; i++){
-            int index = MathHelper.loopyMod( i, homePlanet.getTerrainSize() );
-            EntityBuilding building;
-
-            // Apartments are randomly filled between half and full capacity.
-            if (RandomUtil.fromRangeI(0, 100) > 76){
-                building = new BuildingApartment(0, 0, 0, this);
-                BuildingApartment apt = ((BuildingApartment) building);
-                int pop = RandomUtil.fromRangeI( apt.getCapacity()/2, apt.getCapacity() );
-                apt.setPopulation( pop );
-            }else{
-                building = new BuildingFactory(0, 0, 0, this);
-            }
-            homePlanet.spawnBuilding(building, index);
-        }
+        Nation rivalNation = new Nation(nationName, homeStar, homePlanet);
+        rivalNation.setColor( new float[] { 0.7f, 0.2f, 0.2f } );
+        nations.put(rivalNation.getUuid(), rivalNation);
 
         this.playerNationUUID = playerNation.getUuid();
         this.homePlanetUUID = homePlanet.getUuid();
         this.homeStarUUID = homeStar.getUuid();
         this.homeChunkX = homePlanet.getChunk().getX();
         this.homeChunkY = homePlanet.getChunk().getY();
+
+        homePlanet.spawnCity(0, playerNationUUID);
+        homePlanet.spawnCity(40, rivalNation.getUuid());
     }
     public World(int xSize, int ySize, long seed){
         this(xSize, ySize, 0, seed);
@@ -223,6 +212,10 @@ public class World implements Serializable {
 
     public Nation getPlayerNation() {
         return nations.get(playerNationUUID);
+    }
+
+    public UUID getPlayerNationUUID() {
+        return playerNationUUID;
     }
 
     public void spawnEntity(Entity entity){

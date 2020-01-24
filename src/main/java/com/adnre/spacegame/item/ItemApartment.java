@@ -20,6 +20,6 @@ public class ItemApartment extends ItemBuilding {
 
     @Override
     public EntityBuilding getBuilding(double x, double y, float dir, World world) {
-        return new BuildingApartment(x, y, dir, world);
+        return new BuildingApartment(x, y, dir, world, world.getPlayerNationUUID());
     }
 }

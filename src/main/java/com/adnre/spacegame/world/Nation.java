@@ -32,6 +32,10 @@ public class Nation implements Serializable {
         return color;
     }
 
+    public void setColor(float[] color) {
+        this.color = color;
+    }
+
     public BodyPlanet getHomePlanet() {
         return homePlanet;
     }

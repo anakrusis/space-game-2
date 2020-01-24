@@ -38,9 +38,6 @@ public class GuiHandler {
 
                     // All building properties
                     if (e instanceof EntityBuilding){
-                        if (((EntityBuilding) e).getPlayerPlaced() != null){
-                            tx.addTextBody("\nBuilt by " + ((EntityBuilding) e).getPlayerPlaced().getName());
-                        }
                         if (((EntityBuilding) e).isActive()){
                             tx.addTextBody("\nActive");
                         }else{

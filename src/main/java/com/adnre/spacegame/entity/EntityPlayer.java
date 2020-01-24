@@ -127,6 +127,10 @@ public class EntityPlayer extends Entity {
         this.nationUUID = uuid;
     }
 
+    public UUID getNationUUID() {
+        return nationUUID;
+    }
+
     public Nation getNation() {
         return world.getNations().get(nationUUID);
     }

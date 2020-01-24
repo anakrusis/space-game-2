@@ -7,6 +7,8 @@ import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.world.World;
 
+import java.util.UUID;
+
 public class ItemSpaceport extends ItemBuilding {
     public ItemSpaceport(String name) {
         super(name);
@@ -21,6 +23,6 @@ public class ItemSpaceport extends ItemBuilding {
 
     @Override
     public EntityBuilding getBuilding(double x, double y, float dir, World world) {
-        return new BuildingSpaceport(x, y, dir, world);
+        return new BuildingSpaceport(x, y, dir, world, world.getPlayerNationUUID());
     }
 }

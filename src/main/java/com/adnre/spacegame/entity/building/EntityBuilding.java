@@ -10,19 +10,21 @@ import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
+import java.util.UUID;
+
 public class EntityBuilding extends Entity {
 
     private int planetIndex = -1;
-    transient protected EntityPlayer playerPlaced;
     protected int price;
+    protected UUID nationUUID;
 
-    public EntityBuilding(double x, double y, float dir, World world, EntityPlayer playerPlaced) {
+    public EntityBuilding(double x, double y, float dir, World world, UUID nationUUID) {
         super(x, y, dir, world);
-        this.playerPlaced = playerPlaced;
         this.name = "Building";
+        this.nationUUID = nationUUID;
     }
     public EntityBuilding(double x, double y, float dir, World world){
-        this(x, y, dir, world,null);
+        this(x, y, dir, world,world.getPlayer().getNationUUID());
     }
 
     @Override
@@ -107,14 +109,6 @@ public class EntityBuilding extends Entity {
         this.planetIndex = planetIndex;
     }
 
-    public EntityPlayer getPlayerPlaced() {
-        return playerPlaced;
-    }
-
-    public void setPlayerPlaced(EntityPlayer playerPlaced) {
-        this.playerPlaced = playerPlaced;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -124,12 +118,13 @@ public class EntityBuilding extends Entity {
     }
 
     public Nation getNation() {
-        if (this.getGroundedBody() instanceof BodyPlanet){
-            return ((BodyPlanet) this.getGroundedBody()).getNation();
-        }else{
-            return null;
-        }
+        return world.getNations().get(nationUUID);
     }
+
+    public UUID getNationUUID() {
+        return nationUUID;
+    }
+
     public ItemStack getItemDropped(){
         return null;
     }

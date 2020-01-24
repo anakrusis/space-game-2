@@ -7,9 +7,11 @@ import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.world.World;
 
+import java.util.UUID;
+
 public class BuildingSpaceport extends EntityBuilding {
-    public BuildingSpaceport(double x, double y, float dir, World world) {
-        super(x, y, dir, world, null);
+    public BuildingSpaceport(double x, double y, float dir, World world, UUID nationUUID) {
+        super(x, y, dir, world, nationUUID);
         this.price = 100;
         this.name = "Spaceport";
     }

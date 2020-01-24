@@ -1,6 +1,7 @@
 package com.adnre.spacegame.entity.body;
 
 import com.adnre.spacegame.SpaceGame;
+import com.adnre.spacegame.entity.building.BuildingSpaceport;
 import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.building.BuildingApartment;
 import com.adnre.spacegame.entity.building.BuildingFactory;
@@ -179,6 +180,26 @@ public class BodyPlanet extends Body {
             building.setGroundedBodyUUID(this.uuid);
 
             building.moveToIndexOnPlanet(index, this);
+        }
+    }
+
+    public void spawnCity(int index, UUID nation){
+        // Spawns a city centered around the index 0 of the planet.
+        spawnBuilding(new BuildingSpaceport(0, 0, 0, world, nation), index);
+        for (int i = -5; i < 5; i++){
+            int ind2 = MathHelper.loopyMod( index + i, this.getTerrainSize() );
+            EntityBuilding building;
+
+            // Apartments are randomly filled between half and full capacity.
+            if (RandomUtil.fromRangeI(0, 100) > 76){
+                building = new BuildingApartment(0, 0, 0, world, nation);
+                BuildingApartment apt = ((BuildingApartment) building);
+                int pop = RandomUtil.fromRangeI( apt.getCapacity()/2, apt.getCapacity() );
+                apt.setPopulation( pop );
+            }else{
+                building = new BuildingFactory(0, 0, 0, world, nation);
+            }
+            this.spawnBuilding(building, ind2);
         }
     }
 }

@@ -20,6 +20,6 @@ public class ItemFactory extends ItemBuilding {
 
     @Override
     public EntityBuilding getBuilding(double x, double y, float dir, World world) {
-        return new BuildingFactory(x, y, dir, world);
+        return new BuildingFactory(x, y, dir, world, world.getPlayerNationUUID());
     }
 }

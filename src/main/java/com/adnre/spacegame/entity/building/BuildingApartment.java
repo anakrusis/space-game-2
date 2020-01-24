@@ -9,13 +9,15 @@ import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.World;
 
+import java.util.UUID;
+
 public class BuildingApartment extends EntityBuilding {
 
     private int population;
     private int capacity;
 
-    public BuildingApartment(double x, double y, float dir, World world, EntityPlayer player) {
-        super(x, y, dir, world, player);
+    public BuildingApartment(double x, double y, float dir, World world, UUID nation) {
+        super(x, y, dir, world, nation);
         this.price = 25;
         this.capacity = 100;
         this.name = "Apartment";

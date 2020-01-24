@@ -9,6 +9,8 @@ import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.world.World;
 
+import java.util.UUID;
+
 public class BuildingFactory extends EntityBuilding {
 
     private int employees;
@@ -16,8 +18,8 @@ public class BuildingFactory extends EntityBuilding {
     private int output;
     private int outputInterval = 300;
 
-    public BuildingFactory(double x, double y, float dir, World world, EntityPlayer player) {
-        super(x, y, dir, world, player);
+    public BuildingFactory(double x, double y, float dir, World world, UUID nation) {
+        super(x, y, dir, world, nation);
         this.price = 50;
         this.name = "Factory";
         this.capacity = 45;
