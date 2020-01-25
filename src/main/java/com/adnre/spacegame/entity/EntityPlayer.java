@@ -31,8 +31,8 @@ public class EntityPlayer extends Entity {
         }else{
             this.money = 0;
         }
-        this.fuel = 100;
         this.fuelCapacity = 100;
+        this.fuel = fuelCapacity;
 
         this.name = "Player";
         this.nationUUID = null;
@@ -176,5 +176,20 @@ public class EntityPlayer extends Entity {
     @Override
     public float[] getColor() {
         return this.getNation().getColor();
+    }
+
+    public float getFuel() {
+        return fuel;
+    }
+
+    public void setFuel(float fuel) {
+        this.fuel = fuel;
+    }
+    public void addFuel(float amount){
+        this.fuel += amount;
+    }
+
+    public float getFuelCapacity() {
+        return fuelCapacity;
     }
 }

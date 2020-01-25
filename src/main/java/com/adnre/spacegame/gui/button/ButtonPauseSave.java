@@ -1,8 +1,10 @@
-package com.adnre.spacegame.gui;
+package com.adnre.spacegame.gui.button;
 
 
 import com.adnre.spacegame.FileHandler;
 import com.adnre.spacegame.SpaceGame;
+import com.adnre.spacegame.gui.EnumGui;
+import com.adnre.spacegame.gui.button.Button;
 
 public class ButtonPauseSave extends Button {
     public ButtonPauseSave(float x, float y, String header, String textBody, EnumGui eg) {

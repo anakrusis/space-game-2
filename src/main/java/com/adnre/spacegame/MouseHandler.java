@@ -1,6 +1,7 @@
 package com.adnre.spacegame;
 
 import com.adnre.spacegame.entity.EntityBomb;
+import com.adnre.spacegame.entity.building.BuildingSpaceport;
 import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.EntityCursor;
 import com.adnre.spacegame.entity.EntityPlayer;
@@ -87,6 +88,12 @@ public class MouseHandler {
                         EntityBomb bomb = new EntityBomb(cursor.getX(), cursor.getY(), player.getDir(), world);
                         world.spawnEntity( bomb );
                         itemstack.shrink();
+                    }
+
+                // BLANK HAND ACTIONS (No item selected)
+                } else {
+                    if (cursor.getSelectedEntity() instanceof BuildingSpaceport){
+                        GuiElements.WINDOW_SPACEPORT.setVisible(true);
                     }
                 }
             }

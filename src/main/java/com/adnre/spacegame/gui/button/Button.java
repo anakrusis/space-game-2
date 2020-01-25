@@ -1,4 +1,7 @@
-package com.adnre.spacegame.gui;
+package com.adnre.spacegame.gui.button;
+
+import com.adnre.spacegame.gui.EnumGui;
+import com.adnre.spacegame.gui.TextBox;
 
 public class Button extends TextBox {
     public Button(float x, float y, float width, float height, String header, String textBody, EnumGui eg, boolean visible) {

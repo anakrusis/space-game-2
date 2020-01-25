@@ -96,6 +96,10 @@ public class TextBox {
 
     }
 
+    public void update(){
+
+    }
+
     public boolean isVisible() {
         return isVisible;
     }

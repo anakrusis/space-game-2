@@ -1,6 +1,7 @@
 package com.adnre.spacegame;
 
 import com.adnre.spacegame.entity.Entity;
+import com.adnre.spacegame.entity.building.BuildingSpaceport;
 import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.EntityCursor;
 import com.adnre.spacegame.entity.body.BodyPlanet;
@@ -10,6 +11,7 @@ import com.adnre.spacegame.entity.building.BuildingFactory;
 import com.adnre.spacegame.gui.EnumGui;
 import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.gui.TextBoxHotbarItem;
+import com.adnre.spacegame.gui.Window;
 import com.adnre.spacegame.item.ItemStack;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class GuiHandler {
 
         for (int i = 0; i < elements.size(); i ++){
             TextBox tx = elements.get(i);
+            tx.update();
 
             if (tx.getGuiID() == EnumGui.GUI_SELECTED_ENTITY){
                 tx.setHeader("");
@@ -88,30 +91,11 @@ public class GuiHandler {
                         tx.addTextBody("\nEmployees: " + ((BuildingFactory) e).getEmployees());
                         tx.addTextBody("/" + ((BuildingFactory) e).getCapacity());
                         tx.addTextBody("\nOutput: $" + ((BuildingFactory) e).getOutput());
-                    }
 
-                    if (e instanceof EntityBuilding && e.isGrounded()) {
-                        tx.addTextBody("\n\nGrounded");
+                    }else if (e instanceof BuildingSpaceport){
+                        tx.addTextBody("\n\nClick without any \nitem selected to \nview the Spaceport \nmenu.");
                     }
                 }
-            } else if (tx.getGuiID() == EnumGui.GUI_HOTBAR_ITEM) {
-                TextBoxHotbarItem tbhi = (TextBoxHotbarItem)tx;
-                if (SpaceGame.world.getPlayer() != null){
-                    ItemStack item = SpaceGame.world.getPlayer().getInventory()[tbhi.getInventoryIndex()];
-                    if (item != null){
-                        tx.setHeader("\n\n" + item.getAmount());
-                    }else{
-                        tx.setHeader("");
-                    }
-
-                    // Lights up the hotbar item which is currently selected by the player, if any
-                    if (SpaceGame.world.getPlayer().getCurrentItemSlot() == tbhi.getInventoryIndex()){
-                        tbhi.setBgColor(new float[]{ 0.9f, 0.9f, 1f });
-                    }else{
-                        tbhi.setBgColor(new float[]{ 0.50f, 0.55f, 0.65f });
-                    }
-                }
-
             // Todo proper screen handling, maybe register different gui elements to different arrayLists and swap them?
             } else if (tx.getGuiID() == EnumGui.GUI_BUTTON_STORE_BUY || tx.getGuiID() == EnumGui.GUI_STORE_BACKGROUND
                     || tx.getGuiID() == EnumGui.GUI_BUTTON_STORE_CLOSE){
@@ -119,6 +103,13 @@ public class GuiHandler {
             } else if (tx.getGuiID() == EnumGui.GUI_BUTTON_PAUSE_RESUME || tx.getGuiID() == EnumGui.GUI_BUTTON_PAUSE_LOAD
                     || tx.getGuiID() == EnumGui.GUI_BUTTON_PAUSE_SAVE){
                 tx.setVisible( SpaceGame.isPaused() );
+            }
+        }
+
+        // Updating individual gui elements inside of a window to comply with the main window visibility
+        for (Window window : SpaceGame.windows){
+            for (TextBox t : window.getGuiElements()){
+                t.setVisible(window.isVisible());
             }
         }
     }

@@ -104,6 +104,9 @@ public class Render {
              }
              RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
 
+             String fueltext = "Fuel: " + Math.round(player.getFuel()) + "/" + Math.round(player.getFuelCapacity());
+             RenderText.renderText(fueltext, -12, 5.5f, 0.45f);
+
              //RenderText.renderText("Grav: " + player.getGravityAttraction(), 6, 6, 0.45f);
          }
 

@@ -1,9 +1,13 @@
 package com.adnre.spacegame.gui;
 
+import com.adnre.spacegame.gui.button.*;
 import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.item.Items;
 
 public class GuiElements {
+
+    public static Window WINDOW_SPACEPORT = new Window(false);
+
     public static void initGui(){
 
         // Main screen
@@ -25,5 +29,13 @@ public class GuiElements {
         Button resumeButton = new Button(-4, 2, 7, 1, "  Resume Game", "", EnumGui.GUI_BUTTON_PAUSE_RESUME, false);
         Button savebutton = new ButtonPauseSave(-4, 0, "  Save Game", "", EnumGui.GUI_BUTTON_PAUSE_SAVE);
         Button loadbutton = new ButtonPauseLoad(-4, -2, "  Load Game", "", EnumGui.GUI_BUTTON_PAUSE_LOAD);
+
+        // spaceport screen
+        TextBox spaceportBG = new TextBox( -6, 5, 12, 8, "Spaceport", "", EnumGui.GUI_STORE_BACKGROUND, false, true);
+        Button spaceportRefuel = new ButtonRefuel(-5, 4, 8, 1, "Refuel", "", EnumGui.GUI_BUTTON_SPACEPORT_REFUEL, false);
+        ButtonCloseWindow spaceportClose = new ButtonCloseWindow(5, 4.75f, WINDOW_SPACEPORT);
+        WINDOW_SPACEPORT.add(spaceportBG);
+        WINDOW_SPACEPORT.add(spaceportRefuel);
+        WINDOW_SPACEPORT.add(spaceportClose);
     }
 }

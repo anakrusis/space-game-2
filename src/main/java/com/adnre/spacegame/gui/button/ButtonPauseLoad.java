@@ -1,7 +1,9 @@
-package com.adnre.spacegame.gui;
+package com.adnre.spacegame.gui.button;
 
 import com.adnre.spacegame.FileHandler;
 import com.adnre.spacegame.SpaceGame;
+import com.adnre.spacegame.gui.EnumGui;
+import com.adnre.spacegame.gui.button.Button;
 import com.adnre.spacegame.world.*;
 
 import java.io.IOException;
