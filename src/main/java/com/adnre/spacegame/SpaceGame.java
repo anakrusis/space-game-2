@@ -83,11 +83,11 @@ public class SpaceGame {
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_PRESS ){
-                if (!GuiHandler.storeScreen){
+                if (!GuiElements.WINDOW_STORE.isVisible() && !GuiElements.WINDOW_SPACEPORT.isVisible()){
                     SpaceGame.paused = !SpaceGame.paused;
                 }
-                GuiHandler.storeScreen = false;
-
+                GuiElements.WINDOW_STORE.setVisible(false);
+                GuiElements.WINDOW_SPACEPORT.setVisible(false);
             }
         });
 
@@ -219,10 +219,6 @@ public class SpaceGame {
 
     public static void main(String[] args) {
         spaceGame.run();
-    }
-
-    public SpaceGame getSpaceGame(){
-        return spaceGame;
     }
 
     public static boolean isPaused() {

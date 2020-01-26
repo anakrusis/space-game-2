@@ -23,6 +23,10 @@ public class Window {
         guiElements.add(t);
     }
 
+    public void add (TextBox t, TextBox u){
+        guiElements.add(t); guiElements.add(u);
+    }
+
     public void setCloser(TextBox closer) {
         this.closer = closer;
     }

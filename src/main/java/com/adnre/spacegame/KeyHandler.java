@@ -1,5 +1,6 @@
 package com.adnre.spacegame;
 
+import com.adnre.spacegame.gui.GuiElements;
 import com.adnre.spacegame.render.Camera;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.world.World;
@@ -91,7 +92,7 @@ public class KeyHandler {
                 world.getPlayer().explode();
             }
             if (glfwGetKey(window, GLFW_KEY_I) == GL_TRUE) {
-                GuiHandler.storeScreen = true;
+                GuiElements.WINDOW_STORE.setVisible(true);
             }
         }
     }

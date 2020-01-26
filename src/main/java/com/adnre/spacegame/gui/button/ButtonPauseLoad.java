@@ -7,6 +7,7 @@ import com.adnre.spacegame.gui.button.Button;
 import com.adnre.spacegame.world.*;
 
 import java.io.IOException;
+import java.io.InvalidClassException;
 
 public class ButtonPauseLoad extends Button {
     public ButtonPauseLoad(float x, float y, String header, String textBody, EnumGui eg) {
@@ -18,7 +19,6 @@ public class ButtonPauseLoad extends Button {
         super.onClick();
         String filename;
         try {
-            SpaceGame.world = null;
             SpaceGame.world = FileHandler.readWorldFromFile("world\\map.txt");
 
             int width = SpaceGame.world.getWidth();

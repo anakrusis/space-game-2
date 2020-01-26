@@ -7,11 +7,12 @@ import com.adnre.spacegame.item.Items;
 public class GuiElements {
 
     public static Window WINDOW_SPACEPORT = new Window(false);
+    public static Window WINDOW_STORE = new Window(false);
 
     public static void initGui(){
 
         // Main screen
-        TextBox tx = new TextBox(8.77f,-3,9,7, EnumGui.GUI_SELECTED_ENTITY);
+        TextBox tx = new TextBoxSelectedEntity(8.77f,-3,9,7, EnumGui.GUI_SELECTED_ENTITY);
         for (int i = 0; i < 9; i++){
             TextBoxHotbarItem tbhi = new TextBoxHotbarItem(-6.5f + (i * 1.5f), -7.5f, 1.5f, 1.5f, i);
         }
@@ -23,7 +24,10 @@ public class GuiElements {
         ButtonStoreBuy buyApt = new ButtonStoreBuy(-5, 4, new ItemStack(Items.ITEM_APARTMENT, 1));
         ButtonStoreBuy buyFac = new ButtonStoreBuy(-5, 2.5f, new ItemStack(Items.ITEM_FACTORY, 1));
         ButtonStoreBuy buyBom = new ButtonStoreBuy(-5, 1f, new ItemStack(Items.ITEM_BOMB, 1));
-        Button closeStoreButton = new Button(5, 4.75f, 0.75f, 0.75f, "X", "", EnumGui.GUI_BUTTON_STORE_CLOSE, false);
+        Button closeStoreButton = new ButtonCloseWindow(5, 4.75f, WINDOW_STORE);
+        WINDOW_STORE.add(storeBG, buyApt);
+        WINDOW_STORE.add(buyFac, buyBom);
+        WINDOW_STORE.add(closeStoreButton);
 
         // pause screen
         Button resumeButton = new Button(-4, 2, 7, 1, "  Resume Game", "", EnumGui.GUI_BUTTON_PAUSE_RESUME, false);
