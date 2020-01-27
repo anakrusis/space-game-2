@@ -90,7 +90,7 @@ public class MouseHandler {
 
                 // BLANK HAND ACTIONS (No item selected)
                 } else {
-                    if (cursor.getSelectedEntity() instanceof BuildingSpaceport){
+                    if (cursor.getSelectedEntity() instanceof BuildingSpaceport && !SpaceGame.isPaused()){
                         GuiElements.WINDOW_SPACEPORT.setVisible(true);
                     }
                 }

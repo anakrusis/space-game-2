@@ -11,10 +11,9 @@ import com.adnre.spacegame.world.Nation;
 
 import java.util.UUID;
 
-public class EntityPlayer extends Entity {
+public class EntityPlayer extends EntityShip {
     private float money;
-    private float fuel;
-    private float fuelCapacity;
+
 
     private ItemStack[] inventory = new ItemStack[9];
     private int currentItemSlot = 0;
