@@ -7,7 +7,6 @@ import com.adnre.spacegame.gui.button.Button;
 import com.adnre.spacegame.world.*;
 
 import java.io.IOException;
-import java.io.InvalidClassException;
 
 public class ButtonPauseLoad extends Button {
     public ButtonPauseLoad(float x, float y, String header, String textBody, EnumGui eg) {
@@ -19,7 +18,7 @@ public class ButtonPauseLoad extends Button {
         super.onClick();
         String filename;
         try {
-            SpaceGame.world = FileHandler.readWorldFromFile("world\\map.txt");
+            SpaceGame.world = FileHandler.readWorldFromFile("world\\map");
 
             int width = SpaceGame.world.getWidth();
             int height = SpaceGame.world.getHeight();
@@ -28,7 +27,7 @@ public class ButtonPauseLoad extends Button {
             for (int i = 0; i < width; i++){
                 for (int j = 0; j < height; j++){
 
-                    filename = "world\\chunk_" + i + "_" + j + ".txt";
+                    filename = "world\\chunk_" + i + "_" + j;
                     try {
                         Chunk chunk = FileHandler.readChunkFromFile(filename);
                         chunks[i][j] = chunk;

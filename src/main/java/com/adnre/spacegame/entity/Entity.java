@@ -169,7 +169,6 @@ public class Entity implements Serializable {
                 this.x = MathHelper.rotX(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getX();
                 this.y = MathHelper.rotY(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getY();
 
-                teleportToSurface(body);
                 CollisionUtil.resolveCollision(this, body);
             }
 
@@ -178,18 +177,14 @@ public class Entity implements Serializable {
         this.ticksExisted++;
     }
 
-    protected void teleportToSurface(Body body){
-        // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
-        double angleFromCenter = Math.atan2(this.y - body.getY(), this.x - body.getX());
-        int index = CollisionUtil.terrainIndexFromEntityAngle(this, body);
-        double radius = body.getRadius() + body.getTerrain()[index] + 0.5;
-//        double innermostradius = body.getRadius() + CollisionUtil.heightFromEntityAngle(this, body) - 4f;
+    public void moveToIndexOnPlanet(int index, BodyPlanet planet){
+        float angle = (float) (planet.getDir() + (2f * Math.PI * ((index + 0.5f) / planet.getTerrainSize())));
+        double rad = planet.getRadius() + CollisionUtil.heightFromEntityAngle(this, planet) + 1;
+        this.x = MathHelper.rotX(angle, rad, 0) + planet.getX();
+        this.y = MathHelper.rotY(angle, rad, 0) + planet.getY();
 
-        double distance = MathHelper.distance(this.x, this.y, body.getX(), body.getY());
-        if (distance < 1f) {
-            this.x = (Math.cos(angleFromCenter) * radius) + body.getX();
-            this.y = (Math.sin(angleFromCenter) * radius) + body.getY();
-        }
+        double angleFromCenter = Math.atan2(this.y - planet.getY(), this.x - planet.getX());
+        this.dir = (float)angleFromCenter;
     }
 
     public boolean isDead(){

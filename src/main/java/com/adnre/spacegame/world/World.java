@@ -35,6 +35,7 @@ public class World implements Serializable {
 
     private int homeChunkX;
     private int homeChunkY;
+    private int homeIndex;
 
     // This is kinda hacky, but it means that the player initially spawns on the second game tick,
     // allowing the planets' positions in orbit to be initialized
@@ -83,6 +84,7 @@ public class World implements Serializable {
         this.homeStarUUID = homeStar.getUuid();
         this.homeChunkX = homePlanet.getChunk().getX();
         this.homeChunkY = homePlanet.getChunk().getY();
+        this.homeIndex = 0;
 
         homePlanet.spawnCity(0, playerNationUUID);
         homePlanet.spawnCity(40, rivalNation.getUuid());
@@ -177,15 +179,8 @@ public class World implements Serializable {
             this.spawnEntity(new EntityPlayer(0,0,(float)Math.PI, this));
 
             // This is for all respawns
-            double spawnx = getHomePlanet().getX() + getHomePlanet().getRadius();
-            double spawny = getHomePlanet().getY();
-            this.getPlayer().setX(spawnx);
-            this.getPlayer().setY(spawny);
+            this.getPlayer().moveToIndexOnPlanet(homeIndex, getHomePlanet());
             this.getPlayer().setNationUUID(getPlayerNation().getUuid());
-
-            float height = CollisionUtil.heightFromEntityAngle(this.getPlayer(), getHomePlanet());
-            double radius = getHomePlanet().getRadius() + height + 2f;
-            this.getPlayer().setX(getHomePlanet().getX() + radius);
         }
         this.mapTime++;
     }

@@ -18,11 +18,11 @@ public class ButtonPauseSave extends Button {
 
         for (int i = 0; i < SpaceGame.world.getWidth(); i++){
             for (int j = 0; j < SpaceGame.world.getHeight(); j++){
-                filename = "world\\chunk_" + i + "_" + j + ".txt";
+                filename = "world\\chunk_" + i + "_" + j;
                 FileHandler.writeObjectToFile(SpaceGame.world.getChunks()[i][j], filename);
 
                 //if (SpaceGame.map.getPlayer() != null){
-                FileHandler.writeObjectToFile(SpaceGame.world, "world\\map.txt");
+                FileHandler.writeObjectToFile(SpaceGame.world, "world\\map");
                 //}
             }
         }
