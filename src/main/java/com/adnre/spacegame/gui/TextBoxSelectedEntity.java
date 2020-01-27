@@ -9,6 +9,8 @@ import com.adnre.spacegame.entity.building.BuildingFactory;
 import com.adnre.spacegame.entity.building.BuildingSpaceport;
 import com.adnre.spacegame.entity.building.EntityBuilding;
 
+import java.text.DecimalFormat;
+
 public class TextBoxSelectedEntity extends TextBox {
 
     public TextBoxSelectedEntity(float x, float y, float width, float height, EnumGui GUI_ID) {
@@ -51,6 +53,10 @@ public class TextBoxSelectedEntity extends TextBox {
 
                 addTextBody("\nPopulation: " + ((BodyPlanet) e).getPopulation());
                 addTextBody("\nSize: " + ((BodyPlanet) e).getTerrainSize());
+
+                DecimalFormat df = new DecimalFormat("###.##");
+                String fnum = df.format(((BodyPlanet) e).getAtmosphericDensity());
+                addTextBody("\nAtmo. Density: " + fnum);
 
             }else if (e instanceof BodyStar) {
                 if (((BodyStar) e).getNation() != null) {

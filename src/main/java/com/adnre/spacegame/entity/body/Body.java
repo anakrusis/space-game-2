@@ -12,6 +12,7 @@ package com.adnre.spacegame.entity.body;
 
 import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.util.MathHelper;
+import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.Chunk;
 import com.adnre.spacegame.world.World;
 
@@ -35,7 +36,7 @@ public class Body extends Entity {
         this.chunk = chunk;
         this.radius = radius;
         this.mass = radius * 50;
-        this.color = new float[]{1f, 1f, 1f};
+        this.color = new float[]{RandomUtil.fromRangeF(0.5f,1f), RandomUtil.fromRangeF(0.5f,1f), RandomUtil.fromRangeF(0.5f,1f)};
         this.name = "Body";
 
         // Default terrain is 16 long, usually overwritten

@@ -26,6 +26,7 @@ public class BodyPlanet extends Body {
     private float[] stoneColor;
 
     private int terrainSize;
+    private float atmosphericDensity;
 
     private int population;
     private UUID nationUUID;
@@ -36,6 +37,7 @@ public class BodyPlanet extends Body {
         this.orbitDistance = orbitDistance;
         this.orbitPeriod = RandomUtil.fromRangeI(90000, 200000);
         this.rotSpeed = 0.0005f;
+        this.atmosphericDensity = RandomUtil.nextFloat(1);
 
         // the stone color, or whatever
         this.stoneColor = new float[]{0.5f, 0.5f, 0.5f};
@@ -201,5 +203,9 @@ public class BodyPlanet extends Body {
             }
             this.spawnBuilding(building, ind2);
         }
+    }
+
+    public float getAtmosphericDensity() {
+        return atmosphericDensity;
     }
 }

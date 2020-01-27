@@ -1,10 +1,7 @@
 package com.adnre.spacegame.world;
 
 import com.adnre.spacegame.SpaceGame;
-import com.adnre.spacegame.entity.body.Body;
-import com.adnre.spacegame.entity.body.BodyGravityRadius;
-import com.adnre.spacegame.entity.body.BodyPlanet;
-import com.adnre.spacegame.entity.body.BodyStar;
+import com.adnre.spacegame.entity.body.*;
 import com.adnre.spacegame.util.GenUtil;
 import com.adnre.spacegame.util.NymGen;
 import com.adnre.spacegame.util.RandomUtil;
@@ -109,6 +106,7 @@ public class Chunk implements Serializable {
     public void spawnBody(Body body){
         UUID bodyuuid = UUID.randomUUID();
         UUID gravuuid = UUID.randomUUID();
+        UUID atmouuid = UUID.randomUUID();
 
         bodies.put(bodyuuid, body);
         body.setUuid(bodyuuid);
@@ -119,6 +117,13 @@ public class Chunk implements Serializable {
                     body.getRadius() * 2.5f, SpaceGame.world, body.getUuid());
             bodies.put(gravuuid, bgr);
             bgr.setUuid(gravuuid);
+
+            if (body instanceof BodyPlanet){
+                BodyAtmosphere atmo = new BodyAtmosphere(body.getX(), body.getY(), body.getDir(), body.getChunk(),
+                        body.getRadius() * 2f, SpaceGame.world, body.getUuid());
+                bodies.put(atmouuid, atmo);
+                atmo.setUuid(atmouuid);
+            }
         }
     }
 }

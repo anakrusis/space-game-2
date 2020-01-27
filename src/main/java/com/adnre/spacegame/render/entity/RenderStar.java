@@ -17,6 +17,7 @@ public class RenderStar {
         double[] abspoints = star.getAbsolutePoints();
         //Model starmodel = star.getModel();
 
+        glDisable(GL_BLEND);
         if (filled) {
 //            float[] vbo_vertices = new float[abspoints.length * 3];
 //

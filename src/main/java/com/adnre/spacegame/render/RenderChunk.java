@@ -3,6 +3,7 @@ package com.adnre.spacegame.render;
 import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.*;
+import com.adnre.spacegame.render.entity.RenderAtmosphere;
 import com.adnre.spacegame.render.entity.RenderPlanet;
 import com.adnre.spacegame.render.entity.RenderStar;
 import com.adnre.spacegame.util.CollisionUtil;
@@ -23,7 +24,7 @@ public class RenderChunk {
 
         // Drawing the main chunk grid
         glBegin(GL_LINE_LOOP);
-        glColor3d(0.5d,0.5d,0.5d);
+        glColor3d(0.55d,0.5d,0.55d);
         glVertex2d(camZoom * (cbs * (0d + chunk.getX()) - camX), camZoom * (cbs * (0d + chunk.getY()) - camY));
         glVertex2d(camZoom * (cbs * (0d + chunk.getX()) - camX), camZoom * (cbs * (1d + chunk.getY()) - camY));
         glVertex2d(camZoom * (cbs * (1d + chunk.getX()) - camX), camZoom * (cbs * (1d + chunk.getY()) - camY));
@@ -37,16 +38,19 @@ public class RenderChunk {
             // Culled bodies
             if (camZoom > Reference.MAP_SCREEN_THRESHOLD){
 
-                if (body instanceof BodyGravityRadius){
-                    RenderStar.renderStar(body, false, camera);
-                }else if (body instanceof BodyPlanet){
+                if (body instanceof BodyPlanet) {
 
                     // Yeah maybe don't render the same orbital body 100 times
-                    BodyPlanet planet = (BodyPlanet)body;
+                    BodyPlanet planet = (BodyPlanet) body;
                     BodyOrbit orbit = new BodyOrbit(planet.getStar().getX(), planet.getStar().getY(), 0, chunk, planet.getOrbitDistance(), chunk.getWorld());
                     RenderStar.renderStar(orbit, false, camera);
 
-                    RenderPlanet.renderPlanet(body,camera);
+                    RenderPlanet.renderPlanet(body, camera);
+
+                }else if (body instanceof BodyAtmosphere){
+                    RenderAtmosphere.renderAtmosphere(body, camera);
+                } else {
+                    RenderStar.renderStar(body, false, camera);
                 }
             }
 
