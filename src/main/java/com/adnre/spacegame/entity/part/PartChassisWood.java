@@ -6,10 +6,10 @@ import com.adnre.spacegame.world.World;
 
 import java.util.UUID;
 
-public class ChassisWood extends PartChassis {
+public class PartChassisWood extends PartChassis {
 
 
-    public ChassisWood(float relx, float rely, World world, UUID entityUUID) {
+    public PartChassisWood(float relx, float rely, World world, UUID entityUUID) {
         super(relx, rely, world, entityUUID);
     }
 

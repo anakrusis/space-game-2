@@ -10,18 +10,19 @@ import java.util.UUID;
 
 public class Part extends Entity {
 
+    double width, height;
     // Relative coordinates where 0,0 is the same as the entity it corresponds to
     float relativeX, relativeY;
     UUID entityUUID;
 
     public Part (float relx, float rely, World world, UUID entityUUID) {
-        super(world.getEntities().get(entityUUID).getX(),
-                world.getEntities().get(entityUUID).getY(),
-                world.getEntities().get(entityUUID).getDir(), world);
+        super(0, 0, 0, world);
 
         this.relativeX = relx;
         this.relativeY = rely;
         this.entityUUID = entityUUID;
+        this.width = 1;
+        this.height = 1;
     }
 
     public UUID getEntityUUID() {
@@ -42,10 +43,10 @@ public class Part extends Entity {
 
     public double[] getAbsolutePoints() {
         double[] relpoints = new double[]{
-                -1, -1,
-                1,  -1,
-                1,   1,
-                -1,  1
+                -width/2, -height/2,
+                width/2,  -height/2,
+                width/2,   height/2,
+                -width/2,  height/2
         };
         double[] abspoints = new double[relpoints.length];
         for (int i = 0; i < abspoints.length; i += 2){
@@ -61,6 +62,10 @@ public class Part extends Entity {
 
     @Override
     public void update() {
-        super.update();
+        this.dir = getEntity().getDir();
+        this.x = MathHelper.rotX( dir, relativeX, relativeY ) + getEntity().getX();
+        this.y = MathHelper.rotY( dir, relativeX, relativeY ) + getEntity().getY();
+
+        this.ticksExisted++;
     }
 }

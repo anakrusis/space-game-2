@@ -1,5 +1,6 @@
 package com.adnre.spacegame.entity.body;
 
+import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.Chunk;
 import com.adnre.spacegame.world.World;
 
@@ -14,6 +15,7 @@ public class BodyAtmosphere extends Body {
         this.canEntitiesCollide = false;
         this.dependentBodyUUID = bodyUUID;
         this.rotSpeed = 0.01f;
+        this.color = new float[]{RandomUtil.fromRangeF(0.5f,1f), RandomUtil.fromRangeF(0.5f,1f), RandomUtil.fromRangeF(0.5f,1f)};
     }
 
     public UUID getDependentBodyUUID() {

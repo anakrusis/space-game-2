@@ -6,14 +6,13 @@ import com.adnre.spacegame.world.World;
 
 import java.util.UUID;
 
-public class PartLiquidFuelEngine extends PartEngine {
-
-    public PartLiquidFuelEngine(float relx, float rely, World world, UUID entityUUID) {
+public class PartCockpitWood extends PartCockpit {
+    public PartCockpitWood(float relx, float rely, World world, UUID entityUUID) {
         super(relx, rely, world, entityUUID);
     }
 
     @Override
     public Texture getTexture() {
-        return Textures.engine_liquid;
+        return Textures.cockpit_wood;
     }
 }

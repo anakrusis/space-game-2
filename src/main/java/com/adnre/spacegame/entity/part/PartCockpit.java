@@ -5,10 +5,8 @@ import com.adnre.spacegame.world.World;
 
 import java.util.UUID;
 
-public class PartChassis extends Part {
-    public PartChassis(float relx, float rely, World world, UUID entityUUID) {
+public class PartCockpit extends Part {
+    public PartCockpit(float relx, float rely, World world, UUID entityUUID) {
         super(relx, rely, world, entityUUID);
-        height = 1;
-        width = 1.5;
     }
 }

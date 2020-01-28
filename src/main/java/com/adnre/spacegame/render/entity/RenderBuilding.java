@@ -62,6 +62,8 @@ public class RenderBuilding{
             }
 
             glDisable(GL_BLEND);
+            glDisable(GL_BLEND);
+            glColor3d(1f, 1f, 1f);
         }
     }
 

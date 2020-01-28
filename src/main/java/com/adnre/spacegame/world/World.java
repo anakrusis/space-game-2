@@ -8,6 +8,7 @@ import com.adnre.spacegame.entity.building.BuildingApartment;
 import com.adnre.spacegame.entity.building.BuildingFactory;
 import com.adnre.spacegame.entity.building.BuildingSpaceport;
 import com.adnre.spacegame.entity.building.EntityBuilding;
+import com.adnre.spacegame.entity.part.PartChassisWood;
 import com.adnre.spacegame.util.*;
 
 import java.io.Serializable;
@@ -176,7 +177,8 @@ public class World implements Serializable {
 
         if (this.mapTime - this.playerLastDeathTime == RESPAWN_INTERVAL){
 
-            this.spawnEntity(new EntityPlayer(0,0,(float)Math.PI, this));
+            EntityPlayer player = new EntityPlayer(0,0,(float)Math.PI, this);
+            this.spawnEntity(player);
 
             // This is for all respawns
             this.getPlayer().moveToIndexOnPlanet(homeIndex, getHomePlanet());
@@ -214,9 +216,7 @@ public class World implements Serializable {
     }
 
     public void spawnEntity(Entity entity){
-        UUID entityuuid = UUID.randomUUID();
-        this.entities.put(entityuuid, entity);
-        entity.setUuid(entityuuid);
+        this.entities.put(entity.getUuid(), entity);
     }
 
     public long getSeed() {

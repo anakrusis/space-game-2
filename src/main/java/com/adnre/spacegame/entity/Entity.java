@@ -53,6 +53,7 @@ public class Entity implements Serializable {
         this.mass = 1f;
         this.name = "Entity";
         this.color = new float[]{1f, 1f, 1f};
+        this.uuid = UUID.randomUUID();
     }
 
     public double getX() {

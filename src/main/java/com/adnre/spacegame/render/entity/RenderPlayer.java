@@ -3,6 +3,7 @@ package com.adnre.spacegame.render.entity;
 import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.entity.EntityPlayer;
+import com.adnre.spacegame.entity.part.Part;
 import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.item.Items;
 import com.adnre.spacegame.render.Camera;
@@ -60,5 +61,9 @@ public class RenderPlayer {
             }
         }
         glEnd();
+
+        for (Part part : player.getParts()){
+            RenderBuilding.renderBuilding(part, camera);
+        }
     }
 }

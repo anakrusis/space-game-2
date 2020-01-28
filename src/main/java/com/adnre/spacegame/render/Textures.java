@@ -24,6 +24,7 @@ public class Textures {
     //parts
     public static final Texture chassis_wood = new Texture("chassis_wood.png");
     public static final Texture cockpit_wood = new Texture("cockpit_wood.png");
+    public static final Texture engine_liquid = new Texture("engine_liquid.png");
 
     //terrain
     public static final Texture grass = new Texture("grass.png");

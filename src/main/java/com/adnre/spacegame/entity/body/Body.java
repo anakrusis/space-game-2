@@ -36,7 +36,7 @@ public class Body extends Entity {
         this.chunk = chunk;
         this.radius = radius;
         this.mass = radius * 50;
-        this.color = new float[]{RandomUtil.fromRangeF(0.5f,1f), RandomUtil.fromRangeF(0.5f,1f), RandomUtil.fromRangeF(0.5f,1f)};
+        this.color = new float[]{1f, 1f, 1f};
         this.name = "Body";
 
         // Default terrain is 16 long, usually overwritten

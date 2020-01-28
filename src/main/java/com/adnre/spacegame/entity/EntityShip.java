@@ -13,5 +13,18 @@ public class EntityShip extends Entity {
 
     public EntityShip(double x, double y, float dir, World world) {
         super(x, y, dir, world);
+        parts = new ArrayList<>();
+    }
+
+    public ArrayList<Part> getParts() {
+        return parts;
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        for (Part part : parts){
+            part.update();
+        }
     }
 }
