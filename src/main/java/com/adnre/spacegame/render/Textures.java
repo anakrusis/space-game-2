@@ -21,6 +21,10 @@ public class Textures {
     public static final Texture mining_laser = new Texture("mining_laser_2.png");
     public static final Texture bomb = new Texture("bomb.png");
 
+    //parts
+    public static final Texture chassis_wood = new Texture("chassis_wood.png");
+    public static final Texture cockpit_wood = new Texture("cockpit_wood.png");
+
     //terrain
     public static final Texture grass = new Texture("grass.png");
 
