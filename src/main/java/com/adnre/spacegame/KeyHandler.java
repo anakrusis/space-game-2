@@ -63,13 +63,18 @@ public class KeyHandler {
         World world = SpaceGame.world;
         if (world.getPlayer() != null) {
             double vel = world.getPlayer().getVelocity();
+            float rots = world.getPlayer().getRotSpeed();
             float dir = world.getPlayer().getDir();
 
             if (glfwGetKey(window, GLFW_KEY_D) == GL_TRUE) {
+                //world.getPlayer().setRotSpeed(rots - 0.0001f);
                 world.getPlayer().setDir(dir - 0.1f);
-            }
-            if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE) {
+            }else if (glfwGetKey(window, GLFW_KEY_A) == GL_TRUE) {
+                //world.getPlayer().setRotSpeed(rots + 0.0001f);
                 world.getPlayer().setDir(dir + 0.1f);
+            }else{
+                //world.getPlayer().setRotSpeed(rots / 1.01f);
+
             }
 
             if (world.getPlayer().getFuel() > 0){

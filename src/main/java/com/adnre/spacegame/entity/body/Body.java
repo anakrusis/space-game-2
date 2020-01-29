@@ -20,7 +20,6 @@ public class Body extends Entity {
 
     protected float radius;
     protected Chunk chunk;
-    protected float rotSpeed; //radians per tick
 
     public boolean canEntitiesCollide = false;
 
@@ -85,10 +84,6 @@ public class Body extends Entity {
 
     public String getName() {
         return name;
-    }
-
-    public float getRotSpeed() {
-        return rotSpeed;
     }
 
     public void initModel() {

@@ -1,12 +1,20 @@
 package com.adnre.spacegame.util;
 
+import com.adnre.spacegame.entity.EntityShip;
 import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.Entity;
+import com.adnre.spacegame.entity.part.Part;
 import com.sun.javafx.geom.Vec3d;
 
 public class CollisionUtil {
 
     public static boolean isColliding(Entity entity, Body body){
+       double nearestDist = getNearestDistance(entity, body, false);
+        double expectedDist = body.getRadius() + heightFromEntityAngle(entity, body);
+        return nearestDist < expectedDist;
+    }
+
+    public static double getNearestDistance(Entity entity, Body body, boolean partsIncluded){
         double[] entityAbsPoints = entity.getAbsolutePoints();
         double nearestDist = 100000000;
         double cd;
@@ -14,30 +22,41 @@ public class CollisionUtil {
         double nearestEntityX, nearestEntityY;
         double cx, cy;
 
-        // Step 1: get the point on the entity nearest to the center of the body
-        for (int i = 0; i < entityAbsPoints.length; i += 2){
-            cx = entityAbsPoints[i];
-            cy = entityAbsPoints[i + 1];
-            cd = MathHelper.distance(cx, cy, body.getX(), body.getY());
-            if (cd < nearestDist){
-                nearestDist = cd;
-                nearestEntityX = cx;
-                nearestEntityY = cy;
+        if (entity instanceof EntityShip && partsIncluded){
+            for (Part part : ((EntityShip) entity).getParts()){
+                double partnearestdist = getNearestDistance(part, body, false);
+                if (partnearestdist < nearestDist){
+                    nearestDist = partnearestdist;
+                }
+            }
+        }else{
+            // Step 1: get the point on the entity nearest to the center of the body
+            for (int i = 0; i < entityAbsPoints.length; i += 2){
+                cx = entityAbsPoints[i];
+                cy = entityAbsPoints[i + 1];
+                cd = MathHelper.distance(cx, cy, body.getX(), body.getY());
+                if (cd < nearestDist){
+                    nearestDist = cd;
+                    nearestEntityX = cx;
+                    nearestEntityY = cy;
+                }
             }
         }
-        double expectedDist = body.getRadius() + heightFromEntityAngle(entity, body);
-        return nearestDist < expectedDist;
+
+        return nearestDist;
     }
+
     public static void resolveCollision(Entity entity, Body body){
         double newx = entity.getX(), newy = entity.getY();
         // Used if the entity is too far in (ie beneath the surface), so it gets teleported to the surface
         double angleFromCenter = Math.atan2(entity.getY() - body.getY(), entity.getX() - body.getX());
-
+        double nearestDist = MathHelper.distance(entity.getX(), entity.getY(), body.getX(), body.getY());
         double expectedDist = body.getRadius() + heightFromEntityAngle(entity, body);
-        double distance = MathHelper.distance(entity.getX(), entity.getY(), body.getX(), body.getY());
-        if (distance < expectedDist) {
-            newx = (Math.cos(angleFromCenter) * expectedDist) + body.getX();
-            newy = (Math.sin(angleFromCenter) * expectedDist) + body.getY();
+        double difference = (expectedDist - nearestDist);
+
+        if (nearestDist < expectedDist) {
+            newx = (Math.cos(angleFromCenter) * (expectedDist + (difference * 0)) ) + body.getX();
+            newy = (Math.sin(angleFromCenter) * (expectedDist + (difference * 0)) ) + body.getY();
         }
         entity.setX(newx); entity.setY(newy);
     }

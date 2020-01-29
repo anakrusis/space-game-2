@@ -31,6 +31,7 @@ public class Entity implements Serializable {
     protected double elevation;
     // Accessible for physics testing purposes
     protected double gravityAttraction;
+    protected float rotSpeed; //radians per tick
 
     // Other stats and id stuff
     protected String name;
@@ -54,6 +55,7 @@ public class Entity implements Serializable {
         this.name = "Entity";
         this.color = new float[]{1f, 1f, 1f};
         this.uuid = UUID.randomUUID();
+        this.rotSpeed = 0;
     }
 
     public double getX() {
@@ -90,6 +92,7 @@ public class Entity implements Serializable {
 
     public void update(){
 
+        this.dir += rotSpeed;
         this.x += this.velocity * Math.cos(this.dir);
         this.y += this.velocity * Math.sin(this.dir);
 
@@ -170,7 +173,7 @@ public class Entity implements Serializable {
                 this.x = MathHelper.rotX(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getX();
                 this.y = MathHelper.rotY(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getY();
 
-                CollisionUtil.resolveCollision(this, body);
+                //CollisionUtil.resolveCollision(this, body);
             }
 
 
@@ -298,5 +301,13 @@ public class Entity implements Serializable {
 
     public float[] getColor() {
         return color;
+    }
+
+    public float getRotSpeed() {
+        return rotSpeed;
+    }
+
+    public void setRotSpeed(float rotSpeed) {
+        this.rotSpeed = rotSpeed;
     }
 }

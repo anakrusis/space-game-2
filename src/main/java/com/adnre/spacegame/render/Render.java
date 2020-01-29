@@ -107,7 +107,9 @@ public class Render {
              String fueltext = "Fuel: " + Math.round(player.getFuel()) + "/" + Math.round(player.getFuelCapacity());
              RenderText.renderText(fueltext, -12, 5.5f, 0.45f);
 
-             //RenderText.renderText("Grav: " + player.getGravityAttraction(), 6, 6, 0.45f);
+             if (player.isGrounded()){
+                 RenderText.renderText("Grounded", 6, 6, 0.45f);
+             }
          }
 
          RenderText.renderText("Seed: " + world.getSeed(), 6, 8, 0.45f);

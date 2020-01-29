@@ -63,7 +63,7 @@ public class RenderPlayer {
         glEnd();
 
         for (Part part : player.getParts()){
-            RenderBuilding.renderBuilding(part, camera);
+            //RenderBuilding.renderBuilding(part, camera);
         }
     }
 }
