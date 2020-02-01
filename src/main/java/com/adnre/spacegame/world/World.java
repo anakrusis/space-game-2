@@ -71,12 +71,20 @@ public class World implements Serializable {
         BodyPlanet homePlanet = SpawnUtil.newHomePlanet(this);
         BodyStar homeStar = homePlanet.getStar();
         String nationName = NymGen.newName() + " Nation";
+        int chunkx = homePlanet.getChunk().getX();
+        int chunky = homePlanet.getChunk().getY();
 
-        Nation playerNation = new Nation(nationName, homeStar, homePlanet);
+        String cityName = NymGen.newName();
+        City playerCity = new City (cityName, chunkx, chunky, homePlanet.getUuid());
+
+        Nation playerNation = new Nation(nationName, chunkx, chunky, homeStar.getUuid(), homePlanet.getUuid(), playerCity.getUuid());
         homePlanet.setNationUUID(playerNation.getUuid());
         nations.put(playerNation.getUuid(), playerNation);
 
-        Nation rivalNation = new Nation(nationName, homeStar, homePlanet);
+        cityName = NymGen.newName();
+        City rivalCity = new City (cityName, chunkx, chunky, homePlanet.getUuid());
+
+        Nation rivalNation = new Nation(nationName, chunkx, chunky, homeStar.getUuid(), homePlanet.getUuid(), rivalCity.getUuid());
         rivalNation.setColor( new float[] { 0.7f, 0.2f, 0.2f } );
         nations.put(rivalNation.getUuid(), rivalNation);
 
@@ -87,8 +95,8 @@ public class World implements Serializable {
         this.homeChunkY = homePlanet.getChunk().getY();
         this.homeIndex = 0;
 
-        homePlanet.spawnCity(0, playerNationUUID);
-        homePlanet.spawnCity(40, rivalNation.getUuid());
+        homePlanet.spawnCity(playerCity, 0, playerNationUUID);
+        homePlanet.spawnCity(rivalCity, 40, rivalNation.getUuid());
     }
     public World(int xSize, int ySize, long seed){
         this(xSize, ySize, 0, seed);

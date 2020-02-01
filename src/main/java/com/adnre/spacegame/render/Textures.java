@@ -16,6 +16,8 @@ public class Textures {
     public static final Texture apartment = new Texture("apartment_new.png");
     public static final Texture apartment_windows = new Texture("apartment_windows.png");
     public static final Texture spaceport = new Texture("spaceport.png");
+    public static final Texture city_hall = new Texture("cityhall.png");
+    public static final Texture city_hall_windows = new Texture("cityhall_windows.png");
 
     //items
     public static final Texture mining_laser = new Texture("mining_laser_2.png");

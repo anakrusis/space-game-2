@@ -7,6 +7,7 @@ import com.adnre.spacegame.item.ItemStack;
 import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
+import com.adnre.spacegame.world.City;
 import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
@@ -139,6 +140,15 @@ public class EntityBuilding extends Entity {
     }
 
     public Texture getWindowTexture(){
+        return null;
+    }
+
+    public City getCity(){
+        if (grounded){
+            if (getGroundedBody() instanceof BodyPlanet){
+                return ((BodyPlanet) getGroundedBody()).getCityAtIndex(planetIndex);
+            }
+        }
         return null;
     }
 }

@@ -8,6 +8,7 @@ public class Items {
 
     public static final Item ITEM_FACTORY = new ItemFactory("Factory");
     public static final Item ITEM_APARTMENT = new ItemApartment("Apartment");
+    public static final Item ITEM_CITY_HALL = new ItemCityHall("City Hall");
 
     public static final Item ITEM_MINING_LASER = new ItemMiningLaser("Mining Laser");
     public static final Item ITEM_BOMB = new ItemBomb("Plasma Bomb");

@@ -72,6 +72,12 @@ public class EntityPlayer extends EntityShip {
     public void update() {
         super.update();
 
+        if (this.getVelocity() > 0.1 && this.ticksExisted % 10 == 0){
+            float dir = (float) (this.dir - Math.PI + (Math.random() * 0.5f));
+            ParticleSmoke smoke = new ParticleSmoke(this.x, this.y, dir, this.world);
+            this.world.spawnEntity(smoke);
+        }
+
         // The player cleans their own inventory of <=0 qty com.adnre.spacegame.item stacks
         for (int i = 0; i < inventory.length; i++){
             if (inventory[i] != null){

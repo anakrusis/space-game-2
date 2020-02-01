@@ -13,10 +13,13 @@ import com.adnre.spacegame.gui.TextBox;
 import com.adnre.spacegame.gui.TextBoxHotbarItem;
 import com.adnre.spacegame.gui.Window;
 import com.adnre.spacegame.item.ItemStack;
+import com.adnre.spacegame.world.City;
 
 import java.util.ArrayList;
 
 public class GuiHandler {
+
+    public static City citySelected;
 
     public static void update( ArrayList<TextBox> elements){
         EntityCursor cursor = SpaceGame.world.getCursor();

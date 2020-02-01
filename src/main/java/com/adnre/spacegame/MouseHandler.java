@@ -1,6 +1,7 @@
 package com.adnre.spacegame;
 
 import com.adnre.spacegame.entity.EntityBomb;
+import com.adnre.spacegame.entity.building.BuildingCityHall;
 import com.adnre.spacegame.entity.building.BuildingSpaceport;
 import com.adnre.spacegame.entity.building.EntityBuilding;
 import com.adnre.spacegame.entity.EntityCursor;
@@ -64,7 +65,7 @@ public class MouseHandler {
 
                 // Checking the player's inventory for ItemBuildings
                 ItemStack itemstack = player.getCurrentItemStack();
-                if (itemstack != null){
+                if (itemstack != null && !SpaceGame.isPaused()){
                     Item item = itemstack.getItem();
 
                     // All building type items work the same
@@ -89,9 +90,15 @@ public class MouseHandler {
                     }
 
                 // BLANK HAND ACTIONS (No item selected)
+                // These are also the default action when paused because they do not affect the world
                 } else {
-                    if (cursor.getSelectedEntity() instanceof BuildingSpaceport && !SpaceGame.isPaused()){
+                    if (cursor.getSelectedEntity() instanceof BuildingSpaceport){
                         GuiElements.WINDOW_SPACEPORT.setVisible(true);
+                    } else
+                    if (cursor.getSelectedEntity() instanceof BuildingCityHall){
+                        GuiHandler.citySelected = ((BuildingCityHall) cursor.getSelectedEntity()).getCity();
+                        GuiElements.WINDOW_CITY.setVisible(true);
+
                     }
                 }
             }
@@ -145,46 +152,43 @@ public class MouseHandler {
         world.getCursor().setScreenX(MathHelper.screenToGLX(xpos, windowWidth));
         world.getCursor().setScreenY(MathHelper.screenToGLY(ypos, windowHeight));
 
-        if (!SpaceGame.isPaused()) {
+        // Searches for the tooltip item (needs to be easierly findable in the future ig)
+        for (int j = SpaceGame.guiElements.size() - 1; j >= 0; j--) {
+            TextBox tooltip = SpaceGame.guiElements.get(j);
 
-            // Searches for the tooltip item (needs to be easierly findable in the future ig)
-            for (int j = SpaceGame.guiElements.size() - 1; j >= 0; j--) {
-                TextBox tooltip = SpaceGame.guiElements.get(j);
+            if (tooltip.getGuiID() == EnumGui.GUI_TOOLTIP_ITEM) {
 
-                if (tooltip.getGuiID() == EnumGui.GUI_TOOLTIP_ITEM) {
+                // Now searches for the hotbar item, and sees if it touches the cursor
+                for (int i = SpaceGame.guiElements.size() - 1; i >= 0; i--) {
+                    TextBox hotbaritem = SpaceGame.guiElements.get(i);
+                    if (hotbaritem instanceof TextBoxHotbarItem &&
+                            CollisionUtil.isPointCollidingInBox(world.getCursor().getScreenX(),
+                            world.getCursor().getScreenY(), hotbaritem.getX(),
+                            hotbaritem.getY(), hotbaritem.getWidth(), hotbaritem.getHeight())){
 
-                    // Now searches for the hotbar item, and sees if it touches the cursor
-                    for (int i = SpaceGame.guiElements.size() - 1; i >= 0; i--) {
-                        TextBox hotbaritem = SpaceGame.guiElements.get(i);
-                        if (hotbaritem instanceof TextBoxHotbarItem &&
-                                CollisionUtil.isPointCollidingInBox(world.getCursor().getScreenX(),
-                                world.getCursor().getScreenY(), hotbaritem.getX(),
-                                hotbaritem.getY(), hotbaritem.getWidth(), hotbaritem.getHeight())){
+                        // Now searches for items in inventory
+                        if (world.getPlayer() != null){
+                            ItemStack[] inventory = world.getPlayer().getInventory();
+                            ItemStack item = inventory[ ((TextBoxHotbarItem) hotbaritem).getInventoryIndex() ];
 
-                            // Now searches for items in inventory
-                            if (world.getPlayer() != null){
-                                ItemStack[] inventory = world.getPlayer().getInventory();
-                                ItemStack item = inventory[ ((TextBoxHotbarItem) hotbaritem).getInventoryIndex() ];
+                            // And gives the tooltip the item name
+                            // as well as positioning it dynamically with the cursor
+                            // and changing its length to match the length of the string
+                            if (item != null){
+                                tooltip.setVisible(true);
+                                tooltip.setX((float) world.getCursor().getScreenX());
+                                tooltip.setY((float) world.getCursor().getScreenY());
+                                tooltip.setHeader( item.getItem().getName() );
 
-                                // And gives the tooltip the item name
-                                // as well as positioning it dynamically with the cursor
-                                // and changing its length to match the length of the string
-                                if (item != null){
-                                    tooltip.setVisible(true);
-                                    tooltip.setX((float) world.getCursor().getScreenX());
-                                    tooltip.setY((float) world.getCursor().getScreenY());
-                                    tooltip.setHeader( item.getItem().getName() );
+                                int len = item.getItem().getName().length();
+                                tooltip.setWidth( len / 2f );
 
-                                    int len = item.getItem().getName().length();
-                                    tooltip.setWidth( len / 2f );
-
-                                    return;
-                                }
+                                return;
                             }
                         }
                     }
-                    tooltip.setVisible(false);
                 }
+                tooltip.setVisible(false);
             }
         }
     }

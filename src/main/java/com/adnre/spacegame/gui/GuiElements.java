@@ -8,6 +8,7 @@ public class GuiElements {
 
     public static Window WINDOW_SPACEPORT = new Window(false);
     public static Window WINDOW_STORE = new Window(false);
+    public static Window WINDOW_CITY = new Window(false);
 
     public static void initGui(){
 
@@ -41,5 +42,10 @@ public class GuiElements {
         WINDOW_SPACEPORT.add(spaceportBG);
         WINDOW_SPACEPORT.add(spaceportRefuel);
         WINDOW_SPACEPORT.add(spaceportClose);
+
+        //city screen
+        TextBoxCityBackground cityBG = new TextBoxCityBackground(-6, 5, 12, 8, null);
+        ButtonCloseWindow cityClose = new ButtonCloseWindow(5, 4.75f, WINDOW_CITY);
+        WINDOW_CITY.add(cityBG, cityClose);
     }
 }

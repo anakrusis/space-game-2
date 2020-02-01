@@ -1,17 +1,17 @@
 package com.adnre.spacegame.entity.body;
 
 import com.adnre.spacegame.SpaceGame;
-import com.adnre.spacegame.entity.building.BuildingSpaceport;
-import com.adnre.spacegame.entity.building.EntityBuilding;
-import com.adnre.spacegame.entity.building.BuildingApartment;
-import com.adnre.spacegame.entity.building.BuildingFactory;
+import com.adnre.spacegame.entity.building.*;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
+import com.adnre.spacegame.util.NymGen;
 import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.Chunk;
+import com.adnre.spacegame.world.City;
 import com.adnre.spacegame.world.World;
 import com.adnre.spacegame.world.Nation;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class BodyPlanet extends Body {
@@ -30,6 +30,8 @@ public class BodyPlanet extends Body {
 
     private int population;
     private UUID nationUUID;
+
+    private HashMap<UUID, City> cities;
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, UUID starUUID, World world, String name) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(32,64), world);
@@ -58,6 +60,7 @@ public class BodyPlanet extends Body {
         population = 0;
 
         this.nationUUID = null; // Unclaimed by default
+        cities = new HashMap<>();
     }
 
     public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, UUID starUUID, World world){
@@ -121,6 +124,9 @@ public class BodyPlanet extends Body {
             }
         }
 
+        for (City city : cities.values()){
+            city.update();
+        }
     }
 
     public float getOrbitAngle() {
@@ -185,9 +191,14 @@ public class BodyPlanet extends Body {
         }
     }
 
-    public void spawnCity(int index, UUID nation){
+    public void spawnCity(City city, int index, UUID nation){
+
         // Spawns a city centered around the index 0 of the planet.
         spawnBuilding(new BuildingSpaceport(0, 0, 0, world, nation), index);
+
+        int cityhallindex = MathHelper.loopyMod( index - 1, this.getTerrainSize() );
+        spawnBuilding(new BuildingCityHall(0, 0, 0, world, nation), cityhallindex);
+
         for (int i = -5; i < 5; i++){
             int ind2 = MathHelper.loopyMod( index + i, this.getTerrainSize() );
             EntityBuilding building;
@@ -202,10 +213,24 @@ public class BodyPlanet extends Body {
                 building = new BuildingFactory(0, 0, 0, world, nation);
             }
             this.spawnBuilding(building, ind2);
+            city.getTerrainIndexes().add(ind2);
         }
+        this.cities.put(city.getUuid(), city);
     }
 
     public float getAtmosphericDensity() {
         return atmosphericDensity;
+    }
+
+    // Searches for a city which has this terrain index (should be more efficient later, idK)
+    public City getCityAtIndex(int index){
+        for (City city: cities.values()){
+            for (Integer ci : city.getTerrainIndexes()){
+                if (ci == index){
+                    return city;
+                }
+            }
+        }
+        return null;
     }
 }

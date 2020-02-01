@@ -156,6 +156,12 @@ public class Entity implements Serializable {
                     this.velocity = 0.2;
                 }
 
+                Body body = getGroundedBody();
+                // This moves the entity along with any rotating body
+                this.dir += body.getRotSpeed();
+                this.x = MathHelper.rotX(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getX();
+                this.y = MathHelper.rotY(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getY();
+
                 // This moves the entity along with a planet by anticipating where it will be in the next tick
                 if (getGroundedBody() instanceof BodyPlanet) {
                     BodyPlanet planet = (BodyPlanet) getGroundedBody();
@@ -166,14 +172,6 @@ public class Entity implements Serializable {
                     this.x += (futurePlanetX - planet.getX());
                     this.y += (futurePlanetY - planet.getY());
                 }
-                Body body = getGroundedBody();
-
-                // This moves the entity along with any rotating body
-                this.dir += body.getRotSpeed();
-                this.x = MathHelper.rotX(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getX();
-                this.y = MathHelper.rotY(body.getRotSpeed(), this.x - body.getX(), this.y - body.getY()) + body.getY();
-
-                //CollisionUtil.resolveCollision(this, body);
             }
 
 
