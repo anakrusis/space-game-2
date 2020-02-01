@@ -191,14 +191,22 @@ public class BodyPlanet extends Body {
         }
     }
 
+    // Places the buildings to a city centered around the specified index.
     public void spawnCity(City city, int index, UUID nation){
 
-        // Spawns a city centered around the index 0 of the planet.
+        // Priority buildings include the spaceport, city hall, and one randomly located apartment.
+        // These buildings must be present in every city (for now).
         spawnBuilding(new BuildingSpaceport(0, 0, 0, world, nation), index);
 
         int cityhallindex = MathHelper.loopyMod( index - 1, this.getTerrainSize() );
         spawnBuilding(new BuildingCityHall(0, 0, 0, world, nation), cityhallindex);
 
+        int randomOffset = RandomUtil.fromRangeI(-5, 5);
+        int aptIndex = MathHelper.loopyMod(index + randomOffset, this.getTerrainSize() );
+        spawnBuilding(new BuildingApartment(0, 0, 0, world, nation), aptIndex);
+
+        // Non-priority buildings are additional factories and spaceports.
+        // They can be spawned on top of already existing buildings without error, and will simply despawn.
         for (int i = -5; i < 5; i++){
             int ind2 = MathHelper.loopyMod( index + i, this.getTerrainSize() );
             EntityBuilding building;

@@ -56,4 +56,8 @@ public class City implements Serializable {
     public BodyPlanet getPlanet(){
         return (BodyPlanet) SpaceGame.world.getChunks()[chunkX][chunkY].getBodies().get(planetUUID);
     }
+
+    public int getPopulation() {
+        return population;
+    }
 }
