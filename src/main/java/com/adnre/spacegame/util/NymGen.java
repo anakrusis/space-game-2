@@ -2,8 +2,8 @@ package com.adnre.spacegame.util;
 
 public class NymGen {
 
-    // All the phonemes!!! You get all of them!!!
-    static final String[] vowels = new String[]{"a", "e", "i", "o", "u", "y", "ie", "ae", "ou", "ea"};
+    // All the phonemes!!! You get all of them!!! Edit: simplified vowels for easier pronouncing
+    static final String[] vowels = new String[]{"a", "e", "i", "o", "u"};
     static final String[] consonants = new String[]{"b", "c", "d", "f", "g", "gh", "h", "j", "k", "ch",
     "l", "m", "n", "p", "r", "s", "t", "v", "w", "z", "sh", "th", "t"};
     static final char[] greekletters = new char[]{224, 225, 226, 235, 238};
@@ -13,7 +13,12 @@ public class NymGen {
         String startConsonant;
         String endConsonant;
         String vowel;
+
+        // 1 syllable names are possible but discouraged
         int syllableCount = RandomUtil.fromRangeI(1, 4);
+        if (syllableCount == 1){
+            syllableCount = RandomUtil.fromRangeI(1, 4);
+        }
         for (int i = 0; i < syllableCount; i++){
 
             // Syllable onset

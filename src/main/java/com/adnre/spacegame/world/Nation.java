@@ -3,10 +3,12 @@ package com.adnre.spacegame.world;
 import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
+import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.util.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 public class Nation implements Serializable {
@@ -37,7 +39,7 @@ public class Nation implements Serializable {
         this.planetUUIDs = new ArrayList<>();
         planetUUIDs.add(homeplanetUUID);
 
-        this.color = new float[] {0.4f, 0.95f, 0.95f};
+        this.color = new float[]{RandomUtil.fromRangeF(0, 1), RandomUtil.fromRangeF(0,1), RandomUtil.fromRangeF(0,1)};
         //this.color = new float[] {0.01f, 0.50f, 0.2f};
         this.uuid = UUID.randomUUID();
 

@@ -80,6 +80,7 @@ public class World implements Serializable {
         Nation playerNation = new Nation(nationName, chunkx, chunky, homeStar.getUuid(), homePlanet.getUuid(), playerCity.getUuid());
         homePlanet.setNationUUID(playerNation.getUuid());
         nations.put(playerNation.getUuid(), playerNation);
+        playerNation.setColor(new float[] {0.4f, 0.95f, 0.95f});
 
         cityName = NymGen.newName();
         City rivalCity = new City (cityName, chunkx, chunky, homePlanet.getUuid());
