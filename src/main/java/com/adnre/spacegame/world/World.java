@@ -76,18 +76,18 @@ public class World implements Serializable {
 
         String cityName = NymGen.newName();
         City playerCity = new City (cityName, chunkx, chunky, homePlanet.getUuid());
-
         Nation playerNation = new Nation(nationName, chunkx, chunky, homeStar.getUuid(), homePlanet.getUuid(), playerCity.getUuid());
         homePlanet.setNationUUID(playerNation.getUuid());
         nations.put(playerNation.getUuid(), playerNation);
         playerNation.setColor(new float[] {0.4f, 0.95f, 0.95f});
+        playerCity.setNationUUID(playerNation.getUuid());
 
         cityName = NymGen.newName();
         City rivalCity = new City (cityName, chunkx, chunky, homePlanet.getUuid());
-
-        Nation rivalNation = new Nation(nationName, chunkx, chunky, homeStar.getUuid(), homePlanet.getUuid(), rivalCity.getUuid());
-        rivalNation.setColor( new float[] { 0.7f, 0.2f, 0.2f } );
+        Nation rivalNation = new Nation(nationName, chunkx, chunky, homeStar.getUuid(), homePlanet.getUuid(), rivalCity.getUuid());;
         nations.put(rivalNation.getUuid(), rivalNation);
+        rivalNation.setColor( new float[] { 0.7f, 0.2f, 0.2f } );
+        rivalCity.setNationUUID(rivalNation.getUuid());
 
         this.playerNationUUID = playerNation.getUuid();
         this.homePlanetUUID = homePlanet.getUuid();

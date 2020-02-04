@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class GuiHandler {
 
     public static City citySelected;
+    public static boolean politicalMapMode = true;
 
     public static void update( ArrayList<TextBox> elements){
         EntityCursor cursor = SpaceGame.world.getCursor();

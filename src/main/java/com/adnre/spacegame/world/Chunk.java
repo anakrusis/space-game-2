@@ -104,25 +104,18 @@ public class Chunk implements Serializable {
     }
 
     public void spawnBody(Body body){
-        UUID bodyuuid = UUID.randomUUID();
-        UUID gravuuid = UUID.randomUUID();
-        UUID atmouuid = UUID.randomUUID();
-
-        bodies.put(bodyuuid, body);
-        body.setUuid(bodyuuid);
+        bodies.put(body.getUuid(), body);
 
         if (body.canEntitiesCollide){
 
             BodyGravityRadius bgr = new BodyGravityRadius(body.getX(), body.getY(), body.getDir(), body.getChunk(),
                     body.getRadius() * 2.5f, SpaceGame.world, body.getUuid());
-            bodies.put(gravuuid, bgr);
-            bgr.setUuid(gravuuid);
+            bodies.put(bgr.getUuid(), bgr);
 
             if (body instanceof BodyPlanet){
                 BodyAtmosphere atmo = new BodyAtmosphere(body.getX(), body.getY(), body.getDir(), body.getChunk(),
                         body.getRadius() * 2f, SpaceGame.world, body.getUuid());
-                bodies.put(atmouuid, atmo);
-                atmo.setUuid(atmouuid);
+                bodies.put(atmo.getUuid(), atmo);
             }
         }
     }

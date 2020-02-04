@@ -201,7 +201,10 @@ public class BodyPlanet extends Body {
         int cityhallindex = MathHelper.loopyMod( index - 1, this.getTerrainSize() );
         spawnBuilding(new BuildingCityHall(0, 0, 0, world, nation), cityhallindex);
 
-        int randomOffset = RandomUtil.fromRangeI(-5, 5);
+        int leftSize = RandomUtil.fromRangeI(-10, -2);
+        int rightSize = RandomUtil.fromRangeI(2, 10);
+
+        int randomOffset = RandomUtil.fromRangeI(leftSize, rightSize);
         int aptIndex = MathHelper.loopyMod(index + randomOffset, this.getTerrainSize() );
         BuildingApartment mandatoryApt = new BuildingApartment(0, 0, 0, world, nation);
         spawnBuilding(mandatoryApt, aptIndex);
@@ -209,7 +212,7 @@ public class BodyPlanet extends Body {
 
         // Non-priority buildings are additional factories and spaceports.
         // They can be spawned on top of already existing buildings without error, and will simply despawn.
-        for (int i = -5; i < 5; i++){
+        for (int i = leftSize; i < rightSize; i++){
             int ind2 = MathHelper.loopyMod( index + i, this.getTerrainSize() );
             EntityBuilding building;
 
@@ -242,5 +245,9 @@ public class BodyPlanet extends Body {
             }
         }
         return null;
+    }
+
+    public HashMap<UUID, City> getCities() {
+        return cities;
     }
 }

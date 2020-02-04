@@ -47,8 +47,11 @@ public class RenderChunk {
 
                     RenderPlanet.renderPlanet(body, camera);
 
-                }else if (body instanceof BodyAtmosphere){
+                }else if (body instanceof BodyAtmosphere) {
                     RenderAtmosphere.renderAtmosphere(body, camera);
+
+                }else if (body instanceof BodyGravityRadius){
+                    ;
                 } else {
                     RenderStar.renderStar(body, false, camera);
                 }
@@ -59,6 +62,7 @@ public class RenderChunk {
                 RenderStar.renderStar(body, true, camera);
             }
 
+            // Debug lines for collision
             if (SpaceGame.world.getPlayer() != null && Reference.COLLISION_DEBUG_LINES){
                 int index = CollisionUtil.terrainIndexFromEntityAngle(SpaceGame.world.getPlayer(), body);
                 double[] tri = CollisionUtil.getTriFromIndex(body, index);

@@ -19,6 +19,7 @@ public class City implements Serializable {
     private static final long serialVersionUID = 409589347L;
     private UUID uuid;
     private UUID planetUUID;
+    private UUID nationUUID;
     private int chunkX, chunkY;
 
     public City (String name, int chunkx, int chunky, UUID planetUUID){
@@ -29,6 +30,7 @@ public class City implements Serializable {
         this.planetUUID = planetUUID;
         this.chunkX = chunkx;
         this.chunkY = chunky;
+        this.nationUUID = null;
     }
 
     public void update(){
@@ -59,5 +61,16 @@ public class City implements Serializable {
 
     public int getPopulation() {
         return population;
+    }
+
+    public Nation getNation() {
+        if (nationUUID != null){
+            return SpaceGame.world.getNations().get(nationUUID);
+        }
+        return null;
+    }
+
+    public void setNationUUID(UUID nationUUID) {
+        this.nationUUID = nationUUID;
     }
 }

@@ -36,11 +36,13 @@ public class Nation implements Serializable {
         this.homeChunkY = homeChunkY;
         this.capitalCityUUID = capitalCityUUID;
 
+        this.cityUUIDs = new ArrayList<>();
+        cityUUIDs.add(capitalCityUUID);
+
         this.planetUUIDs = new ArrayList<>();
         planetUUIDs.add(homeplanetUUID);
 
         this.color = new float[]{RandomUtil.fromRangeF(0, 1), RandomUtil.fromRangeF(0,1), RandomUtil.fromRangeF(0,1)};
-        //this.color = new float[] {0.01f, 0.50f, 0.2f};
         this.uuid = UUID.randomUUID();
 
         if (Reference.DEASTL_MODE){
