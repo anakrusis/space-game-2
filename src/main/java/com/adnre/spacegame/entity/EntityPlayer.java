@@ -16,7 +16,6 @@ import com.adnre.spacegame.world.Nation;
 import java.util.UUID;
 
 public class EntityPlayer extends EntityShip {
-    private float money;
 
     private ItemStack[] inventory = new ItemStack[9];
     private int currentItemSlot = 0;
@@ -31,13 +30,6 @@ public class EntityPlayer extends EntityShip {
 
     public EntityPlayer (double x, double y, float dir, World world){
         super(x,y,dir, world);
-        if (Reference.DEASTL_MODE){
-            this.money = 69000000;
-        }else if (Reference.DEBUG_MODE){
-            this.money = 1000;
-        }else{
-            this.money = 0;
-        }
         this.fuelCapacity = 100;
         this.fuel = fuelCapacity;
 
@@ -58,6 +50,7 @@ public class EntityPlayer extends EntityShip {
         this.parts.add( new PartCockpitWood( 2.75f, 0, world, uuid));
     }
 
+    // UTILITY METHODS
     @Override
     public double[] getAbsolutePoints() {
         double point1x = MathHelper.rotX(this.dir,-0.5d,0.4d) + this.x;
@@ -128,24 +121,35 @@ public class EntityPlayer extends EntityShip {
         }
     }
 
+    public void addInventory(ItemStack item){
+        // First, look for matching itemstacks and ensuring that the stack size is not too large.
+        for (int i = 0; i < inventory.length; i++){
+            if (inventory[i] != null){
+                if (inventory[i].getItem().getId() == item.getItem().getId() && inventory[i].getAmount() < inventory[i].getItem().getMaxStackSize()){
+
+                    // Adding the item
+                    inventory[i].addAmount(item.getAmount());
+                    return;
+                }
+            }
+        }
+        // If no matching itemstacks exist, make a new one at the first blank spot
+        for (int i = 0; i < inventory.length; i++){
+            if (inventory[i] == null){
+                inventory[i] = new ItemStack(item.getItem(), item.getAmount());
+                return;
+            }
+        }
+        // Todo: If no blank spot available, then idk
+    }
+
     @Override
     public void explode() {
         super.explode();
         this.world.playerLastDeathTime = this.world.mapTime;
     }
 
-    public float getMoney() {
-        return money;
-    }
-
-    public void setMoney(float money) {
-        this.money = money;
-    }
-
-    public void addMoney(float money){
-        this.money += money;
-    }
-
+    // GETTERS AND SETTERS
     public int getCurrentItemSlot() {
         return currentItemSlot;
     }
@@ -168,28 +172,6 @@ public class EntityPlayer extends EntityShip {
 
     public ItemStack[] getInventory() {
         return inventory;
-    }
-
-    public void addInventory(ItemStack item){
-        // First, look for matching itemstacks and ensuring that the stack size is not too large.
-        for (int i = 0; i < inventory.length; i++){
-            if (inventory[i] != null){
-                if (inventory[i].getItem().getId() == item.getItem().getId() && inventory[i].getAmount() < inventory[i].getItem().getMaxStackSize()){
-
-                    // Adding the item
-                    inventory[i].addAmount(item.getAmount());
-                    return;
-                }
-            }
-        }
-        // If no matching itemstacks exist, make a new one at the first blank spot
-        for (int i = 0; i < inventory.length; i++){
-            if (inventory[i] == null){
-                inventory[i] = new ItemStack(item.getItem(), item.getAmount());
-                return;
-            }
-        }
-        // Todo: If no blank spot available, then idk
     }
 
     public boolean isToolActive() {

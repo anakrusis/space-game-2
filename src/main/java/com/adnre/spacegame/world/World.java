@@ -188,9 +188,10 @@ public class World implements Serializable {
             EntityPlayer player = new EntityPlayer(0,0,(float)Math.PI, this);
             this.spawnEntity(player);
 
-            // This is for all respawns
+            // This is for all respawns. Ship costs 500 dollar to respawn.
             this.getPlayer().moveToIndexOnPlanet(homeIndex, getHomePlanet());
             this.getPlayer().setNationUUID(getPlayerNation().getUuid());
+            this.getPlayer().getNation().addMoney( -500f );
         }
         this.mapTime++;
     }

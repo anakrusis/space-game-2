@@ -18,8 +18,8 @@ public class ButtonStoreBuy extends Button {
     public void onClick() {
         super.onClick();
         int price = this.itemStack.getItem().getPrice();
-        if (SpaceGame.world.getPlayer().getMoney() >= price){
-            SpaceGame.world.getPlayer().addMoney(-price);
+        if (SpaceGame.world.getPlayer().getNation().getMoney() >= price){
+            SpaceGame.world.getPlayer().getNation().addMoney(-price);
             SpaceGame.world.getPlayer().addInventory(itemStack);
         }
     }

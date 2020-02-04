@@ -3,6 +3,7 @@ package com.adnre.spacegame.world;
 import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
+import com.adnre.spacegame.util.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.UUID;
 public class Nation implements Serializable {
     private String name;
     private float[] color;
+    private float money;
+
     private int homeChunkX;
     private int homeChunkY;
 
@@ -37,6 +40,14 @@ public class Nation implements Serializable {
         this.color = new float[] {0.4f, 0.95f, 0.95f};
         //this.color = new float[] {0.01f, 0.50f, 0.2f};
         this.uuid = UUID.randomUUID();
+
+        if (Reference.DEASTL_MODE){
+            this.money = 69000000;
+        }else if (Reference.DEBUG_MODE){
+            this.money = 1000;
+        }else{
+            this.money = 0;
+        }
     }
 
     public String getName() {
@@ -61,5 +72,17 @@ public class Nation implements Serializable {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public float getMoney() {
+        return money;
+    }
+
+    public void setMoney(float money) {
+        this.money = money;
+    }
+
+    public void addMoney(float money){
+        this.money += money;
     }
 }

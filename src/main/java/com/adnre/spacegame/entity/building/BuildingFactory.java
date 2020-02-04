@@ -46,7 +46,7 @@ public class BuildingFactory extends EntityBuilding {
             if (this.ticksExisted % outputInterval == 0 && world.getPlayer() != null){
 
                 if (this.world.getPlayer().getNation() == this.getNation()){
-                    world.getPlayer().addMoney(output);
+                    world.getPlayer().getNation().addMoney(output);
                 }
 
             }

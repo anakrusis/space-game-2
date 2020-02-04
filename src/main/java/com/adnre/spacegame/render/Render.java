@@ -102,7 +102,7 @@ public class Render {
                  //RenderText.renderText(player.getChunk().getX() + "X", 15, -2, 1.0f);
                  //RenderText.renderText(player.getChunk().getY() + "Y", 15, -3, 1.0f);
              }
-             RenderText.renderText("$" + player.getMoney(), -12, 6, 0.45f);
+             RenderText.renderText("$" + player.getNation().getMoney(), -12, 6, 0.45f);
 
              String fueltext = "Fuel: " + Math.round(player.getFuel()) + "/" + Math.round(player.getFuelCapacity());
              RenderText.renderText(fueltext, -12, 5.5f, 0.45f);

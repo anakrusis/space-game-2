@@ -18,7 +18,7 @@ public class ButtonRefuel extends Button {
         if (SpaceGame.world.getPlayer() != null){
             EntityPlayer player = SpaceGame.world.getPlayer();
             player.setFuel( player.getFuelCapacity() );
-            player.addMoney( -refuelcost );
+            player.getNation().addMoney( -refuelcost );
         }
     }
 
