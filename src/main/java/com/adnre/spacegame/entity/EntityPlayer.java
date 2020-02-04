@@ -18,12 +18,16 @@ import java.util.UUID;
 public class EntityPlayer extends EntityShip {
     private float money;
 
-
     private ItemStack[] inventory = new ItemStack[9];
     private int currentItemSlot = 0;
 
     private UUID nationUUID;
     private boolean isToolActive;
+
+    // toolProgress can be initialized to any value for longer-lasting tools,
+    // but inevitably ticks down to one when the action is complete!
+    private int toolProgress = 60;
+    private UUID currentBuildingBreakingUUID;
 
     public EntityPlayer (double x, double y, float dir, World world){
         super(x,y,dir, world);
@@ -93,16 +97,34 @@ public class EntityPlayer extends EntityShip {
             // The laser is used to destroy buildings and pick them up
                 if (world.getCursor().getSelectedEntity() instanceof EntityBuilding){
                     EntityBuilding building = (EntityBuilding) world.getCursor().getSelectedEntity();
-
-                    if (!building.dead){
-                        this.addInventory(building.getItemDropped());
+                    if (building.getUuid() == currentBuildingBreakingUUID){
+                        toolProgress--;
+                    } else {
+                        currentBuildingBreakingUUID = building.getUuid();
+                        toolProgress = 60;
                     }
-                    building.dead = true;
+
+                    if (toolProgress <= 1){
+                        if (!building.dead){
+                            this.addInventory(building.getItemDropped());
+                        }
+                        building.dead = true;
+                        currentBuildingBreakingUUID = null;
+                        toolProgress = 60;
+                    }
+                } else {
+                    currentBuildingBreakingUUID = null;
+                    toolProgress = 60;
                 }
         // The player's laser never works if it's outside of the radius
             }else{
                 this.setToolActive(false);
+                currentBuildingBreakingUUID = null;
+                toolProgress = 60;
             }
+        } else {
+            currentBuildingBreakingUUID = null;
+            toolProgress = 60;
         }
     }
 
@@ -200,5 +222,13 @@ public class EntityPlayer extends EntityShip {
 
     public float getFuelCapacity() {
         return fuelCapacity;
+    }
+
+    public int getToolProgress() {
+        return toolProgress;
+    }
+
+    public UUID getCurrentBuildingBreakingUUID() {
+        return currentBuildingBreakingUUID;
     }
 }

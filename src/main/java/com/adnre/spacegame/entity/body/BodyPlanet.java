@@ -203,7 +203,9 @@ public class BodyPlanet extends Body {
 
         int randomOffset = RandomUtil.fromRangeI(-5, 5);
         int aptIndex = MathHelper.loopyMod(index + randomOffset, this.getTerrainSize() );
-        spawnBuilding(new BuildingApartment(0, 0, 0, world, nation), aptIndex);
+        BuildingApartment mandatoryApt = new BuildingApartment(0, 0, 0, world, nation);
+        spawnBuilding(mandatoryApt, aptIndex);
+        mandatoryApt.setPopulation(RandomUtil.fromRangeI( mandatoryApt.getCapacity()/2, mandatoryApt.getCapacity() ));
 
         // Non-priority buildings are additional factories and spaceports.
         // They can be spawned on top of already existing buildings without error, and will simply despawn.

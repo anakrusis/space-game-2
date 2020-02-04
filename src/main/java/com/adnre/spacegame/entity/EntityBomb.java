@@ -7,6 +7,7 @@ import com.adnre.spacegame.render.Texture;
 import com.adnre.spacegame.render.Textures;
 import com.adnre.spacegame.util.CollisionUtil;
 import com.adnre.spacegame.util.MathHelper;
+import com.adnre.spacegame.util.RandomUtil;
 import com.adnre.spacegame.world.World;
 
 public class EntityBomb extends Entity {
@@ -33,6 +34,7 @@ public class EntityBomb extends Entity {
     @Override
     public void update() {
         super.update();
+        this.color = new float[] { RandomUtil.fromRangeF(0, 1), RandomUtil.fromRangeF(0, 1), RandomUtil.fromRangeF(0, 1) };
         this.dir += 0.1;
 
         if (this.ticksExisted > 1000) {

@@ -4,10 +4,7 @@ import com.adnre.spacegame.SpaceGame;
 import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
-import com.adnre.spacegame.entity.building.BuildingApartment;
-import com.adnre.spacegame.entity.building.BuildingFactory;
-import com.adnre.spacegame.entity.building.BuildingSpaceport;
-import com.adnre.spacegame.entity.building.EntityBuilding;
+import com.adnre.spacegame.entity.building.*;
 
 import java.text.DecimalFormat;
 
@@ -86,6 +83,9 @@ public class TextBoxSelectedEntity extends TextBox {
 
             }else if (e instanceof BuildingSpaceport){
                 addTextBody("\n\nClick without any \nitem selected to \nview the Spaceport \nmenu.");
+
+            }else if (e instanceof BuildingCityHall){
+                addTextBody("\n\nClick without any \nitem selected to \nview the City menu.");
             }
         }
     }

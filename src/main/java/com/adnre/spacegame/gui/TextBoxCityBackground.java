@@ -11,7 +11,7 @@ public class TextBoxCityBackground extends TextBox {
     public void update() {
         super.update();
         if (GuiHandler.citySelected != null){
-            setHeader(GuiHandler.citySelected.getName());
+            setHeader("City of " + GuiHandler.citySelected.getName());
             setTextBody("");
             addTextBody("\nPopulation: " + GuiHandler.citySelected.getPopulation());
         }
