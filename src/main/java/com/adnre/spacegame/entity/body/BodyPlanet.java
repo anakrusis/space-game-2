@@ -228,6 +228,7 @@ public class BodyPlanet extends Body {
             this.spawnBuilding(building, ind2);
             city.getTerrainIndexes().add(ind2);
         }
+        city.setCenterIndex(index);
         this.cities.put(city.getUuid(), city);
     }
 

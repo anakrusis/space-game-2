@@ -32,7 +32,14 @@ public class TextBoxSelectedEntity extends TextBox {
                 }else{
                     addTextBody("\nInactive");
                 }
-                //addTextBody("\nDist: " + MathHelper.terrainIndexDistance(((EntityBuilding) e).getPlanetIndex(), 0, e.getGroundedBody().getTerrainSize()));
+
+                if (e.isGrounded()){
+                    addTextBody("\n" + ((EntityBuilding) e).getPlanetIndex());
+                    if (MathHelper.isIndexLeftOfIndex(((EntityBuilding) e).getPlanetIndex(), 0, e.getGroundedBody().getTerrainSize())){
+                        addTextBody("\nleft of 0");
+                    }
+                    //addTextBody("\nDist: " + MathHelper.terrainIndexDistance(((EntityBuilding) e).getPlanetIndex(), 40, e.getGroundedBody().getTerrainSize()));
+                }
             }
 
             // Unique single-class properties

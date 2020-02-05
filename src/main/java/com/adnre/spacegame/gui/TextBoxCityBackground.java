@@ -1,6 +1,7 @@
 package com.adnre.spacegame.gui;
 
 import com.adnre.spacegame.GuiHandler;
+import com.adnre.spacegame.world.City;
 
 public class TextBoxCityBackground extends TextBox {
     public TextBoxCityBackground(float x, float y, float width, float height, EnumGui GUI_ID) {
@@ -10,10 +11,18 @@ public class TextBoxCityBackground extends TextBox {
     @Override
     public void update() {
         super.update();
-        if (GuiHandler.citySelected != null){
-            setHeader("City of " + GuiHandler.citySelected.getName());
+        City c = GuiHandler.citySelected;
+        if (c != null){
+            setHeader("City of " + c.getName());
             setTextBody("");
-            addTextBody("\nPopulation: " + GuiHandler.citySelected.getPopulation());
+            addTextBody("\nPopulation: " + c.getPopulation());
+            addTextBody("\nCenter: " + c.getCenterIndex());
+            addTextBody("\nLeftmost: " + c.getExtremeIndexes()[0]);
+            addTextBody("\nRightmost: " + c.getExtremeIndexes()[1]);
+
+            for (Integer index : c.getTerrainIndexes()){
+                addTextBody("\n" + index);
+            }
         }
     }
 }

@@ -20,7 +20,13 @@ public class MathHelper {
     public static int terrainIndexDistance(int index1, int index2, int terrainSize){
         int rightDiff = index2 - (index1 - terrainSize);
         int leftDiff =  index1 - index2;
-        return Math.abs(Math.min(leftDiff, rightDiff));
+        return Math.min( Math.abs(leftDiff), Math.abs(rightDiff));
+    }
+
+    public static boolean isIndexLeftOfIndex(int index1, int index2, int terrainSize){
+        int rightDiff = index2 - (index1 - terrainSize);
+        int leftDiff =  index1 - index2;
+        return (Math.abs(leftDiff) < Math.abs(rightDiff));
     }
 
     public static double screenToWorldX(double screenX, double screenWidth, double camX, double camZoom){
