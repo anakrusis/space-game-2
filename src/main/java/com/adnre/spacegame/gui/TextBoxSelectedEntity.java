@@ -5,6 +5,7 @@ import com.adnre.spacegame.entity.Entity;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.entity.body.BodyStar;
 import com.adnre.spacegame.entity.building.*;
+import com.adnre.spacegame.util.MathHelper;
 
 import java.text.DecimalFormat;
 
@@ -31,6 +32,7 @@ public class TextBoxSelectedEntity extends TextBox {
                 }else{
                     addTextBody("\nInactive");
                 }
+                //addTextBody("\nDist: " + MathHelper.terrainIndexDistance(((EntityBuilding) e).getPlanetIndex(), 0, e.getGroundedBody().getTerrainSize()));
             }
 
             // Unique single-class properties

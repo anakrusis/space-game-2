@@ -32,8 +32,7 @@ public class RenderChunk {
         glEnd();
 
         // Drawing all the bodies inside the chunk
-        for (java.util.Map.Entry<UUID, Body> e : chunk.getBodies().entrySet()) {
-            Body body = e.getValue();
+        for (Body body : chunk.getBodies().values()) {
 
             // Culled bodies
             if (camZoom > Reference.MAP_SCREEN_THRESHOLD){
@@ -48,7 +47,7 @@ public class RenderChunk {
                     RenderPlanet.renderPlanet(body, camera);
 
                 }else if (body instanceof BodyAtmosphere) {
-                    RenderAtmosphere.renderAtmosphere(body, camera);
+                    //RenderAtmosphere.renderAtmosphere(body, camera);
 
                 }else if (body instanceof BodyGravityRadius){
                     ;
@@ -73,6 +72,11 @@ public class RenderChunk {
                 glVertex2d( camera.getZoom() * (tri[4] - camera.getX()),  camera.getZoom() * (tri[5] - camera.getY()));
                 glEnd();
 
+            }
+        }
+        for (Body body : chunk.getBodies().values()) {
+            if (body instanceof BodyAtmosphere) {
+                RenderAtmosphere.renderAtmosphere(body, camera);
             }
         }
     }

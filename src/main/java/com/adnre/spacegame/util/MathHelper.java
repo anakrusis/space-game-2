@@ -17,6 +17,12 @@ public class MathHelper {
         return Math.max( Math.abs( x2 - x1 ), Math.abs( y2 - y1 ) );
     }
 
+    public static int terrainIndexDistance(int index1, int index2, int terrainSize){
+        int rightDiff = index2 - (index1 - terrainSize);
+        int leftDiff =  index1 - index2;
+        return Math.abs(Math.min(leftDiff, rightDiff));
+    }
+
     public static double screenToWorldX(double screenX, double screenWidth, double camX, double camZoom){
         screenX = screenToGLX( screenX, screenWidth);
         return ( screenX / camZoom ) + camX;

@@ -89,4 +89,8 @@ public class Body extends Entity {
     public void initModel() {
         //this.model = new Model(new float[]{}, new float[]{});
     }
+
+    public int getTerrainSize() {
+        return terrain.length;
+    }
 }

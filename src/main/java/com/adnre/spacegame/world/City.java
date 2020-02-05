@@ -15,6 +15,7 @@ public class City implements Serializable {
     private String name;
     private int population;
     private ArrayList<Integer> terrainIndexes;
+    private int centerIndex;
 
     private static final long serialVersionUID = 409589347L;
     private UUID uuid;
@@ -72,5 +73,15 @@ public class City implements Serializable {
 
     public void setNationUUID(UUID nationUUID) {
         this.nationUUID = nationUUID;
+    }
+
+    // Returns the leftmost and rightmost indexes of the city, for use in rendering stuff I guess.
+    public int[] getExtremeIndexes(){
+        return new int[] {};
+    }
+
+    // Used to relatively assess the leftmost and rightmost indexes.
+    public void setCenterIndex(int centerIndex) {
+        this.centerIndex = centerIndex;
     }
 }
