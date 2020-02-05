@@ -70,19 +70,11 @@ public class RenderPlanet {
                     glColor3d(c[0],c[1],c[2]);
                 }
 
-                if (index2 < index1){
-                    glBegin(GL_LINE_LOOP);
-                    glVertex2d( camera.getZoom() * (tri1[0] - camera.getX()),  camera.getZoom() * (tri1[1] - camera.getY()));
-                    glVertex2d( camera.getZoom() * (tri1[2] - camera.getX()),  camera.getZoom() * (tri1[3] - camera.getY()));
-                    glVertex2d( camera.getZoom() * (tri2[4] - camera.getX()),  camera.getZoom() * (tri2[5] - camera.getY()));
-                    glEnd();
-                }else{
-                    glBegin(GL_LINE_LOOP);
-                    glVertex2d( camera.getZoom() * (tri1[0] - camera.getX()),  camera.getZoom() * (tri1[1] - camera.getY()));
-                    glVertex2d( camera.getZoom() * (tri1[4] - camera.getX()),  camera.getZoom() * (tri1[5] - camera.getY()));
-                    glVertex2d( camera.getZoom() * (tri2[2] - camera.getX()),  camera.getZoom() * (tri2[3] - camera.getY()));
-                    glEnd();
-                }
+                glBegin(GL_LINE_LOOP);
+                glVertex2d( camera.getZoom() * (tri1[0] - camera.getX()),  camera.getZoom() * (tri1[1] - camera.getY()));
+                glVertex2d( camera.getZoom() * (tri1[2] - camera.getX()),  camera.getZoom() * (tri1[3] - camera.getY()));
+                glVertex2d( camera.getZoom() * (tri2[4] - camera.getX()),  camera.getZoom() * (tri2[5] - camera.getY()));
+                glEnd();
             }
         }
     }

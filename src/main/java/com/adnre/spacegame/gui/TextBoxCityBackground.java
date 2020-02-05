@@ -19,10 +19,6 @@ public class TextBoxCityBackground extends TextBox {
             addTextBody("\nCenter: " + c.getCenterIndex());
             addTextBody("\nLeftmost: " + c.getExtremeIndexes()[0]);
             addTextBody("\nRightmost: " + c.getExtremeIndexes()[1]);
-
-            for (Integer index : c.getTerrainIndexes()){
-                addTextBody("\n" + index);
-            }
         }
     }
 }

@@ -24,9 +24,11 @@ public class MathHelper {
     }
 
     public static boolean isIndexLeftOfIndex(int index1, int index2, int terrainSize){
-        int rightDiff = index2 - (index1 - terrainSize);
-        int leftDiff =  index1 - index2;
-        return (Math.abs(leftDiff) < Math.abs(rightDiff));
+        int diff = index1 - index2;
+        if (diff > terrainSize / 2){
+            diff = (index1 - terrainSize) - index2;
+        }
+        return diff < 0;
     }
 
     public static double screenToWorldX(double screenX, double screenWidth, double camX, double camZoom){
