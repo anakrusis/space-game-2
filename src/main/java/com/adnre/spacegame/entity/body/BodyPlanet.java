@@ -202,9 +202,12 @@ public class BodyPlanet extends Body {
         spawnBuilding(new BuildingCityHall(0, 0, 0, world, nation), cityhallindex);
 
         int leftSize = RandomUtil.fromRangeI(-10, -2);
-        int rightSize = RandomUtil.fromRangeI(2, 10);
+        int rightSize = RandomUtil.fromRangeI(3, 11);
 
-        int randomOffset = RandomUtil.fromRangeI(leftSize, rightSize);
+        int randomOffset;
+        do { randomOffset = RandomUtil.fromRangeI(leftSize, rightSize); }
+        while (index + randomOffset == cityhallindex || index + randomOffset == index);
+
         int aptIndex = MathHelper.loopyMod(index + randomOffset, this.getTerrainSize() );
         BuildingApartment mandatoryApt = new BuildingApartment(0, 0, 0, world, nation);
         spawnBuilding(mandatoryApt, aptIndex);

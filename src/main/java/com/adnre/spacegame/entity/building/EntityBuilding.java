@@ -76,6 +76,29 @@ public class EntityBuilding extends Entity {
                             if (planet.getNation() == null){
                                 planet.setNationUUID(world.getPlayerNation().getUuid());
                             }
+
+                            for (City city: planet.getCities().values()){
+
+                                // No duplicate items allowed
+                                if (!city.getTerrainIndexes().contains(planetIndex)){
+
+                                    // If the indexes adjacent are part of the city though, but this index isn't,
+                                    // then the index is automatically annexed to the city
+                                    int leftInd = MathHelper.loopyMod(planetIndex+1, planet.getTerrainSize());
+                                    int rightInd = MathHelper.loopyMod(planetIndex-1, planet.getTerrainSize());
+                                    if (city.getTerrainIndexes().contains(leftInd) ||
+                                            city.getTerrainIndexes().contains(rightInd)){
+
+                                        // But only if the nation of the building is the same as the nation of the city.
+                                        // So you can't annex for another nation.
+                                        if (city.getNation() == this.getNation()){
+                                            city.getTerrainIndexes().add(planetIndex);
+                                            break;
+                                        }
+
+                                    }
+                                }
+                            }
                         }
 
                     // If this is the building at that spot, align it with the grid of terrain
@@ -135,7 +158,7 @@ public class EntityBuilding extends Entity {
         if (getNation() != null) {
             return getNation().getColor();
         }else{
-            return new float[]{1f, 1f, 1f};
+            return new float[]{0.5f, 0.5f, 0.5f};
         }
     }
 

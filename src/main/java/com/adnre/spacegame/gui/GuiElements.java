@@ -19,6 +19,7 @@ public class GuiElements {
         }
         Button openStoreButton = new Button(-13, -8, 5, 1, "Store (I)", "", EnumGui.GUI_BUTTON_STORE_OPEN, true);
         TextBox itemTooltip = new TextBox(0, 0, 8, 1, EnumGui.GUI_TOOLTIP_ITEM, false, false);
+        Button togglePoliticalMap = new ButtonTogglePoliticalMap(10, -1.5f, 7, 1, "", "", null, true);
 
         // store screen
         TextBox storeBG = new TextBox( -6, 5, 12, 8, "Store", "", EnumGui.GUI_STORE_BACKGROUND, false, true);

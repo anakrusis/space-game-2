@@ -55,27 +55,5 @@ public class RenderPlanet {
 
         }
         glEnd();
-
-        // Political map of cities
-        for (City city: planet.getCities().values()){
-            if (GuiHandler.politicalMapMode){
-                int index1 = city.getExtremeIndexes()[0];
-                int index2 = city.getExtremeIndexes()[1];
-                double[] tri1 = CollisionUtil.getTriFromIndex(body, index1);
-                double[] tri2 = CollisionUtil.getTriFromIndex(body, index2);
-                if (city.getNation() == null){
-                    glColor3d(1.0,0.0,0.0);
-                }else{
-                    float[] c = city.getNation().getColor();
-                    glColor3d(c[0],c[1],c[2]);
-                }
-
-                glBegin(GL_LINE_LOOP);
-                glVertex2d( camera.getZoom() * (tri1[0] - camera.getX()),  camera.getZoom() * (tri1[1] - camera.getY()));
-                glVertex2d( camera.getZoom() * (tri1[2] - camera.getX()),  camera.getZoom() * (tri1[3] - camera.getY()));
-                glVertex2d( camera.getZoom() * (tri2[4] - camera.getX()),  camera.getZoom() * (tri2[5] - camera.getY()));
-                glEnd();
-            }
-        }
     }
 }

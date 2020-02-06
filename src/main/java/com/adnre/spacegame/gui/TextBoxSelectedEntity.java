@@ -34,9 +34,9 @@ public class TextBoxSelectedEntity extends TextBox {
                 }
 
                 if (e.isGrounded()){
-                    addTextBody("\n" + ((EntityBuilding) e).getPlanetIndex());
+                    //addTextBody("\n" + ((EntityBuilding) e).getPlanetIndex());
                     if (MathHelper.isIndexLeftOfIndex(((EntityBuilding) e).getPlanetIndex(), 0, e.getGroundedBody().getTerrainSize())){
-                        addTextBody("\nleft of 0");
+                        //addTextBody("\nleft of 0");
                     }
                     //addTextBody("\nDist: " + MathHelper.terrainIndexDistance(((EntityBuilding) e).getPlanetIndex(), 40, e.getGroundedBody().getTerrainSize()));
                 }
