@@ -14,8 +14,8 @@ public class TextBoxCityBackground extends TextBox {
         City c = GuiHandler.citySelected;
         if (c != null){
             setHeader("City of " + c.getName());
-            setTextBody("");
-            addTextBody("\nPopulation: " + c.getPopulation());
+            setTextBody("of the " + c.getNation().getName());
+            addTextBody("\n\nPopulation: " + c.getPopulation());
             addTextBody("\nCenter: " + c.getCenterIndex());
             addTextBody("\nLeftmost: " + c.getExtremeIndexes()[0]);
             addTextBody("\nRightmost: " + c.getExtremeIndexes()[1]);

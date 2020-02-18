@@ -37,17 +37,11 @@ public class EntityPlayer extends EntityShip {
         this.nationUUID = null;
 
         // Testing out inventory slots
-        this.inventory[0] = new ItemStack(Items.ITEM_MINING_LASER, 1);
-        this.inventory[1] = new ItemStack(Items.ITEM_FACTORY, 99);
-        this.inventory[2] = new ItemStack(Items.ITEM_APARTMENT, 99);
+        this.addInventory(new ItemStack(Items.ITEM_MINING_LASER, 1));
+        this.addInventory(new ItemStack(Items.ITEM_FACTORY, 99));
+        this.addInventory(new ItemStack(Items.ITEM_APARTMENT, 99));
 
         this.addInventory( new ItemStack (Items.ITEM_BOMB, 99) );
-        this.addInventory( new ItemStack (Items.ITEM_SPACEPORT, 99));
-
-        this.parts.add( new PartChassisWood( 0, 0, world, uuid ));
-        this.parts.add( new PartChassisWood( 1.5f, 0, world, uuid ));
-        this.parts.add( new PartLiquidFuelEngine( -1f, 0, world, uuid));
-        this.parts.add( new PartCockpitWood( 2.75f, 0, world, uuid));
     }
 
     // UTILITY METHODS

@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class EntityBuilding extends Entity {
 
-    private int planetIndex = -1;
+    protected int planetIndex = -1;
     protected int price;
     protected UUID nationUUID;
 

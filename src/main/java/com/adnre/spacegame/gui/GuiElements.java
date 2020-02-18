@@ -26,10 +26,11 @@ public class GuiElements {
         ButtonStoreBuy buyApt = new ButtonStoreBuy(-5, 4, new ItemStack(Items.ITEM_APARTMENT, 1));
         ButtonStoreBuy buyFac = new ButtonStoreBuy(-5, 2.5f, new ItemStack(Items.ITEM_FACTORY, 1));
         ButtonStoreBuy buyBom = new ButtonStoreBuy(-5, 1f, new ItemStack(Items.ITEM_BOMB, 1));
+        ButtonStoreBuy buyHal = new ButtonStoreBuy(-5, -0.5f, new ItemStack(Items.ITEM_CITY_HALL, 1));
         Button closeStoreButton = new ButtonCloseWindow(5, 4.75f, WINDOW_STORE);
         WINDOW_STORE.add(storeBG, buyApt);
         WINDOW_STORE.add(buyFac, buyBom);
-        WINDOW_STORE.add(closeStoreButton);
+        WINDOW_STORE.add(closeStoreButton, buyHal);
 
         // pause screen
         Button resumeButton = new Button(-4, 2, 7, 1, "  Resume Game", "", EnumGui.GUI_BUTTON_PAUSE_RESUME, false);

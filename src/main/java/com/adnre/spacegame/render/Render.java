@@ -39,9 +39,6 @@ public class Render {
                  RenderParticle.renderParticle(entity, camera);
              }
          }
-         if (world.getPlayer() != null){
-             RenderPlayer.renderPlayer(world.getPlayer(), camera);
-         }
 
          // Drawing chunks
          for (Chunk[] xarray : SpaceGame.world.getChunks()){
@@ -65,6 +62,9 @@ public class Render {
                      }
                  }
              }
+         }
+         if (world.getPlayer() != null){
+             RenderPlayer.renderPlayer(world.getPlayer(), camera);
          }
 
          // Drawing pause overlay

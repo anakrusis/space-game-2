@@ -166,6 +166,7 @@ public class World implements Serializable {
         }
 
         for (UUID uuid : markedForDeath){
+            entities.get(uuid).update();
             entities.remove(uuid);
         }
         for (UUID uuid : markedForUpdate){

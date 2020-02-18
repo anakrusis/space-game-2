@@ -21,7 +21,7 @@ public class BodyPlanet extends Body {
     private float orbitDistance;
     private int orbitPeriod;
     private float orbitStart;
-    private float orbitAngle;
+    private double orbitAngle;
     private UUID[] buildingUUIDs;
     private float[] stoneColor;
 
@@ -55,6 +55,7 @@ public class BodyPlanet extends Body {
         this.name = name;
 
         this.orbitStart =  RandomUtil.fromRangeF(0f,(float)Math.PI * 2);
+        this.orbitAngle = orbitStart;
 
         buildingUUIDs = new UUID[terrain.length];
         population = 0;
@@ -72,7 +73,8 @@ public class BodyPlanet extends Body {
         super.update();
 
         // This moves the planet around the star in orbit
-        this.orbitAngle = this.orbitStart + (this.world.mapTime * (float)(Math.PI / 2) / this.orbitPeriod);
+        //this.orbitAngle = this.orbitStart + (this.world.mapTime * (float)(Math.PI / 2) / this.orbitPeriod);
+        this.orbitAngle += (Math.PI * 2) / orbitPeriod;
         this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.getStar().getX();
         this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.getStar().getY();
 
@@ -129,8 +131,12 @@ public class BodyPlanet extends Body {
         }
     }
 
-    public float getOrbitAngle() {
+    public double getOrbitAngle() {
         return orbitAngle;
+    }
+
+    public int getOrbitPeriod() {
+        return orbitPeriod;
     }
 
     public BodyStar getStar() {
