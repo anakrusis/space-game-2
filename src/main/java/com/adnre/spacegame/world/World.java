@@ -71,6 +71,7 @@ public class World implements Serializable {
         BodyPlanet homePlanet = SpawnUtil.newHomePlanet(this);
         BodyStar homeStar = homePlanet.getStar();
         String nationName = NymGen.newName() + " Nation";
+        String nationName2 = NymGen.newName() + " Nation";
         int chunkx = homePlanet.getChunk().getX();
         int chunky = homePlanet.getChunk().getY();
 
@@ -84,7 +85,7 @@ public class World implements Serializable {
 
         cityName = NymGen.newName();
         City rivalCity = new City (cityName, chunkx, chunky, homePlanet.getUuid());
-        Nation rivalNation = new Nation(nationName, chunkx, chunky, homeStar.getUuid(), homePlanet.getUuid(), rivalCity.getUuid());;
+        Nation rivalNation = new Nation(nationName2, chunkx, chunky, homeStar.getUuid(), homePlanet.getUuid(), rivalCity.getUuid());;
         nations.put(rivalNation.getUuid(), rivalNation);
         rivalNation.setColor( new float[] { 0.7f, 0.2f, 0.2f } );
         rivalCity.setNationUUID(rivalNation.getUuid());
