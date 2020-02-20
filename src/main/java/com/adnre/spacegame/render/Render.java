@@ -31,12 +31,14 @@ public class Render {
 
          // Drawing entities
          for (Entity entity : SpaceGame.world.getEntities().values()){
-             if (entity instanceof EntityPlayer) {
+             if (entity.getChunk().isLoaded() && camera.getZoom() > Reference.MAP_SCREEN_THRESHOLD){
+                 if (entity instanceof EntityPlayer) {
 
-             }else if (entity instanceof EntityBuilding || entity instanceof EntityBomb){
-                 RenderBuilding.renderBuilding(entity,camera);
-             }else{
-                 RenderParticle.renderParticle(entity, camera);
+                 }else if (entity instanceof EntityBuilding || entity instanceof EntityBomb){
+                     RenderBuilding.renderBuilding(entity,camera);
+                 }else{
+                     RenderParticle.renderParticle(entity, camera);
+                 }
              }
          }
 

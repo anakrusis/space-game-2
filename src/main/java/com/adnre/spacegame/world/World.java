@@ -140,29 +140,29 @@ public class World implements Serializable {
         ArrayList<UUID> markedForDeath = new ArrayList<>();
         ArrayList<UUID> markedForUpdate = new ArrayList<>();
 
-        for (java.util.Map.Entry<UUID, Entity> e : entities.entrySet()) {
-            Entity currentEntity = e.getValue();
-            UUID currentKey = e.getKey();
+        for (Entity currentEntity : entities.values()) {
 
-            if (currentEntity.isDead()) {
+            if (currentEntity.getChunk().isLoaded()){
+                if (currentEntity.isDead()) {
 
-                // For cleaning up the building pointers when a building is destroyed
-                if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()) {
-                    if (currentEntity.getGroundedBody() instanceof BodyPlanet) {
-                        BodyPlanet planet = (BodyPlanet) currentEntity.getGroundedBody();
-                        EntityBuilding building = (EntityBuilding) currentEntity;
+                    // For cleaning up the building pointers when a building is destroyed
+                    if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()) {
+                        if (currentEntity.getGroundedBody() instanceof BodyPlanet) {
+                            BodyPlanet planet = (BodyPlanet) currentEntity.getGroundedBody();
+                            EntityBuilding building = (EntityBuilding) currentEntity;
 
-                        // -1 is used for floating buildings
-                        if (building.getPlanetIndex() != -1) {
-                            planet.getBuildingUUIDs()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                            // -1 is used for floating buildings
+                            if (building.getPlanetIndex() != -1) {
+                                planet.getBuildingUUIDs()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                            }
                         }
                     }
+
+                    markedForDeath.add(currentEntity.getUuid());
+
+                } else {
+                    markedForUpdate.add(currentEntity.getUuid());
                 }
-
-                markedForDeath.add(currentKey);
-
-            } else {
-                markedForUpdate.add(currentKey);
             }
         }
 

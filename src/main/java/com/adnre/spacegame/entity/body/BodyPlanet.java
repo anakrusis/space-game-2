@@ -29,6 +29,7 @@ public class BodyPlanet extends Body {
     private float atmosphericDensity;
 
     private int population;
+    // todo multiple nations can claim a planet, should be an array list
     private UUID nationUUID;
 
     private HashMap<UUID, City> cities;
@@ -62,6 +63,14 @@ public class BodyPlanet extends Body {
 
         this.nationUUID = null; // Unclaimed by default
         cities = new HashMap<>();
+
+        if (RandomUtil.fromRangeF(0, 1) > 0.5){
+            City capital = new City(NymGen.newName(), this.chunk.getX(), this.chunk.getY(), this.uuid);
+            Nation nation = new Nation(NymGen.newName() + " Nation", this.chunk.getX(), this.chunk.getY(), this.starUUID, this.uuid, capital.getUuid());
+            world.getNations().put(nation.getUuid(), nation);
+            capital.setNationUUID(nation.getUuid());
+            spawnCity(capital, RandomUtil.fromRangeI(0, this.terrainSize), nation.getUuid());
+        }
     }
 
     public BodyPlanet (double x, double y, float dir, Chunk chunk, float orbitDistance, UUID starUUID, World world){

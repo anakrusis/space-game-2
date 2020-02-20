@@ -13,6 +13,7 @@ import java.util.*;
 public class Chunk implements Serializable {
     private int x;
     private int y;
+    boolean loaded;
 
     // the map is not serialized because we would all hate to have 8000 copies of the same map in your world file :(
     transient private World world;
@@ -118,5 +119,9 @@ public class Chunk implements Serializable {
                 bodies.put(atmo.getUuid(), atmo);
             }
         }
+    }
+
+    public boolean isLoaded() {
+        return this == SpaceGame.camera.getChunk();
     }
 }
