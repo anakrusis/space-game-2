@@ -15,7 +15,7 @@ public class RenderText {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
-        glColor3d(color[0], color[1], color[2]);
+        glColor4d(color[0], color[1], color[2], 1);
         if (bold) {
             Textures.bold_font.bind();
         } else {

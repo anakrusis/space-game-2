@@ -42,7 +42,7 @@ public class RenderAtmosphere {
             glVertex2d(camZoom * (body.getX() - camX), camZoom * (body.getY() - camY));
 
         }
-        glEnd();
         glDisable(GL_BLEND);
+        glEnd();
     }
 }

@@ -74,6 +74,7 @@ public class RenderChunk {
             if (body instanceof BodyPlanet) {
                 BodyPlanet planet = (BodyPlanet) body;
                 RenderOverlay.renderCitiesOverlay(planet);
+                RenderOverlay.renderCityNames(planet);
 
                 RenderOverlay.renderCollisionDebugOverlay(body);
             }

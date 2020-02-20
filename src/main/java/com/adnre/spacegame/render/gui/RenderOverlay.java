@@ -6,6 +6,7 @@ import com.adnre.spacegame.entity.body.Body;
 import com.adnre.spacegame.entity.body.BodyPlanet;
 import com.adnre.spacegame.render.Camera;
 import com.adnre.spacegame.util.CollisionUtil;
+import com.adnre.spacegame.util.MathHelper;
 import com.adnre.spacegame.util.Reference;
 import com.adnre.spacegame.world.City;
 
@@ -34,7 +35,7 @@ public class RenderOverlay {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         // Political map of cities
-        if (GuiHandler.politicalMapMode){
+        if (GuiHandler.politicalMapMode && camera.getZoom() > Reference.MAP_SCREEN_THRESHOLD){
             for (City city: planet.getCities().values()){
 
                 double[] n;
@@ -60,6 +61,21 @@ public class RenderOverlay {
             }
         }
         glDisable(GL_BLEND);
+    }
+    public static void renderCityNames(BodyPlanet p){
+        Camera camera = SpaceGame.camera;
+        if (GuiHandler.politicalMapMode && camera.getZoom() > Reference.MAP_SCREEN_THRESHOLD) {
+            for (City city : p.getCities().values()) {
+                for (Integer index : city.getTerrainIndexes()) {
+                    double[] tri = CollisionUtil.getTriFromIndex(p, index);
+                    if (index == city.getCenterIndex()) {
+                        float sx = (float) (camera.getZoom() * (tri[2] - camera.getX()));
+                        float sy = (float) (camera.getZoom() * (tri[3] - camera.getY()));
+                        RenderText.renderText(city.getName(), sx, sy, 0.45f, city.getNation().getColor(), true);
+                    }
+                }
+            }
+        }
     }
 
     public static void renderCollisionDebugOverlay(Body body){

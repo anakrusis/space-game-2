@@ -202,17 +202,17 @@ public class BodyPlanet extends Body {
 
         // Priority buildings include the spaceport, city hall, and one randomly located apartment.
         // These buildings must be present in every city (for now).
-        spawnBuilding(new BuildingSpaceport(0, 0, 0, world, nation), index);
+        spawnBuilding(new BuildingCityHall(0, 0, 0, world, nation), index);
 
-        int cityhallindex = MathHelper.loopyMod( index - 1, this.getTerrainSize() );
-        spawnBuilding(new BuildingCityHall(0, 0, 0, world, nation), cityhallindex);
+        int spaceportIndex = MathHelper.loopyMod( index - 1, this.getTerrainSize() );
+        spawnBuilding(new BuildingSpaceport(0, 0, 0, world, nation), spaceportIndex);
 
         int leftSize = RandomUtil.fromRangeI(-10, -2);
         int rightSize = RandomUtil.fromRangeI(3, 11);
 
         int randomOffset;
         do { randomOffset = RandomUtil.fromRangeI(leftSize, rightSize); }
-        while (index + randomOffset == cityhallindex || index + randomOffset == index);
+        while (index + randomOffset == spaceportIndex || index + randomOffset == index);
 
         int aptIndex = MathHelper.loopyMod(index + randomOffset, this.getTerrainSize() );
         BuildingApartment mandatoryApt = new BuildingApartment(0, 0, 0, world, nation);

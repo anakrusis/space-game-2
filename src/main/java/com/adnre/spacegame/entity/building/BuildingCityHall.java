@@ -37,7 +37,7 @@ public class BuildingCityHall extends EntityBuilding {
     public void update() {
         super.update();
         if (dead && grounded){
-            if (this.getCity() != null){
+            if (this.getCity() != null && this.getPlanetIndex() == this.getCity().getCenterIndex()){
                 ((BodyPlanet)this.getGroundedBody()).getCities().remove(this.getCity().getUuid());
             }
         }else if (grounded){
