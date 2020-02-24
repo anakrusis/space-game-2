@@ -65,16 +65,16 @@ public class RenderChunk {
             }
         }
         for (Body body : chunk.getBodies().values()) {
-            if (body instanceof BodyAtmosphere) {
+            if (body instanceof BodyAtmosphere && camZoom > Reference.MAP_SCREEN_THRESHOLD) {
                 RenderAtmosphere.renderAtmosphere(body, camera);
             }
         }
 
         for (Body body : chunk.getBodies().values()) {
-            if (body instanceof BodyPlanet) {
+            if (body instanceof BodyPlanet && camZoom > Reference.MAP_SCREEN_THRESHOLD) {
                 BodyPlanet planet = (BodyPlanet) body;
                 RenderOverlay.renderCitiesOverlay(planet);
-                RenderOverlay.renderCityNames(planet);
+                //RenderOverlay.renderCityNames(planet);
 
                 RenderOverlay.renderCollisionDebugOverlay(body);
             }

@@ -38,10 +38,10 @@ public class EntityPlayer extends EntityShip {
 
         // Testing out inventory slots
         this.addInventory(new ItemStack(Items.ITEM_MINING_LASER, 1));
-        this.addInventory(new ItemStack(Items.ITEM_FACTORY, 99));
-        this.addInventory(new ItemStack(Items.ITEM_APARTMENT, 99));
-
-        this.addInventory( new ItemStack (Items.ITEM_BOMB, 99) );
+//        this.addInventory(new ItemStack(Items.ITEM_FACTORY, 99));
+//        this.addInventory(new ItemStack(Items.ITEM_APARTMENT, 99));
+//
+//        this.addInventory( new ItemStack (Items.ITEM_BOMB, 99) );
     }
 
     // UTILITY METHODS

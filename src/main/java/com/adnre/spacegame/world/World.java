@@ -95,7 +95,7 @@ public class World implements Serializable {
         this.homeStarUUID = homeStar.getUuid();
         this.homeChunkX = homePlanet.getChunk().getX();
         this.homeChunkY = homePlanet.getChunk().getY();
-        this.homeIndex = 0;
+        this.homeIndex = 1;
 
         homePlanet.spawnCity(playerCity, 0, playerNationUUID);
         homePlanet.spawnCity(rivalCity, 40, rivalNation.getUuid());

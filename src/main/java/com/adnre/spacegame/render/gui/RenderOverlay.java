@@ -46,18 +46,19 @@ public class RenderOverlay {
                     n = new double[]{ c[0], c[1], c[2] };
                 }
 
+                glBegin(GL_TRIANGLES);
                 for (Integer index : city.getTerrainIndexes()){
                     double[] tri = CollisionUtil.getTriFromIndex(planet, index);
-                    glBegin(GL_TRIANGLES);
+
 
                     glColor4d(n[0], n[1], n[2], 0);
                     glVertex2d( camera.getZoom() * (tri[0] - camera.getX()),  camera.getZoom() * (tri[1] - camera.getY()));
 
-                    glColor4d(n[0], n[1], n[2], 1);
+                    glColor4d(n[0], n[1], n[2], 0.8);
                     glVertex2d( camera.getZoom() * (tri[2] - camera.getX()),  camera.getZoom() * (tri[3] - camera.getY()));
                     glVertex2d( camera.getZoom() * (tri[4] - camera.getX()),  camera.getZoom() * (tri[5] - camera.getY()));
-                    glEnd();
                 }
+                glEnd();
             }
         }
         glDisable(GL_BLEND);

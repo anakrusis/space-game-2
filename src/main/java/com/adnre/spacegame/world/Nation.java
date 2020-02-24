@@ -47,10 +47,8 @@ public class Nation implements Serializable {
 
         if (Reference.DEASTL_MODE){
             this.money = 69000000;
-        }else if (Reference.DEBUG_MODE){
-            this.money = 1000;
         }else{
-            this.money = 0;
+            this.money = 1500;
         }
     }
 

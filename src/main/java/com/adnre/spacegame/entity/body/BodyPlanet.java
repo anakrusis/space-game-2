@@ -213,7 +213,7 @@ public class BodyPlanet extends Body {
         // These buildings must be present in every city (for now).
         spawnBuilding(new BuildingCityHall(0, 0, 0, world, nation), index);
 
-        int spaceportIndex = MathHelper.loopyMod( index - 1, this.getTerrainSize() );
+        int spaceportIndex = MathHelper.loopyMod( index + 1, this.getTerrainSize() );
         spawnBuilding(new BuildingSpaceport(0, 0, 0, world, nation), spaceportIndex);
 
         int leftSize = RandomUtil.fromRangeI(-10, -2);
@@ -244,7 +244,9 @@ public class BodyPlanet extends Body {
                 building = new BuildingFactory(0, 0, 0, world, nation);
             }
             this.spawnBuilding(building, ind2);
-            city.getTerrainIndexes().add(ind2);
+            if (getCityAtIndex(ind2) == null){
+                city.getTerrainIndexes().add(ind2);
+            }
         }
         city.setCenterIndex(index);
         this.cities.put(city.getUuid(), city);
