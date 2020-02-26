@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.adnre'
-version '0.0.6pre'
+version '0.0.6'
 project.ext.lwjglVersion = "3.2.3"
 project.ext.lwjglNatives = "natives-windows"
 

@@ -15,7 +15,7 @@ public class Reference {
     public static final double MAP_SCREEN_THRESHOLD = 0.005;
 
     public static final String GAME_NAME = "Space Game";
-    public static final String VERSION = "0.0.6pre";
+    public static final String VERSION = "0.0.6";
 
     public static final boolean DEBUG_MODE = false;
     // DeaSTL wanted me to make it hot pink so if you want your build to have a hot pink background, you know what to do
