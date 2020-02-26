@@ -19,6 +19,9 @@ public class TextBox {
     // Will it be handled by the onclick event?
     protected boolean isClickable;
 
+    // Does it render with a black border (just hotbar items for now)
+    protected boolean outlined;
+
     public TextBox (float x, float y, float width, float height, String header, String textBody, EnumGui guiID, boolean isVisible, boolean isClickable){
         this.x = x;
         this.y = y;
@@ -30,6 +33,7 @@ public class TextBox {
         this.guiID = guiID;
         this.isVisible = isVisible;
         this.isClickable = isClickable;
+        this.outlined = false;
 
         SpaceGame.guiElements.add(this);
     }
@@ -126,5 +130,13 @@ public class TextBox {
 
     public boolean isClickable() {
         return isClickable;
+    }
+
+    public boolean isOutlined() {
+        return outlined;
+    }
+
+    public void setOutlined(boolean outlined) {
+        this.outlined = outlined;
     }
 }

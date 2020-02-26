@@ -13,12 +13,13 @@ public class GuiElements {
     public static void initGui(){
 
         // Main screen
+        TextBox homeStarTooltip = new TextBoxHomeStar(0,0,5,0.75f);
         TextBox tx = new TextBoxSelectedEntity(8.77f,-3,9,7, EnumGui.GUI_SELECTED_ENTITY);
         for (int i = 0; i < 9; i++){
             TextBoxHotbarItem tbhi = new TextBoxHotbarItem(-6.5f + (i * 1.5f), -7.5f, 1.5f, 1.5f, i);
         }
         Button openStoreButton = new Button(-13, -8, 5, 1, "Store (I)", "", EnumGui.GUI_BUTTON_STORE_OPEN, true);
-        TextBox itemTooltip = new TextBox(0, 0, 8, 1, EnumGui.GUI_TOOLTIP_ITEM, false, false);
+        TextBox itemTooltip = new TextBoxTooltipItem(0, 0, 8, 1);
         Button togglePoliticalMap = new ButtonTogglePoliticalMap(10, -1.5f, 7, 1, "", "", null, true);
 
         // store screen

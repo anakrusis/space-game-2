@@ -151,45 +151,5 @@ public class MouseHandler {
 
         world.getCursor().setScreenX(MathHelper.screenToGLX(xpos, windowWidth));
         world.getCursor().setScreenY(MathHelper.screenToGLY(ypos, windowHeight));
-
-        // Searches for the tooltip item (needs to be easierly findable in the future ig)
-        for (int j = SpaceGame.guiElements.size() - 1; j >= 0; j--) {
-            TextBox tooltip = SpaceGame.guiElements.get(j);
-
-            if (tooltip.getGuiID() == EnumGui.GUI_TOOLTIP_ITEM) {
-
-                // Now searches for the hotbar item, and sees if it touches the cursor
-                for (int i = SpaceGame.guiElements.size() - 1; i >= 0; i--) {
-                    TextBox hotbaritem = SpaceGame.guiElements.get(i);
-                    if (hotbaritem instanceof TextBoxHotbarItem &&
-                            CollisionUtil.isPointCollidingInBox(world.getCursor().getScreenX(),
-                            world.getCursor().getScreenY(), hotbaritem.getX(),
-                            hotbaritem.getY(), hotbaritem.getWidth(), hotbaritem.getHeight())){
-
-                        // Now searches for items in inventory
-                        if (world.getPlayer() != null){
-                            ItemStack[] inventory = world.getPlayer().getInventory();
-                            ItemStack item = inventory[ ((TextBoxHotbarItem) hotbaritem).getInventoryIndex() ];
-
-                            // And gives the tooltip the item name
-                            // as well as positioning it dynamically with the cursor
-                            // and changing its length to match the length of the string
-                            if (item != null){
-                                tooltip.setVisible(true);
-                                tooltip.setX((float) world.getCursor().getScreenX());
-                                tooltip.setY((float) world.getCursor().getScreenY());
-                                tooltip.setHeader( item.getItem().getName() );
-
-                                int len = item.getItem().getName().length();
-                                tooltip.setWidth( len / 2f );
-
-                                return;
-                            }
-                        }
-                    }
-                }
-                tooltip.setVisible(false);
-            }
-        }
     }
 }

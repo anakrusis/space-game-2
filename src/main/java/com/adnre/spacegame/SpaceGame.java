@@ -81,50 +81,6 @@ public class SpaceGame {
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_PRESS ){
-                if (!GuiElements.WINDOW_STORE.isVisible() && !GuiElements.WINDOW_SPACEPORT.isVisible()){
-                    SpaceGame.paused = !SpaceGame.paused;
-                }
-                GuiElements.WINDOW_STORE.setVisible(false);
-                GuiElements.WINDOW_SPACEPORT.setVisible(false);
-            }
-        });
-
-        glfwSetMouseButtonCallback(window, new GLFWMouseButtonCallback() {
-            @Override
-            public void invoke(long window, int button, int action, int mods) {
-                if (action == GLFW_PRESS){
-                    MouseHandler.onClick();
-                }else if (action == GLFW_RELEASE){
-                    MouseHandler.onRelease();
-                }
-            }
-        });
-        glfwSetScrollCallback(window, new GLFWScrollCallback() {
-            @Override
-            public void invoke(long window, double xoffset, double yoffset) {
-
-                // The scroll callback is altered by pressing alt, in which it cycles through player inventory
-
-                if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_TRUE){
-                    if (world.getPlayer() != null){
-                        int sign = -1 * (int) (yoffset / (Math.abs(yoffset)));
-                        int newItemSlot = (world.getPlayer().getCurrentItemSlot() + sign) % world.getPlayer().getInventory().length;
-                        if (newItemSlot < 0){
-                            newItemSlot = world.getPlayer().getInventory().length - 1;
-                        }
-
-                        world.getPlayer().setCurrentItemSlot(newItemSlot);
-                    }
-
-                // Otherwise it gets handled below
-                }else{
-                    MouseHandler.onScroll(xoffset, yoffset);
-                }
-            }
-        });
-
         // Get the thread stack and push a new frame
         try ( MemoryStack stack = stackPush() ) {
             IntBuffer pWidth = stack.mallocInt(1); // int*
@@ -179,6 +135,7 @@ public class SpaceGame {
 
         RenderText.setFont(Textures.test_texture);
 
+        KeyHandler.init(window);
         Textures.init();
         GuiElements.initGui();
         Items.register();

@@ -22,7 +22,13 @@ public class SpawnUtil {
             if (chunk != null){
                 for (Body body : chunk.getBodies().values()) {
                     if (body instanceof BodyPlanet){
-                        return (BodyPlanet) body;
+                        BodyPlanet planet = (BodyPlanet) body;
+
+                        // the reason why only vacant planets are allowed for spawning is
+                        // the player city would not be allowed to fully spawn in some cases
+                        if (!planet.isInhabited()){
+                            return planet;
+                        }
                     }
                 }
             }

@@ -24,13 +24,15 @@ public class RenderTextBox {
             RenderText.renderText(tx.getTextBody(), tx.getX() + 0.2f, tx.getY() - headerSize * 2 - 0.2f, headerSize, new float[]{ 0, 0, 0 }, false );
 
             // Black outline around textbox
-            glColor3f(0,0,0);
-            glBegin(GL_LINE_LOOP);
-            glVertex2d(tx.getX(), tx.getY());
-            glVertex2d(tx.getX() + tx.getWidth() , tx.getY() );
-            glVertex2d(tx.getX() + tx.getWidth() , tx.getY() - tx.getHeight() );
-            glVertex2d(tx.getX(), tx.getY() - tx.getHeight() );
-            glEnd();
+            if (tx.isOutlined()){
+                glColor3f(0,0,0);
+                glBegin(GL_LINE_LOOP);
+                glVertex2d(tx.getX(), tx.getY());
+                glVertex2d(tx.getX() + tx.getWidth() , tx.getY() );
+                glVertex2d(tx.getX() + tx.getWidth() , tx.getY() - tx.getHeight() );
+                glVertex2d(tx.getX(), tx.getY() - tx.getHeight() );
+                glEnd();
+            }
         }
     }
 

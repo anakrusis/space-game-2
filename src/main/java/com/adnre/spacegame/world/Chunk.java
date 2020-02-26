@@ -122,7 +122,11 @@ public class Chunk implements Serializable {
     }
 
     public boolean isLoaded() {
-        return this.x == SpaceGame.camera.getChunk().getX() &&
-               this.y == SpaceGame.camera.getChunk().getY();
+        if (SpaceGame.camera.getChunk() != null){
+            return this.x == SpaceGame.camera.getChunk().getX() &&
+                    this.y == SpaceGame.camera.getChunk().getY();
+        }else{
+            return false;
+        }
     }
 }

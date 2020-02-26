@@ -142,32 +142,41 @@ public class World implements Serializable {
 
         for (Entity currentEntity : entities.values()) {
 
-            if (currentEntity.getChunk().isLoaded()){
-                if (currentEntity.isDead()) {
+            if (currentEntity.getChunk() != null){
+                if (currentEntity.getChunk().isLoaded()){
+                    if (currentEntity.isDead()) {
 
-                    // For cleaning up the building pointers when a building is destroyed
-                    if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()) {
-                        if (currentEntity.getGroundedBody() instanceof BodyPlanet) {
-                            BodyPlanet planet = (BodyPlanet) currentEntity.getGroundedBody();
-                            EntityBuilding building = (EntityBuilding) currentEntity;
+                        // For cleaning up the building pointers when a building is destroyed
+                        if (currentEntity instanceof EntityBuilding && currentEntity.isGrounded()) {
+                            if (currentEntity.getGroundedBody() instanceof BodyPlanet) {
+                                BodyPlanet planet = (BodyPlanet) currentEntity.getGroundedBody();
+                                EntityBuilding building = (EntityBuilding) currentEntity;
 
-                            // -1 is used for floating buildings
-                            if (building.getPlanetIndex() != -1) {
-                                planet.getBuildingUUIDs()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                                // -1 is used for floating buildings
+                                if (building.getPlanetIndex() != -1) {
+                                    planet.getBuildingUUIDs()[((EntityBuilding) currentEntity).getPlanetIndex()] = null;
+                                }
                             }
                         }
+
+                        markedForDeath.add(currentEntity.getUuid());
+
+                    } else {
+                        markedForUpdate.add(currentEntity.getUuid());
                     }
-
-                    markedForDeath.add(currentEntity.getUuid());
-
-                } else {
-                    markedForUpdate.add(currentEntity.getUuid());
                 }
+
+            // If the entity is not within a chunk, then they die
+            }else{
+                markedForDeath.add(currentEntity.getUuid());
             }
         }
 
         for (UUID uuid : markedForDeath){
             entities.get(uuid).update();
+            if (entities.get(uuid) instanceof EntityPlayer){
+                this.playerLastDeathTime = this.mapTime;
+            }
             entities.remove(uuid);
         }
         for (UUID uuid : markedForUpdate){

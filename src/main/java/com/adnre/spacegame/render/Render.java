@@ -31,13 +31,15 @@ public class Render {
 
          // Drawing entities
          for (Entity entity : SpaceGame.world.getEntities().values()){
-             if (entity.getChunk().isLoaded() && camera.getZoom() > Reference.MAP_SCREEN_THRESHOLD){
-                 if (entity instanceof EntityPlayer) {
+             if (entity.getChunk() != null){
+                 if (entity.getChunk().isLoaded() && camera.getZoom() > Reference.MAP_SCREEN_THRESHOLD){
+                     if (entity instanceof EntityPlayer) {
 
-                 }else if (entity instanceof EntityBuilding || entity instanceof EntityBomb){
-                     RenderBuilding.renderBuilding(entity,camera);
-                 }else{
-                     RenderParticle.renderParticle(entity, camera);
+                     }else if (entity instanceof EntityBuilding || entity instanceof EntityBomb){
+                         RenderBuilding.renderBuilding(entity,camera);
+                     }else{
+                         RenderParticle.renderParticle(entity, camera);
+                     }
                  }
              }
          }
@@ -108,10 +110,6 @@ public class Render {
 
              String fueltext = "Fuel: " + Math.round(player.getFuel()) + "/" + Math.round(player.getFuelCapacity());
              RenderText.renderText(fueltext, -12, 5.5f, 0.45f);
-
-             //if (player.isGrounded()){
-                 RenderText.renderText(player.getToolProgress() + " ", 6, 6, 0.45f);
-             //}
          }
 
          RenderText.renderText("Seed: " + world.getSeed(), 6, 8, 0.45f);

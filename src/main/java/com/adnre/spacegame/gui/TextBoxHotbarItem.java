@@ -9,6 +9,7 @@ public class TextBoxHotbarItem extends TextBox {
     public TextBoxHotbarItem (float x, float y, float width, float height, int index) {
         super(x, y, width, height, EnumGui.GUI_HOTBAR_ITEM);
         this.inventoryIndex = index;
+        this.outlined = true;
     }
 
     public int getInventoryIndex() {

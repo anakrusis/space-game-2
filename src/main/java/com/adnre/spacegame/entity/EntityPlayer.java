@@ -140,7 +140,6 @@ public class EntityPlayer extends EntityShip {
     @Override
     public void explode() {
         super.explode();
-        this.world.playerLastDeathTime = this.world.mapTime;
     }
 
     // GETTERS AND SETTERS

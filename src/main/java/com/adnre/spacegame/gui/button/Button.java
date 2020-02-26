@@ -8,5 +8,6 @@ public class Button extends TextBox {
 
         // All buttons are clickable (otherwise they wouldn't be buttons)
         super(x, y, width, height, header, textBody, eg, visible, true);
+        this.outlined = true;
     }
 }

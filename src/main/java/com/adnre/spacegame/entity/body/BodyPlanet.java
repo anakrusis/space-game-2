@@ -33,6 +33,7 @@ public class BodyPlanet extends Body {
     private UUID nationUUID;
 
     private HashMap<UUID, City> cities;
+    private boolean inhabited = false; // at the initial generation point?
 
     public BodyPlanet(double x, double y, float dir, Chunk chunk, float orbitDistance, UUID starUUID, World world, String name) {
         super(x, y, dir, chunk, RandomUtil.fromRangeF(32,64), world);
@@ -70,6 +71,7 @@ public class BodyPlanet extends Body {
             world.getNations().put(nation.getUuid(), nation);
             capital.setNationUUID(nation.getUuid());
             spawnCity(capital, RandomUtil.fromRangeI(0, this.terrainSize), nation.getUuid());
+            inhabited = true;
         }
     }
 
@@ -87,6 +89,14 @@ public class BodyPlanet extends Body {
         this.x = MathHelper.rotX(this.orbitAngle, this.orbitDistance,0) + this.getStar().getX();
         this.y = MathHelper.rotY(this.orbitAngle, this.orbitDistance, 0) + this.getStar().getY();
 
+        this.updatePopulation();
+
+        for (City city : cities.values()){
+            city.update();
+        }
+    }
+
+    public void updatePopulation(){
         // Calculating the planet's population from the sum of individual apt buildings,
         // and the number of factories from the sum of individual factories.
         int pop = 0;
@@ -133,10 +143,6 @@ public class BodyPlanet extends Body {
                     }
                 }
             }
-        }
-
-        for (City city : cities.values()){
-            city.update();
         }
     }
 
@@ -250,6 +256,7 @@ public class BodyPlanet extends Body {
         }
         city.setCenterIndex(index);
         this.cities.put(city.getUuid(), city);
+        world.getNations().get(nation).getCityUUIDs().add(city.getUuid());
     }
 
     public float getAtmosphericDensity() {
@@ -270,5 +277,13 @@ public class BodyPlanet extends Body {
 
     public HashMap<UUID, City> getCities() {
         return cities;
+    }
+
+    public boolean isInhabited() {
+        return inhabited;
+    }
+
+    public void setInhabited(boolean inhabited) {
+        this.inhabited = inhabited;
     }
 }

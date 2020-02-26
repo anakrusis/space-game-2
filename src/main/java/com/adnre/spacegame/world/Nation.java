@@ -87,4 +87,8 @@ public class Nation implements Serializable {
     public void addMoney(float money){
         this.money += money;
     }
+
+    public ArrayList<UUID> getCityUUIDs() {
+        return cityUUIDs;
+    }
 }
