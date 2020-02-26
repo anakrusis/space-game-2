@@ -5,3 +5,4 @@ You can place and destroy buildings, explore distant planets,
 and terraform. 
 
 [Check out the Space Game Discord server!](https://discord.gg/WdcJhuV)
+![Gameplay screenshot](https://i.imgur.com/oAcK3kC.png)
